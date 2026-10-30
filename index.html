@@ -1,5 +1,13 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Copilot App 实跑手册</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="用 GitHub Copilot App（GPT-6 Luna）实跑 hol_ghc_app 四个 Lab 的操作手册。">
+<link rel="alternate" hreflang="zh-CN" href="https://itd-nextdimension.github.io/copilot-app-manual/">
+<link rel="alternate" hreflang="zh-TW" href="https://itd-nextdimension.github.io/copilot-app-manual/zh-TW/">
+<link rel="alternate" hreflang="en" href="https://itd-nextdimension.github.io/copilot-app-manual/en/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Sans:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@500;600&family=Instrument+Serif:ital@0;1&display=swap">
 <style>
@@ -134,11 +142,19 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
   .hero { padding-block: 32px 24px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+.lang { display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 3px; }
+.lang a { font: 500 12.5px var(--font-cn); color: var(--text-2); text-decoration: none; padding: 5px 12px; border-radius: 999px; }
+.lang a:hover { color: var(--text); }
+.lang a[aria-current="page"] { background: var(--orchid); color: #fff; }
 </style>
+</head>
+<body>
 
 <div class="wrap">
   <header class="top">
     <div class="lockup" aria-label="ITD Next Dimension"><span class="mark" aria-hidden="true"></span><div class="text"><span class="wm">ITD</span><span class="wm-it">Next Dimension</span></div></div>
+    <nav class="lang" aria-label="Language"><a href="./" hreflang="zh-CN" lang="zh-CN" aria-current="page">简体中文</a><a href="zh-TW/" hreflang="zh-TW" lang="zh-TW">繁體中文</a><a href="en/" hreflang="en" lang="en">English</a></nav>
     <div class="meta">2026-10-26 · Mac mini M4 · hol_ghc_app</div>
   </header>
 
@@ -434,3 +450,5 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
   lb.addEventListener("click", e => { if (e.target === lb) lb.close(); });
 })();
 </script>
+</body>
+</html>
