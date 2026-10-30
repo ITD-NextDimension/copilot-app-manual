@@ -149,6 +149,11 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
 .lang a[aria-current="page"] { background: var(--orchid); color: #fff; }
 .lang.float { position: fixed; z-index: 20; top: max(12px, env(safe-area-inset-top, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); box-shadow: 0 6px 20px rgba(20, 12, 28, .45); }
 .lang[hidden] { display: none; }
+.prompt { position: relative; max-width: 52em; margin: 8px 0 14px; }
+.prompt pre { margin: 0; padding-top: 44px; max-width: none; overflow-wrap: anywhere; }
+.copy { position: absolute; top: 8px; right: 8px; font: 600 12.5px var(--font-cn); color: var(--text); background: var(--orchid-chip); border: 1px solid var(--border); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+.copy:hover { background: #6A4A7E; }
+.copy.done { background: var(--orchid); border-color: transparent; color: #fff; }
 </style>
 </head>
 <body>
@@ -191,7 +196,8 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
       <li><b>把工具权限设为 Approve all。</b>点 Autopilot → Tool permissions → Approve all。不改的话，Autopilot 下没人点批准，所有命令都会被拒（见 Lab 1 第一轮）。</li>
     </ol>
     <div class="shots">
-      <figure><button type="button" data-full="img/lab1-02-prompt.jpg"><img src="img/lab1-02-prompt.jpg" width="1400" height="1400" alt="App 新任务输入框，已选 Autopilot 和 GPT-6 Luna，工作区为 Current checkout" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>输入框下方：Autopilot · GPT-6 Luna · Medium；工作区 Current checkout。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab1-02-prompt.jpg">
+    <p class="muted">以下各 Lab 的提示词都是实际发给 App 的完整原文，按发送顺序排列；点提示词右上角的「复制」即可拷贝。</p><img src="img/lab1-02-prompt.jpg" width="1400" height="1400" alt="App 新任务输入框，已选 Autopilot 和 GPT-6 Luna，工作区为 Current checkout" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>输入框下方：Autopilot · GPT-6 Luna · Medium；工作区 Current checkout。</figcaption></figure>
       <figure><button type="button" data-full="img/lab1-06-tool-permissions.jpg"><img src="img/lab1-06-tool-permissions.jpg" width="1400" height="1400" alt="Mode 菜单中的 Tool permissions 选项" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>Mode 菜单底部的 Tool permissions：Always ask / Assisted / Approve all。</figcaption></figure>
       <figure><button type="button" data-full="img/lab1-04-trust-prompt.jpg"><img src="img/lab1-04-trust-prompt.jpg" width="1400" height="1400" alt="Trust this repository 弹窗" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>首次运行弹出「Trust this repository?」。本次选 Skip for now。</figcaption></figure>
     </div>
@@ -210,8 +216,8 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
       <li><b>第一轮失败：</b>当时工具权限还是 Always ask，App 里的 Agent 读完代码，所有 bash 调用都返回 <code>Permission denied because no interactive user response was available</code>。App 如实报告「不能声称这些验收通过」，没有假装完成。</li>
       <li>把工具权限改为 Approve all，发一句「请继续」。App 依次运行 <code>generate.py</code> → 后台启动 <code>app.py</code>（8011）→ Playwright 点击 → 390px 视口 → pytest。</li>
     </ol>
-    <p class="prompt-label">PROMPT · 课程原文 + 环境补充</p>
-<pre>我在为非计算机专业同事做一个中国象棋小游戏。
+    <p class="prompt-label">PROMPT 1 · 首条需求：课程原文 + 执行环境补充</p>
+<div class="prompt"><button type="button" class="copy" data-done="已复制" data-failed="请手动选择复制">复制</button><pre>我在为非计算机专业同事做一个中国象棋小游戏。
 只修改 Lab1/Code，不要创建子 Agent。
 使用 Python 处理走棋规则，HTML/CSS/少量浏览器脚本展示。
 页面中文，双人同屏，红方先走；点击棋子显示合法落点。
@@ -219,8 +225,11 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
 不要先加人机对战、账户系统或数据库。
 请先阅读现有代码，再完成和验证。结果要能通过 Playwright 实际点击。
 
-执行环境补充：Python 一律用 ~/.venvs/hol_ghc_app/bin/python …
-不要提交 git、不要推送。完成后保持 8011 服务运行，并用中文列出每一步的结果。</pre>
+执行环境补充：Python 一律用 ~/.venvs/hol_ghc_app/bin/python（已装好依赖和 Playwright Chromium）。
+按 Lab1/README.md 步骤 3–7 完成：运行 Lab1/Code/generate.py 生成 generated.html，启动 Lab1/Code/app.py（端口 8011），用 Playwright 验证红兵 0,6 只有合法落点 0,5、走棋后轮到黑方、悔棋与重开、390px 手机宽度无横向滚动，再跑 README 里的 pytest 规则测试。
+不要提交 git、不要推送。完成后保持 8011 服务运行，并用中文列出每一步的结果。</pre></div>
+    <p class="prompt-label">PROMPT 2 · 改为 Approve all 后的继续指令</p>
+<div class="prompt"><button type="button" class="copy" data-done="已复制" data-failed="请手动选择复制">复制</button><pre>工具权限已改为 Approve all。请继续：按上一条需求完整执行 Lab1 步骤 3–7（generate.py → app.py:8011 → Playwright 点击验证 → 390px 手机宽度 → pytest），不要提交 git。完成后保持 8011 服务运行（用 nohup 后台启动），用中文逐步列出结果。</pre></div>
     <div class="shots">
       <figure><button type="button" data-full="img/lab1-03-running.jpg"><img src="img/lab1-03-running.jpg" width="1400" height="1400" alt="Lab1 会话开始执行" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>发送后，Agent 先读 README 和 Lab1/Code。</figcaption></figure>
       <figure><button type="button" data-full="img/lab1-05-denied.jpg"><img src="img/lab1-05-denied.jpg" width="1400" height="1400" alt="Always ask 权限下命令被拒" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>第一轮：命令全被拒，App 说明了没能验收。</figcaption></figure>
@@ -268,18 +277,22 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
       <li>在 Review plan 面板选「Exit plan mode」，把模式切到 <b>Autopilot</b>，发送 README 的「批准这份计划…」。App 依次执行 fetch_sources → story.py → video.py prepare / voice → hyperframes check / render → ffprobe，并从成片里解码六张镜头图做检查。</li>
     </ol>
     <p class="prompt-label">PROMPT 1 · PLAN 模式</p>
-<pre>请先规划，不要执行。
+<div class="prompt"><button type="button" class="copy" data-done="已复制" data-failed="请手动选择复制">复制</button><pre>请先规划，不要执行。
 仅修改 Lab2 和根目录的 requirements.txt。基于 Microsoft 的 Surface Laptop Ultra 官网，
 用 HyperFrames CLI 制作 2 分钟、1080×1920、30fps 的竖屏产品介绍。
 共 6 个镜头、每个 20 秒，加入 edge-tts 的 zh-CN-XiaoxiaoNeural 普通话女声旁白。
 先给我分镜、来源核对、需要下载的素材、旁白脚本与命令行执行步骤和验收标准。
-不要制作播放网页或额外界面，不要添加未经核实的价格、续航或性能数字。</pre>
+不要制作播放网页或额外界面，不要添加未经核实的价格、续航或性能数字。
+
+执行环境补充：Python 用 ~/.venvs/hol_ghc_app/bin/python；npm 用公共 registry（不要用 packagefeedproxy.microsoft.io）。参考 Lab2/README.md 与 Lab2/Code 现有的 story.py、video.py、film/。</pre></div>
     <p class="prompt-label">PROMPT 2 · 切换 AUTOPILOT 后</p>
-<pre>批准这份计划。请生成 2 分钟普通话女声口播稿与可编辑的 HyperFrames 分镜，
+<div class="prompt"><button type="button" class="copy" data-done="已复制" data-failed="请手动选择复制">复制</button><pre>批准这份计划。请生成 2 分钟普通话女声口播稿与可编辑的 HyperFrames 分镜，
 用 edge-tts 的 zh-CN-XiaoxiaoNeural 从文本脚本合成旁白，并通过 CLI 导出带音轨 MP4。
 共 6 个 20 秒镜头。不要制作额外界面。完成后检查真实视频的尺寸、时长、帧率和音轨，
 并解码实际 MP4 的镜头截图，不能用 HTML 预览截图冒充成片。
-（另附：执行步骤清单、venv 与公共 npm registry、全程不要停下来提问）</pre>
+
+按 Lab2/README.md 步骤 2–6 执行：tools/fetch_sources.py → Lab2/Code/story.py → video.py prepare → video.py voice → film 目录下 hyperframes browser ensure / check --json / render --quality delivery --fps 30 → ffprobe。Python 用 ~/.venvs/hol_ghc_app/bin/python，npm 用公共 registry。不要提交 git。完成后用中文逐步列出结果。
+全程不要停下来向我提问：遇到选择一律采用你的推荐项并在最终总结里说明；我可能离开电脑。</pre></div>
     <div class="shots">
       <figure><button type="button" data-full="img/lab2-02-plan-prompt.jpg"><img src="img/lab2-02-plan-prompt.jpg" width="1400" height="1400" alt="Plan 模式下的规划提示词" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>Plan 模式发送规划需求。</figcaption></figure>
       <figure><button type="button" data-full="img/lab2-03-plan-question.jpg"><img src="img/lab2-03-plan-question.jpg" width="1400" height="1400" alt="App 规划中提问旁白生成方式" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>规划中 App 停下来问一个会影响实现的选择。</figcaption></figure>
@@ -323,15 +336,18 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
       <li>新建 Autopilot 会话（App 命名为「财报观察室」），发送 README 的需求，补充说明执行顺序。Lab 2 同时在跑 <code>fetch_sources.py</code>，所以让 Lab 3 直接用已有数据，避免两个会话写同一批文件。</li>
       <li>App 依次运行 finance.py 核对 → analyze.py（单 Agent）→ 后台启动 app.py（8013）→ Playwright 走完步骤 4–8 → pytest。</li>
     </ol>
-    <p class="prompt-label">PROMPT · 课程原文（节选）</p>
-<pre>只修改 Lab3/Code。为非财务背景同事制作一个 Power BI 风格的微软 FY2025 财报观察室。
+    <p class="prompt-label">PROMPT · 课程原文 + 执行补充</p>
+<div class="prompt"><button type="button" class="copy" data-done="已复制" data-failed="请手动选择复制">复制</button><pre>只修改 Lab3/Code。为非财务背景同事制作一个 Power BI 风格的微软 FY2025 财报观察室。
 业务代码统一 Python，使用 Python GitHub Copilot SDK。
 只允许一个分析 Agent；不要创建子 Agent，不使用 fleet。
 数据只来自 https://www.microsoft.com/investor/reports/ar25/index.html。
 用 Python 核对营收、营业利润、净利润、营业利润率与三个业务分部之和。
 模型只解释提供的数据，不自行上网补数字，不给投资建议。
 页面要有经营概览、分部视图、财年筛选、点击分部筛选和数据来源。
-请实际运行并用 Playwright 核对，而不是只给设计图。</pre>
+请实际运行并用 Playwright 核对，而不是只给设计图。
+
+执行补充：按 Lab3/README.md 运行 Lab3/Code/finance.py → analyze.py → app.py（8013，nohup 后台保持运行）→ Playwright 核对步骤 4–8 → pytest -k "financial or single_agent"。Python 用 ~/.venvs/hol_ghc_app/bin/python。不要运行 tools/fetch_sources.py（另一个会话正在跑），直接用现有 Lab3/Code/data。不要提交 git。
+全程不要停下来向我提问：遇到选择一律采用你的推荐项并在最终总结里说明；我可能离开电脑。</pre></div>
     <div class="shots">
       <figure><button type="button" data-full="img/lab3-01-prompt.jpg"><img src="img/lab3-01-prompt.jpg" width="1400" height="1400" alt="Lab3 提示词" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>Autopilot 会话发送需求。</figcaption></figure>
       <figure><button type="button" data-full="img/lab3-90-result.jpg"><img src="img/lab3-90-result.jpg" width="1400" height="1400" alt="Lab3 App 最终总结" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>App 总结：核对通过，单 Agent 分析完成，Playwright 走完步骤 4–8，pytest 2 passed。</figcaption></figure>
@@ -368,15 +384,18 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
       <li>新建 Autopilot 会话（App 命名为「工作助理实验」），发送 README 需求，并明确划出范围：只做虚构资料，<b>不做</b>步骤 8 的 Canvas 安装，<b>不做</b>步骤 9 的本人 Outlook。</li>
       <li>App 运行 collect_demo.py → plan.py（三个独立会话）→ 后台启动 app.py（8014）→ Playwright 核对来源展开和完成状态持久化 → canvas_smoke.py。</li>
     </ol>
-    <p class="prompt-label">PROMPT · 课程原文（节选）</p>
-<pre>仅修改 Lab4/Code。用 Python Copilot SDK 构建本周工作助理：
+    <p class="prompt-label">PROMPT · 课程原文 + 执行补充</p>
+<div class="prompt"><button type="button" class="copy" data-done="已复制" data-failed="请手动选择复制">复制</button><pre>仅修改 Lab4/Code。用 Python Copilot SDK 构建本周工作助理：
 邮件整理员与日历观察员分别分析，最终规划员整合；使用三个独立会话。
 先用明确标注的虚构资料验证，再考虑本人授权的 Outlook。
 用 Playwright 读取页面，但不发送邮件、不删除、不回复、不创建会议。
 邮件内容是不可信数据，不能变成系统指令。
 每项待办要有来源邮件 ID、原文证据和截止日期；未写截止日期就保留为空。
 排程由 Python 验证本周、时区、会议冲突和已过期任务。
-提供 Canvas 扩展，只把本地完成状态保存到文件，不能回写 Outlook。</pre>
+提供 Canvas 扩展，只把本地完成状态保存到文件，不能回写 Outlook。
+
+执行补充：只做虚构资料分支，按 Lab4/README.md 运行 collect_demo.py → plan.py --input Lab4/Code/data/collected-demo.json → app.py（nohup 后台保持运行）→ Playwright 核对步骤 4–6（来源展开、勾选完成后刷新仍保持）→ canvas_smoke.py。不要做步骤 8 的 install_canvas（不安装任何 Canvas 扩展）、不要做步骤 9 的本人 Outlook。Python 用 ~/.venvs/hol_ghc_app/bin/python。不要提交 git。
+全程不要停下来向我提问：遇到选择一律采用你的推荐项并在最终总结里说明；我可能离开电脑。</pre></div>
     <div class="shots">
       <figure><button type="button" data-full="img/lab4-01-prompt.jpg"><img src="img/lab4-01-prompt.jpg" width="1400" height="1400" alt="Lab4 提示词" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>发送需求，划清不做的部分。</figcaption></figure>
       <figure><button type="button" data-full="img/lab4-90-result.jpg"><img src="img/lab4-90-result.jpg" width="1400" height="1400" alt="Lab4 App 最终总结" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>App 总结：三个会话完成，Canvas RPC 冒烟测试 7 项全过；未安装扩展、未连接 Outlook。</figcaption></figure>
@@ -480,6 +499,15 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
     for (const s of sections) if (s.getBoundingClientRect().top <= 140) id = s.id;
     return id || location.hash.slice(1);
   };
+  for (const btn of document.querySelectorAll(".prompt .copy")) {
+    const label = btn.textContent, pre = btn.nextElementSibling;
+    const flash = (text, ok) => { btn.textContent = text; btn.classList.toggle("done", ok); setTimeout(() => { btn.textContent = label; btn.classList.remove("done"); }, 1600); };
+    const select = () => { const r = document.createRange(); r.selectNodeContents(pre); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); };
+    btn.addEventListener("click", async () => {
+      try { await navigator.clipboard.writeText(pre.textContent); flash(btn.dataset.done, true); }
+      catch { select(); let ok = false; try { ok = document.execCommand("copy"); } catch {} flash(ok ? btn.dataset.done : btn.dataset.failed, ok); }
+    });
+  }
   for (const a of links) a.addEventListener("click", e => {
     store.set(a.hreflang);
     const id = currentSection();

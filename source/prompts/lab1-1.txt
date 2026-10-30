@@ -1,0 +1,11 @@
+我在为非计算机专业同事做一个中国象棋小游戏。
+只修改 Lab1/Code，不要创建子 Agent。
+使用 Python 处理走棋规则，HTML/CSS/少量浏览器脚本展示。
+页面中文，双人同屏，红方先走；点击棋子显示合法落点。
+要支持马腿、象眼、炮架、将帅照面、不能送将、悔棋和重新开始。
+不要先加人机对战、账户系统或数据库。
+请先阅读现有代码，再完成和验证。结果要能通过 Playwright 实际点击。
+
+执行环境补充：Python 一律用 ~/.venvs/hol_ghc_app/bin/python（已装好依赖和 Playwright Chromium）。
+按 Lab1/README.md 步骤 3–7 完成：运行 Lab1/Code/generate.py 生成 generated.html，启动 Lab1/Code/app.py（端口 8011），用 Playwright 验证红兵 0,6 只有合法落点 0,5、走棋后轮到黑方、悔棋与重开、390px 手机宽度无横向滚动，再跑 README 里的 pytest 规则测试。
+不要提交 git、不要推送。完成后保持 8011 服务运行，并用中文列出每一步的结果。

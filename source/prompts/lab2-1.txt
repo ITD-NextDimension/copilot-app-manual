@@ -1,0 +1,8 @@
+请先规划，不要执行。
+仅修改 Lab2 和根目录的 requirements.txt。基于 Microsoft 的 Surface Laptop Ultra 官网，
+用 HyperFrames CLI 制作 2 分钟、1080×1920、30fps 的竖屏产品介绍。
+共 6 个镜头、每个 20 秒，加入 edge-tts 的 zh-CN-XiaoxiaoNeural 普通话女声旁白。
+先给我分镜、来源核对、需要下载的素材、旁白脚本与命令行执行步骤和验收标准。
+不要制作播放网页或额外界面，不要添加未经核实的价格、续航或性能数字。
+
+执行环境补充：Python 用 ~/.venvs/hol_ghc_app/bin/python；npm 用公共 registry（不要用 packagefeedproxy.microsoft.io）。参考 Lab2/README.md 与 Lab2/Code 现有的 story.py、video.py、film/。

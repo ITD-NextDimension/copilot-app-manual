@@ -1,0 +1,11 @@
+只修改 Lab3/Code。为非财务背景同事制作一个 Power BI 风格的微软 FY2025 财报观察室。
+业务代码统一 Python，使用 Python GitHub Copilot SDK。
+只允许一个分析 Agent；不要创建子 Agent，不使用 fleet。
+数据只来自 https://www.microsoft.com/investor/reports/ar25/index.html。
+用 Python 核对营收、营业利润、净利润、营业利润率与三个业务分部之和。
+模型只解释提供的数据，不自行上网补数字，不给投资建议。
+页面要有经营概览、分部视图、财年筛选、点击分部筛选和数据来源。
+请实际运行并用 Playwright 核对，而不是只给设计图。
+
+执行补充：按 Lab3/README.md 运行 Lab3/Code/finance.py → analyze.py → app.py（8013，nohup 后台保持运行）→ Playwright 核对步骤 4–8 → pytest -k "financial or single_agent"。Python 用 ~/.venvs/hol_ghc_app/bin/python。不要运行 tools/fetch_sources.py（另一个会话正在跑），直接用现有 Lab3/Code/data。不要提交 git。
+全程不要停下来向我提问：遇到选择一律采用你的推荐项并在最终总结里说明；我可能离开电脑。
