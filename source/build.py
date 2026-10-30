@@ -7,7 +7,7 @@ import html, pathlib, re, subprocess, sys
 
 SRC = pathlib.Path(__file__).parent
 OUT = SRC.parent
-TW = sys.argv[1] if len(sys.argv) > 1 else str(SRC / "to-tw.mjs")
+TW = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith("--") else str(SRC / "to-tw.mjs")
 
 raw = (SRC / "zh-CN.artifact.html").read_text()
 css = re.search(r"<style>(.*?)</style>", raw, re.S).group(1)
@@ -46,6 +46,20 @@ PAGES = {  # lang: (dir, title, description)
     "zh-TW": ("zh-TW/", "Copilot App 實跑手冊", "用 GitHub Copilot App（GPT-6 Luna）實跑 hol_ghc_app 四個 Lab 的操作手冊。"),
     "en": ("en/", "Copilot App Field Manual", "A real run of the four hol_ghc_app labs with GitHub Copilot App (GPT-6 Luna)."),
 }
+COPY_JS = """<script>
+(() => {
+  // 每条提示词的复制按钮：优先用剪贴板 API，被拒时选中全文让读者手动复制
+  for (const btn of document.querySelectorAll(".prompt .copy")) {
+    const label = btn.textContent, pre = btn.nextElementSibling;
+    const flash = (text, ok) => { btn.textContent = text; btn.classList.toggle("done", ok); setTimeout(() => { btn.textContent = label; btn.classList.remove("done"); }, 1600); };
+    const select = () => { const r = document.createRange(); r.selectNodeContents(pre); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); };
+    btn.addEventListener("click", async () => {
+      try { await navigator.clipboard.writeText(pre.textContent); flash(btn.dataset.done, true); }
+      catch { select(); let ok = false; try { ok = document.execCommand("copy"); } catch {} flash(ok ? btn.dataset.done : btn.dataset.failed, ok); }
+    });
+  }
+})();
+</script>"""
 SWITCH_JS = """<script>
 (() => {
   // 切换语言时带上当前章节；在切换器上选过的语言记在本机，下次从根地址进入时自动跳转
@@ -73,15 +87,6 @@ SWITCH_JS = """<script>
     for (const s of sections) if (s.getBoundingClientRect().top <= 140) id = s.id;
     return id || location.hash.slice(1);
   };
-  for (const btn of document.querySelectorAll(".prompt .copy")) {
-    const label = btn.textContent, pre = btn.nextElementSibling;
-    const flash = (text, ok) => { btn.textContent = text; btn.classList.toggle("done", ok); setTimeout(() => { btn.textContent = label; btn.classList.remove("done"); }, 1600); };
-    const select = () => { const r = document.createRange(); r.selectNodeContents(pre); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); };
-    btn.addEventListener("click", async () => {
-      try { await navigator.clipboard.writeText(pre.textContent); flash(btn.dataset.done, true); }
-      catch { select(); let ok = false; try { ok = document.execCommand("copy"); } catch {} flash(ok ? btn.dataset.done : btn.dataset.failed, ok); }
-    });
-  }
   for (const a of links) a.addEventListener("click", e => {
     store.set(a.hreflang);
     const id = currentSection();
@@ -92,10 +97,15 @@ SWITCH_JS = """<script>
 LABELS = [("zh-CN", "简体中文"), ("zh-TW", "繁體中文"), ("en", "English")]
 
 
-def switcher(cur):
+SITE = "https://itd-nextdimension.github.io/copilot-app-manual/"
+
+
+def switcher(cur, absolute=False):
     up = "../" if PAGES[cur][0] else ""
+    href = lambda l: SITE + PAGES[l][0] if absolute else up + (PAGES[l][0] or "./")
+    extra = ' target="_blank" rel="noopener"' if absolute else ""
     links = "".join(
-        f'<a href="{up}{PAGES[l][0] or "./"}" hreflang="{l}" lang="{l}"' + (' aria-current="page"' if l == cur else "") + f">{name}</a>"
+        f'<a href="{href(l)}" hreflang="{l}" lang="{l}"' + (' aria-current="page"' if l == cur else extra) + f">{name}</a>"
         for l, name in LABELS)
     return f'<nav class="lang" aria-label="Language">{links}</nav>'
 
@@ -133,6 +143,7 @@ def page(lang, body):
 <style>{page_css}</style>
 </head>
 <body>{body}
+{COPY_JS}
 {SWITCH_JS}
 </body>
 </html>
@@ -143,8 +154,24 @@ zh = page("zh-CN", body_zh)
 tw = subprocess.run(["node", TW], input=body_zh, capture_output=True, text=True, check=True).stdout
 # OpenCC 的台湾词汇把「通过」一律转成「透過」；本手册里多数是「验收通过」，只有两处是「经由」
 tw = tw.replace("透過", "通過").replace("能通過 Playwright", "能透過 Playwright").replace("並通過 CLI", "並透過 CLI")
-for lang, html in (("zh-CN", zh), ("zh-TW", page("zh-TW", tw)), ("en", page("en", body_en))):
+for lang, doc in (("zh-CN", zh), ("zh-TW", page("zh-TW", tw)), ("en", page("en", body_en))):
     target = OUT / PAGES[lang][0] / "index.html"
     target.parent.mkdir(exist_ok=True)
-    target.write_text(html)
-    print(lang, target.relative_to(OUT), len(html))
+    target.write_text(doc)
+    print(lang, target.relative_to(OUT), len(doc))
+
+# --artifact PATH: the Simplified page in claude.ai Artifact format (no document skeleton,
+# language links point to the Pages site, copy script only)
+if "--artifact" in sys.argv:
+    target = pathlib.Path(sys.argv[sys.argv.index("--artifact") + 1])
+    body = sized(body_zh).replace("<!--LANGSWITCH-->", switcher("zh-CN", absolute=True))
+    doc = f"""<title>{PAGES["zh-CN"][1]}</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="{FONTS}">
+<style>{css}</style>
+{body}
+{COPY_JS}
+"""
+    target.write_text(doc)
+    print("artifact", target, len(doc))
