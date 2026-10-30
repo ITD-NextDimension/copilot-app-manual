@@ -1,0 +1,7 @@
+批准这份计划。请生成 2 分钟普通话女声口播稿与可编辑的 HyperFrames 分镜，
+用 edge-tts 的 zh-CN-XiaoxiaoNeural 从文本脚本合成旁白，并通过 CLI 导出带音轨 MP4。
+共 6 个 20 秒镜头。不要制作额外界面。完成后检查真实视频的尺寸、时长、帧率和音轨，
+并解码实际 MP4 的镜头截图，不能用 HTML 预览截图冒充成片。
+
+按 Lab2/README.md 步骤 2–6 执行：tools/fetch_sources.py → Lab2/Code/story.py → video.py prepare → video.py voice → film 目录下 hyperframes browser ensure / check --json / render --quality delivery --fps 30 → ffprobe。Python 用 ~/.venvs/hol_ghc_app/bin/python，npm 用公共 registry。不要提交 git。完成后用中文逐步列出结果。
+全程不要停下来向我提问：遇到选择一律采用你的推荐项并在最终总结里说明；我可能离开电脑。

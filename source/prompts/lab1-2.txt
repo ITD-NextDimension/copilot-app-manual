@@ -1,0 +1,1 @@
+工具权限已改为 Approve all。请继续：按上一条需求完整执行 Lab1 步骤 3–7（generate.py → app.py:8011 → Playwright 点击验证 → 390px 手机宽度 → pytest），不要提交 git。完成后保持 8011 服务运行（用 nohup 后台启动），用中文逐步列出结果。
