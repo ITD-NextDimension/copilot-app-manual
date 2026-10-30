@@ -474,6 +474,20 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
 
 <script>
 (() => {
+  // 每条提示词的复制按钮：优先用剪贴板 API，被拒时选中全文让读者手动复制
+  for (const btn of document.querySelectorAll(".prompt .copy")) {
+    const label = btn.textContent, pre = btn.nextElementSibling;
+    const flash = (text, ok) => { btn.textContent = text; btn.classList.toggle("done", ok); setTimeout(() => { btn.textContent = label; btn.classList.remove("done"); }, 1600); };
+    const select = () => { const r = document.createRange(); r.selectNodeContents(pre); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); };
+    btn.addEventListener("click", async () => {
+      try { await navigator.clipboard.writeText(pre.textContent); flash(btn.dataset.done, true); }
+      catch { select(); let ok = false; try { ok = document.execCommand("copy"); } catch {} flash(ok ? btn.dataset.done : btn.dataset.failed, ok); }
+    });
+  }
+})();
+</script>
+<script>
+(() => {
   // 切换语言时带上当前章节；在切换器上选过的语言记在本机，下次从根地址进入时自动跳转
   const KEY = "manual-lang";
   const store = { get() { try { return localStorage.getItem(KEY); } catch { return null; } },
@@ -499,15 +513,6 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
     for (const s of sections) if (s.getBoundingClientRect().top <= 140) id = s.id;
     return id || location.hash.slice(1);
   };
-  for (const btn of document.querySelectorAll(".prompt .copy")) {
-    const label = btn.textContent, pre = btn.nextElementSibling;
-    const flash = (text, ok) => { btn.textContent = text; btn.classList.toggle("done", ok); setTimeout(() => { btn.textContent = label; btn.classList.remove("done"); }, 1600); };
-    const select = () => { const r = document.createRange(); r.selectNodeContents(pre); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); };
-    btn.addEventListener("click", async () => {
-      try { await navigator.clipboard.writeText(pre.textContent); flash(btn.dataset.done, true); }
-      catch { select(); let ok = false; try { ok = document.execCommand("copy"); } catch {} flash(ok ? btn.dataset.done : btn.dataset.failed, ok); }
-    });
-  }
   for (const a of links) a.addEventListener("click", e => {
     store.set(a.hreflang);
     const id = currentSection();
