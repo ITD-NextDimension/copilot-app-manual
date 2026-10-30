@@ -1,5 +1,13 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Copilot App 实跑手册</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="用 GitHub Copilot App（GPT-6 Luna）实跑 hol_ghc_app 四个 Lab 的操作手册。">
+<link rel="alternate" hreflang="zh-CN" href="https://itd-nextdimension.github.io/copilot-app-manual/">
+<link rel="alternate" hreflang="zh-TW" href="https://itd-nextdimension.github.io/copilot-app-manual/zh-TW/">
+<link rel="alternate" hreflang="en" href="https://itd-nextdimension.github.io/copilot-app-manual/en/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Sans:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@500;600&family=Instrument+Serif:ital@0;1&display=swap">
 <style>
@@ -134,11 +142,21 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
   .hero { padding-block: 32px 24px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+.lang { display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 3px; }
+.lang a { font: 500 12.5px var(--font-cn); color: var(--text-2); text-decoration: none; padding: 5px 12px; border-radius: 999px; }
+.lang a:hover { color: var(--text); }
+.lang a[aria-current="page"] { background: var(--orchid); color: #fff; }
+.lang.float { position: fixed; z-index: 20; top: max(12px, env(safe-area-inset-top, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); box-shadow: 0 6px 20px rgba(20, 12, 28, .45); }
+.lang[hidden] { display: none; }
 </style>
+</head>
+<body>
 
 <div class="wrap">
   <header class="top">
     <div class="lockup" aria-label="ITD Next Dimension"><span class="mark" aria-hidden="true"></span><div class="text"><span class="wm">ITD</span><span class="wm-it">Next Dimension</span></div></div>
+    <nav class="lang" aria-label="Language"><a href="./" hreflang="zh-CN" lang="zh-CN" aria-current="page">简体中文</a><a href="zh-TW/" hreflang="zh-TW" lang="zh-TW">繁體中文</a><a href="en/" hreflang="en" lang="en">English</a></nav>
     <div class="meta">2026-10-26 · Mac mini M4 · hol_ghc_app</div>
   </header>
 
@@ -173,9 +191,9 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
       <li><b>把工具权限设为 Approve all。</b>点 Autopilot → Tool permissions → Approve all。不改的话，Autopilot 下没人点批准，所有命令都会被拒（见 Lab 1 第一轮）。</li>
     </ol>
     <div class="shots">
-      <figure><button type="button" data-full="img/lab1-02-prompt.jpg"><img src="img/lab1-02-prompt.jpg" alt="App 新任务输入框，已选 Autopilot 和 GPT-6 Luna，工作区为 Current checkout" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>输入框下方：Autopilot · GPT-6 Luna · Medium；工作区 Current checkout。</figcaption></figure>
-      <figure><button type="button" data-full="img/lab1-06-tool-permissions.jpg"><img src="img/lab1-06-tool-permissions.jpg" alt="Mode 菜单中的 Tool permissions 选项" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>Mode 菜单底部的 Tool permissions：Always ask / Assisted / Approve all。</figcaption></figure>
-      <figure><button type="button" data-full="img/lab1-04-trust-prompt.jpg"><img src="img/lab1-04-trust-prompt.jpg" alt="Trust this repository 弹窗" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>首次运行弹出「Trust this repository?」。本次选 Skip for now。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab1-02-prompt.jpg"><img src="img/lab1-02-prompt.jpg" width="1400" height="1400" alt="App 新任务输入框，已选 Autopilot 和 GPT-6 Luna，工作区为 Current checkout" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>输入框下方：Autopilot · GPT-6 Luna · Medium；工作区 Current checkout。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab1-06-tool-permissions.jpg"><img src="img/lab1-06-tool-permissions.jpg" width="1400" height="1400" alt="Mode 菜单中的 Tool permissions 选项" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>Mode 菜单底部的 Tool permissions：Always ask / Assisted / Approve all。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab1-04-trust-prompt.jpg"><img src="img/lab1-04-trust-prompt.jpg" width="1400" height="1400" alt="Trust this repository 弹窗" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>首次运行弹出「Trust this repository?」。本次选 Skip for now。</figcaption></figure>
     </div>
   </section>
 
@@ -204,21 +222,21 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
 执行环境补充：Python 一律用 ~/.venvs/hol_ghc_app/bin/python …
 不要提交 git、不要推送。完成后保持 8011 服务运行，并用中文列出每一步的结果。</pre>
     <div class="shots">
-      <figure><button type="button" data-full="img/lab1-03-running.jpg"><img src="img/lab1-03-running.jpg" alt="Lab1 会话开始执行" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>发送后，Agent 先读 README 和 Lab1/Code。</figcaption></figure>
-      <figure><button type="button" data-full="img/lab1-05-denied.jpg"><img src="img/lab1-05-denied.jpg" alt="Always ask 权限下命令被拒" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>第一轮：命令全被拒，App 说明了没能验收。</figcaption></figure>
-      <figure><button type="button" data-full="img/lab1-08-running.jpg"><img src="img/lab1-08-running.jpg" alt="改为 Approve all 后命令开始执行" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>改 Approve all 后：生成页面、启动 8011、跑测试和 Playwright。左上是 macOS 的本地网络权限弹窗。</figcaption></figure>
-      <figure><button type="button" data-full="img/lab1-09-result.jpg"><img src="img/lab1-09-result.jpg" alt="Lab1 App 最终总结" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>App 的最终总结：6 项全部通过，只改了两个文件，未提交。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab1-03-running.jpg"><img src="img/lab1-03-running.jpg" width="1400" height="1400" alt="Lab1 会话开始执行" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>发送后，Agent 先读 README 和 Lab1/Code。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab1-05-denied.jpg"><img src="img/lab1-05-denied.jpg" width="1400" height="1400" alt="Always ask 权限下命令被拒" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>第一轮：命令全被拒，App 说明了没能验收。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab1-08-running.jpg"><img src="img/lab1-08-running.jpg" width="1400" height="1400" alt="改为 Approve all 后命令开始执行" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>改 Approve all 后：生成页面、启动 8011、跑测试和 Playwright。左上是 macOS 的本地网络权限弹窗。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab1-09-result.jpg"><img src="img/lab1-09-result.jpg" width="1400" height="1400" alt="Lab1 App 最终总结" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>App 的最终总结：6 项全部通过，只改了两个文件，未提交。</figcaption></figure>
     </div>
 
     <h3>作品截图（独立复核时用 Playwright 截取）</h3>
     <div class="shots wide">
-      <figure><button type="button" data-full="img/lab1-11-legal-target.jpg"><img src="img/lab1-11-legal-target.jpg" alt="点击红兵后只有一个绿色合法落点" loading="lazy"></button><figcaption><span class="kind">作品</span>点击最左红兵 (0,6)：只出现一个合法落点 (0,5)，落点来自 Python 规则引擎。</figcaption></figure>
-      <figure><button type="button" data-full="img/lab1-12-first-move.jpg"><img src="img/lab1-12-first-move.jpg" alt="走棋后状态变为黑方走棋" loading="lazy"></button><figcaption><span class="kind">作品</span>走一步后状态为「黑方走棋 · 已走 1 步」。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab1-11-legal-target.jpg"><img src="img/lab1-11-legal-target.jpg" width="1400" height="940" alt="点击红兵后只有一个绿色合法落点" loading="lazy"></button><figcaption><span class="kind">作品</span>点击最左红兵 (0,6)：只出现一个合法落点 (0,5)，落点来自 Python 规则引擎。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab1-12-first-move.jpg"><img src="img/lab1-12-first-move.jpg" width="1400" height="940" alt="走棋后状态变为黑方走棋" loading="lazy"></button><figcaption><span class="kind">作品</span>走一步后状态为「黑方走棋 · 已走 1 步」。</figcaption></figure>
     </div>
     <div class="shots">
-      <figure><button type="button" data-full="img/lab1-10-game.jpg"><img src="img/lab1-10-game.jpg" alt="开局棋盘" loading="lazy"></button><figcaption><span class="kind">作品</span>开局 32 枚棋子，红方先行。</figcaption></figure>
-      <figure><button type="button" data-full="img/lab1-13-undo.jpg"><img src="img/lab1-13-undo.jpg" alt="悔棋后恢复" loading="lazy"></button><figcaption><span class="kind">作品</span>悔一步后回到红方、0 步。</figcaption></figure>
-      <figure><button type="button" data-full="img/lab1-14-mobile.jpg"><img src="img/lab1-14-mobile.jpg" alt="390 像素手机宽度" loading="lazy"></button><figcaption><span class="kind">作品</span>390px 手机宽度，scrollWidth = 390，无横向滚动。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab1-10-game.jpg"><img src="img/lab1-10-game.jpg" width="1400" height="940" alt="开局棋盘" loading="lazy"></button><figcaption><span class="kind">作品</span>开局 32 枚棋子，红方先行。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab1-13-undo.jpg"><img src="img/lab1-13-undo.jpg" width="1400" height="940" alt="悔棋后恢复" loading="lazy"></button><figcaption><span class="kind">作品</span>悔一步后回到红方、0 步。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab1-14-mobile.jpg"><img src="img/lab1-14-mobile.jpg" width="427" height="1400" alt="390 像素手机宽度" loading="lazy"></button><figcaption><span class="kind">作品</span>390px 手机宽度，scrollWidth = 390，无横向滚动。</figcaption></figure>
     </div>
 
     <h3>验收</h3>
@@ -263,20 +281,20 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
 并解码实际 MP4 的镜头截图，不能用 HTML 预览截图冒充成片。
 （另附：执行步骤清单、venv 与公共 npm registry、全程不要停下来提问）</pre>
     <div class="shots">
-      <figure><button type="button" data-full="img/lab2-02-plan-prompt.jpg"><img src="img/lab2-02-plan-prompt.jpg" alt="Plan 模式下的规划提示词" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>Plan 模式发送规划需求。</figcaption></figure>
-      <figure><button type="button" data-full="img/lab2-03-plan-question.jpg"><img src="img/lab2-03-plan-question.jpg" alt="App 规划中提问旁白生成方式" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>规划中 App 停下来问一个会影响实现的选择。</figcaption></figure>
-      <figure><button type="button" data-full="img/lab2-04-plan-review.jpg"><img src="img/lab2-04-plan-review.jpg" alt="Review plan 面板与 plan.md" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>右侧是 plan.md，底部是 Review plan：批准执行 / 退出 Plan 模式 / 提修改意见。</figcaption></figure>
-      <figure><button type="button" data-full="img/lab2-90-result.jpg"><img src="img/lab2-90-result.jpg" alt="Lab2 Autopilot 完成总结" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>Autopilot 完成：Plan 的 4 项任务全部打勾，成片验收通过。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab2-02-plan-prompt.jpg"><img src="img/lab2-02-plan-prompt.jpg" width="1400" height="1400" alt="Plan 模式下的规划提示词" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>Plan 模式发送规划需求。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab2-03-plan-question.jpg"><img src="img/lab2-03-plan-question.jpg" width="1400" height="1400" alt="App 规划中提问旁白生成方式" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>规划中 App 停下来问一个会影响实现的选择。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab2-04-plan-review.jpg"><img src="img/lab2-04-plan-review.jpg" width="1400" height="1400" alt="Review plan 面板与 plan.md" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>右侧是 plan.md，底部是 Review plan：批准执行 / 退出 Plan 模式 / 提修改意见。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab2-90-result.jpg"><img src="img/lab2-90-result.jpg" width="1400" height="1400" alt="Lab2 Autopilot 完成总结" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>Autopilot 完成：Plan 的 4 项任务全部打勾，成片验收通过。</figcaption></figure>
     </div>
 
     <h3>成片镜头（从最终 MP4 解码）</h3>
     <div class="shots tall">
-      <figure><button type="button" data-full="img/lab2-11-video-shot.jpg"><img src="img/lab2-11-video-shot.jpg" alt="成片镜头 1" loading="lazy"></button><figcaption>镜头 1 · 0–20s</figcaption></figure>
-      <figure><button type="button" data-full="img/lab2-12-video-shot.jpg"><img src="img/lab2-12-video-shot.jpg" alt="成片镜头 2" loading="lazy"></button><figcaption>镜头 2 · 20–40s</figcaption></figure>
-      <figure><button type="button" data-full="img/lab2-13-video-shot.jpg"><img src="img/lab2-13-video-shot.jpg" alt="成片镜头 3" loading="lazy"></button><figcaption>镜头 3 · 40–60s</figcaption></figure>
-      <figure><button type="button" data-full="img/lab2-14-video-shot.jpg"><img src="img/lab2-14-video-shot.jpg" alt="成片镜头 4" loading="lazy"></button><figcaption>镜头 4 · 60–80s</figcaption></figure>
-      <figure><button type="button" data-full="img/lab2-15-video-shot.jpg"><img src="img/lab2-15-video-shot.jpg" alt="成片镜头 5" loading="lazy"></button><figcaption>镜头 5 · 80–100s</figcaption></figure>
-      <figure><button type="button" data-full="img/lab2-16-video-shot.jpg"><img src="img/lab2-16-video-shot.jpg" alt="成片镜头 6" loading="lazy"></button><figcaption>镜头 6 · 100–120s</figcaption></figure>
+      <figure><button type="button" data-full="img/lab2-11-video-shot.jpg"><img src="img/lab2-11-video-shot.jpg" width="787" height="1400" alt="成片镜头 1" loading="lazy"></button><figcaption>镜头 1 · 0–20s</figcaption></figure>
+      <figure><button type="button" data-full="img/lab2-12-video-shot.jpg"><img src="img/lab2-12-video-shot.jpg" width="787" height="1400" alt="成片镜头 2" loading="lazy"></button><figcaption>镜头 2 · 20–40s</figcaption></figure>
+      <figure><button type="button" data-full="img/lab2-13-video-shot.jpg"><img src="img/lab2-13-video-shot.jpg" width="787" height="1400" alt="成片镜头 3" loading="lazy"></button><figcaption>镜头 3 · 40–60s</figcaption></figure>
+      <figure><button type="button" data-full="img/lab2-14-video-shot.jpg"><img src="img/lab2-14-video-shot.jpg" width="787" height="1400" alt="成片镜头 4" loading="lazy"></button><figcaption>镜头 4 · 60–80s</figcaption></figure>
+      <figure><button type="button" data-full="img/lab2-15-video-shot.jpg"><img src="img/lab2-15-video-shot.jpg" width="787" height="1400" alt="成片镜头 5" loading="lazy"></button><figcaption>镜头 5 · 80–100s</figcaption></figure>
+      <figure><button type="button" data-full="img/lab2-16-video-shot.jpg"><img src="img/lab2-16-video-shot.jpg" width="787" height="1400" alt="成片镜头 6" loading="lazy"></button><figcaption>镜头 6 · 100–120s</figcaption></figure>
     </div>
     <p class="muted">成片文件：<code>Lab2/Code/film/output/surface-ultra.mp4</code>（8.4 MB），用系统播放器直接打开即可，不需要另做播放页面。</p>
 
@@ -315,18 +333,18 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
 页面要有经营概览、分部视图、财年筛选、点击分部筛选和数据来源。
 请实际运行并用 Playwright 核对，而不是只给设计图。</pre>
     <div class="shots">
-      <figure><button type="button" data-full="img/lab3-01-prompt.jpg"><img src="img/lab3-01-prompt.jpg" alt="Lab3 提示词" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>Autopilot 会话发送需求。</figcaption></figure>
-      <figure><button type="button" data-full="img/lab3-90-result.jpg"><img src="img/lab3-90-result.jpg" alt="Lab3 App 最终总结" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>App 总结：核对通过，单 Agent 分析完成，Playwright 走完步骤 4–8，pytest 2 passed。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab3-01-prompt.jpg"><img src="img/lab3-01-prompt.jpg" width="1400" height="1400" alt="Lab3 提示词" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>Autopilot 会话发送需求。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab3-90-result.jpg"><img src="img/lab3-90-result.jpg" width="1400" height="1400" alt="Lab3 App 最终总结" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>App 总结：核对通过，单 Agent 分析完成，Playwright 走完步骤 4–8，pytest 2 passed。</figcaption></figure>
     </div>
     <h3>作品截图</h3>
     <div class="shots wide">
-      <figure><button type="button" data-full="img/lab3-10-overview.jpg"><img src="img/lab3-10-overview.jpg" alt="经营概览" loading="lazy"></button><figcaption><span class="kind">作品</span>经营概览：营收 281,724、营业利润 128,528、利润率 45.62%、净利润 101,832（百万美元）。右侧三条观察来自单 Agent 会话 f95c2d60。</figcaption></figure>
-      <figure><button type="button" data-full="img/lab3-11-cloud-filter.jpg"><img src="img/lab3-11-cloud-filter.jpg" alt="点击 Intelligent Cloud 筛选" loading="lazy"></button><figcaption><span class="kind">作品</span>点击 Intelligent Cloud：营收卡片变为 106,265；净利润位置注明「仅营业利润」口径，不编造分部净利润。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab3-10-overview.jpg"><img src="img/lab3-10-overview.jpg" width="1400" height="972" alt="经营概览" loading="lazy"></button><figcaption><span class="kind">作品</span>经营概览：营收 281,724、营业利润 128,528、利润率 45.62%、净利润 101,832（百万美元）。右侧三条观察来自单 Agent 会话 f95c2d60。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab3-11-cloud-filter.jpg"><img src="img/lab3-11-cloud-filter.jpg" width="1400" height="972" alt="点击 Intelligent Cloud 筛选" loading="lazy"></button><figcaption><span class="kind">作品</span>点击 Intelligent Cloud：营收卡片变为 106,265；净利润位置注明「仅营业利润」口径，不编造分部净利润。</figcaption></figure>
     </div>
     <div class="shots">
-      <figure><button type="button" data-full="img/lab3-12-fy2024.jpg"><img src="img/lab3-12-fy2024.jpg" alt="切换 FY2024" loading="lazy"></button><figcaption><span class="kind">作品</span>切到 FY2024：云业务营收 87,464，不编造同比。</figcaption></figure>
-      <figure><button type="button" data-full="img/lab3-13-segments.jpg"><img src="img/lab3-13-segments.jpg" alt="业务分部视图" loading="lazy"></button><figcaption><span class="kind">作品</span>业务分部视图：三个分部 FY2024 / FY2025 对比。</figcaption></figure>
-      <figure><button type="button" data-full="img/lab3-14-sources.jpg"><img src="img/lab3-14-sources.jpg" alt="数据与来源视图" loading="lazy"></button><figcaption><span class="kind">作品</span>数据与来源：年报 URL 和 sha256。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab3-12-fy2024.jpg"><img src="img/lab3-12-fy2024.jpg" width="1400" height="972" alt="切换 FY2024" loading="lazy"></button><figcaption><span class="kind">作品</span>切到 FY2024：云业务营收 87,464，不编造同比。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab3-13-segments.jpg"><img src="img/lab3-13-segments.jpg" width="1400" height="972" alt="业务分部视图" loading="lazy"></button><figcaption><span class="kind">作品</span>业务分部视图：三个分部 FY2024 / FY2025 对比。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab3-14-sources.jpg"><img src="img/lab3-14-sources.jpg" width="1400" height="972" alt="数据与来源视图" loading="lazy"></button><figcaption><span class="kind">作品</span>数据与来源：年报 URL 和 sha256。</figcaption></figure>
     </div>
     <h3>验收</h3>
     <div class="tbl"><table>
@@ -360,13 +378,13 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
 排程由 Python 验证本周、时区、会议冲突和已过期任务。
 提供 Canvas 扩展，只把本地完成状态保存到文件，不能回写 Outlook。</pre>
     <div class="shots">
-      <figure><button type="button" data-full="img/lab4-01-prompt.jpg"><img src="img/lab4-01-prompt.jpg" alt="Lab4 提示词" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>发送需求，划清不做的部分。</figcaption></figure>
-      <figure><button type="button" data-full="img/lab4-90-result.jpg"><img src="img/lab4-90-result.jpg" alt="Lab4 App 最终总结" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>App 总结：三个会话完成，Canvas RPC 冒烟测试 7 项全过；未安装扩展、未连接 Outlook。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab4-01-prompt.jpg"><img src="img/lab4-01-prompt.jpg" width="1400" height="1400" alt="Lab4 提示词" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>发送需求，划清不做的部分。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab4-90-result.jpg"><img src="img/lab4-90-result.jpg" width="1400" height="1400" alt="Lab4 App 最终总结" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>App 总结：三个会话完成，Canvas RPC 冒烟测试 7 项全过；未安装扩展、未连接 Outlook。</figcaption></figure>
     </div>
     <h3>作品截图</h3>
     <div class="shots wide">
-      <figure><button type="button" data-full="img/lab4-11-evidence.jpg"><img src="img/lab4-11-evidence.jpg" alt="展开来源邮件证据" loading="lazy"></button><figcaption><span class="kind">作品</span>展开来源 mail-102：逐字引用邮件原文；截止 10/21 10:00 与原文一致；无截止日期的任务保持「未指定」。</figcaption></figure>
-      <figure><button type="button" data-full="img/lab4-12-persisted.jpg"><img src="img/lab4-12-persisted.jpg" alt="勾选完成后刷新仍保持" loading="lazy"></button><figcaption><span class="kind">作品</span>勾选完成后刷新页面，状态仍在（存在 weekly-demo 文档的 plan.json 里）。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab4-11-evidence.jpg"><img src="img/lab4-11-evidence.jpg" width="1400" height="972" alt="展开来源邮件证据" loading="lazy"></button><figcaption><span class="kind">作品</span>展开来源 mail-102：逐字引用邮件原文；截止 10/21 10:00 与原文一致；无截止日期的任务保持「未指定」。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab4-12-persisted.jpg"><img src="img/lab4-12-persisted.jpg" width="1400" height="972" alt="勾选完成后刷新仍保持" loading="lazy"></button><figcaption><span class="kind">作品</span>勾选完成后刷新页面，状态仍在（存在 weekly-demo 文档的 plan.json 里）。</figcaption></figure>
     </div>
     <h3>验收</h3>
     <div class="tbl"><table>
@@ -434,3 +452,40 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
   lb.addEventListener("click", e => { if (e.target === lb) lb.close(); });
 })();
 </script>
+
+<script>
+(() => {
+  // 切换语言时带上当前章节；在切换器上选过的语言记在本机，下次从根地址进入时自动跳转
+  const KEY = "manual-lang";
+  const store = { get() { try { return localStorage.getItem(KEY); } catch { return null; } },
+                  set(v) { try { localStorage.setItem(KEY, v); } catch {} } };
+  const here = document.documentElement.lang;
+  const nav = document.querySelector(".lang");
+  // 页首的切换器滚出视口后，右上角浮出同一组链接，读到哪里都能直接切换
+  const float = nav.cloneNode(true);
+  float.classList.add("float"); float.hidden = true; float.setAttribute("aria-label", nav.getAttribute("aria-label") + " (floating)");
+  document.body.append(float);
+  new IntersectionObserver(([e]) => { float.hidden = e.isIntersecting; }).observe(nav);
+  const links = [...document.querySelectorAll(".lang a[hreflang]")];
+  const pref = store.get();
+  if (here === "zh-CN" && pref && pref !== here) {
+    const target = links.find(a => a.hreflang === pref);
+    if (target) { location.replace(target.href + location.hash); return; }
+  }
+  const currentSection = () => {
+    const sections = [...document.querySelectorAll("section[id]")];
+    const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 4;
+    if (atBottom && sections.length) return sections.at(-1).id;
+    let id = "";
+    for (const s of sections) if (s.getBoundingClientRect().top <= 140) id = s.id;
+    return id || location.hash.slice(1);
+  };
+  for (const a of links) a.addEventListener("click", e => {
+    store.set(a.hreflang);
+    const id = currentSection();
+    if (id) { e.preventDefault(); location.href = a.href.split("#")[0] + "#" + id; }
+  });
+})();
+</script>
+</body>
+</html>
