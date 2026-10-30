@@ -19,6 +19,8 @@ css += """
 .lang a { font: 500 12.5px var(--font-cn); color: var(--text-2); text-decoration: none; padding: 5px 12px; border-radius: 999px; }
 .lang a:hover { color: var(--text); }
 .lang a[aria-current="page"] { background: var(--orchid); color: #fff; }
+.lang.float { position: fixed; z-index: 20; top: max(12px, env(safe-area-inset-top, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); box-shadow: 0 6px 20px rgba(20, 12, 28, .45); }
+.lang[hidden] { display: none; }
 """
 FONTS = "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Sans:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@500;600&family=Instrument+Serif:ital@0;1&display=swap"
 PAGES = {  # lang: (dir, title, description)
@@ -26,6 +28,40 @@ PAGES = {  # lang: (dir, title, description)
     "zh-TW": ("zh-TW/", "Copilot App 實跑手冊", "用 GitHub Copilot App（GPT-6 Luna）實跑 hol_ghc_app 四個 Lab 的操作手冊。"),
     "en": ("en/", "Copilot App Field Manual", "A real run of the four hol_ghc_app labs with GitHub Copilot App (GPT-6 Luna)."),
 }
+SWITCH_JS = """<script>
+(() => {
+  // 切换语言时带上当前章节；在切换器上选过的语言记在本机，下次从根地址进入时自动跳转
+  const KEY = "manual-lang";
+  const store = { get() { try { return localStorage.getItem(KEY); } catch { return null; } },
+                  set(v) { try { localStorage.setItem(KEY, v); } catch {} } };
+  const here = document.documentElement.lang;
+  const nav = document.querySelector(".lang");
+  // 页首的切换器滚出视口后，右上角浮出同一组链接，读到哪里都能直接切换
+  const float = nav.cloneNode(true);
+  float.classList.add("float"); float.hidden = true; float.setAttribute("aria-label", nav.getAttribute("aria-label") + " (floating)");
+  document.body.append(float);
+  new IntersectionObserver(([e]) => { float.hidden = e.isIntersecting; }).observe(nav);
+  const links = [...document.querySelectorAll(".lang a[hreflang]")];
+  const pref = store.get();
+  if (here === "zh-CN" && pref && pref !== here) {
+    const target = links.find(a => a.hreflang === pref);
+    if (target) { location.replace(target.href + location.hash); return; }
+  }
+  const currentSection = () => {
+    const sections = [...document.querySelectorAll("section[id]")];
+    const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 4;
+    if (atBottom && sections.length) return sections.at(-1).id;
+    let id = "";
+    for (const s of sections) if (s.getBoundingClientRect().top <= 140) id = s.id;
+    return id || location.hash.slice(1);
+  };
+  for (const a of links) a.addEventListener("click", e => {
+    store.set(a.hreflang);
+    const id = currentSection();
+    if (id) { e.preventDefault(); location.href = a.href.split("#")[0] + "#" + id; }
+  });
+})();
+</script>"""
 LABELS = [("zh-CN", "简体中文"), ("zh-TW", "繁體中文"), ("en", "English")]
 
 
@@ -37,6 +73,15 @@ def switcher(cur):
     return f'<nav class="lang" aria-label="Language">{links}</nav>'
 
 
+def sized(body):
+    """Give every <img> its real width/height so lazy images reserve space and #anchors land correctly."""
+    from PIL import Image
+    def add(m):
+        w, h = Image.open(OUT / m.group(1)).size
+        return f'<img src="{m.group(1)}" width="{w}" height="{h}"'
+    return re.sub(r'<img src="(img/[^"]+)"', add, body)
+
+
 def page(lang, body):
     d, title, desc = PAGES[lang]
     up = "../" if d else ""
@@ -45,7 +90,7 @@ def page(lang, body):
     if lang == "zh-TW":
         fonts = FONTS.replace("family=Noto+Sans+SC", "family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Sans+SC")
         page_css = page_css.replace('--font-cn: "Noto Sans SC", "PingFang SC"', '--font-cn: "Noto Sans TC", "PingFang TC", "Noto Sans SC", "PingFang SC"')
-    body = body.replace("<!--LANGSWITCH-->", switcher(lang))
+    body = sized(body).replace("<!--LANGSWITCH-->", switcher(lang))
     body = body.replace('src="img/', f'src="{up}img/').replace('data-full="img/', f'data-full="{up}img/')
     alts = "\n".join(f'<link rel="alternate" hreflang="{l}" href="https://itd-nextdimension.github.io/copilot-app-manual/{PAGES[l][0]}">' for l in PAGES)
     return f"""<!doctype html>
@@ -60,7 +105,9 @@ def page(lang, body):
 <link rel="stylesheet" href="{fonts}">
 <style>{page_css}</style>
 </head>
-<body>{body}</body>
+<body>{body}
+{SWITCH_JS}
+</body>
 </html>
 """
 

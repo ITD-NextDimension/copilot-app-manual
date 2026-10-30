@@ -147,6 +147,8 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
 .lang a { font: 500 12.5px var(--font-cn); color: var(--text-2); text-decoration: none; padding: 5px 12px; border-radius: 999px; }
 .lang a:hover { color: var(--text); }
 .lang a[aria-current="page"] { background: var(--orchid); color: #fff; }
+.lang.float { position: fixed; z-index: 20; top: max(12px, env(safe-area-inset-top, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); box-shadow: 0 6px 20px rgba(20, 12, 28, .45); }
+.lang[hidden] { display: none; }
 </style>
 </head>
 <body>
@@ -189,9 +191,9 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
       <li><b>Set tool permissions to Approve all.</b> Autopilot → Tool permissions → Approve all. Otherwise nobody is there to approve commands in Autopilot and every command is denied (see Lab 1, first attempt).</li>
     </ol>
     <div class="shots">
-      <figure><button type="button" data-full="../img/lab1-02-prompt.jpg"><img src="../img/lab1-02-prompt.jpg" alt="App task input with Autopilot and GPT-6 Luna selected, workspace set to Current checkout" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>Below the input: Autopilot · GPT-6 Luna · Medium; workspace Current checkout.</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab1-06-tool-permissions.jpg"><img src="../img/lab1-06-tool-permissions.jpg" alt="Tool permissions option in the Mode menu" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>Tool permissions at the bottom of the Mode menu: Always ask / Assisted / Approve all.</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab1-04-trust-prompt.jpg"><img src="../img/lab1-04-trust-prompt.jpg" alt="Trust this repository prompt" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>The first run asks "Trust this repository?". We chose Skip for now.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-02-prompt.jpg"><img src="../img/lab1-02-prompt.jpg" width="1400" height="1400" alt="App task input with Autopilot and GPT-6 Luna selected, workspace set to Current checkout" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>Below the input: Autopilot · GPT-6 Luna · Medium; workspace Current checkout.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-06-tool-permissions.jpg"><img src="../img/lab1-06-tool-permissions.jpg" width="1400" height="1400" alt="Tool permissions option in the Mode menu" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>Tool permissions at the bottom of the Mode menu: Always ask / Assisted / Approve all.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-04-trust-prompt.jpg"><img src="../img/lab1-04-trust-prompt.jpg" width="1400" height="1400" alt="Trust this repository prompt" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>The first run asks "Trust this repository?". We chose Skip for now.</figcaption></figure>
     </div>
   </section>
 
@@ -220,21 +222,21 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
 执行环境补充：Python 一律用 ~/.venvs/hol_ghc_app/bin/python …
 不要提交 git、不要推送。完成后保持 8011 服务运行，并用中文列出每一步的结果。</pre>
     <div class="shots">
-      <figure><button type="button" data-full="../img/lab1-03-running.jpg"><img src="../img/lab1-03-running.jpg" alt="Lab 1 session starts working" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>After sending, the agent first reads the README and Lab1/Code.</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab1-05-denied.jpg"><img src="../img/lab1-05-denied.jpg" alt="Commands denied under Always ask" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>First attempt: every command denied, and the App says the checks were not run.</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab1-08-running.jpg"><img src="../img/lab1-08-running.jpg" alt="Commands run after switching to Approve all" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>After Approve all: generate the page, start 8011, run tests and Playwright. Top left is macOS asking for local network access.</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab1-09-result.jpg"><img src="../img/lab1-09-result.jpg" alt="Lab 1 final App summary" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>The App's final summary: all 6 checks passed, two files changed, nothing committed.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-03-running.jpg"><img src="../img/lab1-03-running.jpg" width="1400" height="1400" alt="Lab 1 session starts working" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>After sending, the agent first reads the README and Lab1/Code.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-05-denied.jpg"><img src="../img/lab1-05-denied.jpg" width="1400" height="1400" alt="Commands denied under Always ask" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>First attempt: every command denied, and the App says the checks were not run.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-08-running.jpg"><img src="../img/lab1-08-running.jpg" width="1400" height="1400" alt="Commands run after switching to Approve all" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>After Approve all: generate the page, start 8011, run tests and Playwright. Top left is macOS asking for local network access.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-09-result.jpg"><img src="../img/lab1-09-result.jpg" width="1400" height="1400" alt="Lab 1 final App summary" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>The App's final summary: all 6 checks passed, two files changed, nothing committed.</figcaption></figure>
     </div>
 
     <h3>The result (captured with Playwright during the independent check)</h3>
     <div class="shots wide">
-      <figure><button type="button" data-full="../img/lab1-11-legal-target.jpg"><img src="../img/lab1-11-legal-target.jpg" alt="Only one green legal target after clicking the red soldier" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Click the leftmost red soldier (0,6): exactly one legal target (0,5), computed by the Python rules engine.</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab1-12-first-move.jpg"><img src="../img/lab1-12-first-move.jpg" alt="Status switches to black to move" loading="lazy"></button><figcaption><span class="kind">RESULT</span>After one move the status reads "Black to move · 1 move played".</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-11-legal-target.jpg"><img src="../img/lab1-11-legal-target.jpg" width="1400" height="940" alt="Only one green legal target after clicking the red soldier" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Click the leftmost red soldier (0,6): exactly one legal target (0,5), computed by the Python rules engine.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-12-first-move.jpg"><img src="../img/lab1-12-first-move.jpg" width="1400" height="940" alt="Status switches to black to move" loading="lazy"></button><figcaption><span class="kind">RESULT</span>After one move the status reads "Black to move · 1 move played".</figcaption></figure>
     </div>
     <div class="shots">
-      <figure><button type="button" data-full="../img/lab1-10-game.jpg"><img src="../img/lab1-10-game.jpg" alt="Opening position" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Opening position: 32 pieces, red moves first.</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab1-13-undo.jpg"><img src="../img/lab1-13-undo.jpg" alt="Position restored after undo" loading="lazy"></button><figcaption><span class="kind">RESULT</span>After undo: back to red, 0 moves.</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab1-14-mobile.jpg"><img src="../img/lab1-14-mobile.jpg" alt="390 pixel phone width" loading="lazy"></button><figcaption><span class="kind">RESULT</span>At 390px phone width, scrollWidth = 390, no horizontal scrolling.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-10-game.jpg"><img src="../img/lab1-10-game.jpg" width="1400" height="940" alt="Opening position" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Opening position: 32 pieces, red moves first.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-13-undo.jpg"><img src="../img/lab1-13-undo.jpg" width="1400" height="940" alt="Position restored after undo" loading="lazy"></button><figcaption><span class="kind">RESULT</span>After undo: back to red, 0 moves.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-14-mobile.jpg"><img src="../img/lab1-14-mobile.jpg" width="427" height="1400" alt="390 pixel phone width" loading="lazy"></button><figcaption><span class="kind">RESULT</span>At 390px phone width, scrollWidth = 390, no horizontal scrolling.</figcaption></figure>
     </div>
 
     <h3>Checks</h3>
@@ -279,20 +281,20 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
 并解码实际 MP4 的镜头截图，不能用 HTML 预览截图冒充成片。
 （另附：执行步骤清单、venv 与公共 npm registry、全程不要停下来提问）</pre>
     <div class="shots">
-      <figure><button type="button" data-full="../img/lab2-02-plan-prompt.jpg"><img src="../img/lab2-02-plan-prompt.jpg" alt="Planning prompt in Plan mode" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>Sending the planning request in Plan mode.</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab2-03-plan-question.jpg"><img src="../img/lab2-03-plan-question.jpg" alt="The App asks how to generate the narration" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>While planning, the App stops to ask about a choice that affects the implementation.</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab2-04-plan-review.jpg"><img src="../img/lab2-04-plan-review.jpg" alt="Review plan panel and plan.md" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>plan.md on the right; Review plan at the bottom: approve and run / exit Plan mode / suggest changes.</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab2-90-result.jpg"><img src="../img/lab2-90-result.jpg" alt="Lab 2 Autopilot summary" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>Autopilot done: all 4 plan tasks ticked, the final video passes its checks.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-02-plan-prompt.jpg"><img src="../img/lab2-02-plan-prompt.jpg" width="1400" height="1400" alt="Planning prompt in Plan mode" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>Sending the planning request in Plan mode.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-03-plan-question.jpg"><img src="../img/lab2-03-plan-question.jpg" width="1400" height="1400" alt="The App asks how to generate the narration" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>While planning, the App stops to ask about a choice that affects the implementation.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-04-plan-review.jpg"><img src="../img/lab2-04-plan-review.jpg" width="1400" height="1400" alt="Review plan panel and plan.md" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>plan.md on the right; Review plan at the bottom: approve and run / exit Plan mode / suggest changes.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-90-result.jpg"><img src="../img/lab2-90-result.jpg" width="1400" height="1400" alt="Lab 2 Autopilot summary" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>Autopilot done: all 4 plan tasks ticked, the final video passes its checks.</figcaption></figure>
     </div>
 
     <h3>Shots (decoded from the final MP4)</h3>
     <div class="shots tall">
-      <figure><button type="button" data-full="../img/lab2-11-video-shot.jpg"><img src="../img/lab2-11-video-shot.jpg" alt="Shot 1" loading="lazy"></button><figcaption>Shot 1 · 0–20s</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab2-12-video-shot.jpg"><img src="../img/lab2-12-video-shot.jpg" alt="Shot 2" loading="lazy"></button><figcaption>Shot 2 · 20–40s</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab2-13-video-shot.jpg"><img src="../img/lab2-13-video-shot.jpg" alt="Shot 3" loading="lazy"></button><figcaption>Shot 3 · 40–60s</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab2-14-video-shot.jpg"><img src="../img/lab2-14-video-shot.jpg" alt="Shot 4" loading="lazy"></button><figcaption>Shot 4 · 60–80s</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab2-15-video-shot.jpg"><img src="../img/lab2-15-video-shot.jpg" alt="Shot 5" loading="lazy"></button><figcaption>Shot 5 · 80–100s</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab2-16-video-shot.jpg"><img src="../img/lab2-16-video-shot.jpg" alt="Shot 6" loading="lazy"></button><figcaption>Shot 6 · 100–120s</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-11-video-shot.jpg"><img src="../img/lab2-11-video-shot.jpg" width="787" height="1400" alt="Shot 1" loading="lazy"></button><figcaption>Shot 1 · 0–20s</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-12-video-shot.jpg"><img src="../img/lab2-12-video-shot.jpg" width="787" height="1400" alt="Shot 2" loading="lazy"></button><figcaption>Shot 2 · 20–40s</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-13-video-shot.jpg"><img src="../img/lab2-13-video-shot.jpg" width="787" height="1400" alt="Shot 3" loading="lazy"></button><figcaption>Shot 3 · 40–60s</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-14-video-shot.jpg"><img src="../img/lab2-14-video-shot.jpg" width="787" height="1400" alt="Shot 4" loading="lazy"></button><figcaption>Shot 4 · 60–80s</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-15-video-shot.jpg"><img src="../img/lab2-15-video-shot.jpg" width="787" height="1400" alt="Shot 5" loading="lazy"></button><figcaption>Shot 5 · 80–100s</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-16-video-shot.jpg"><img src="../img/lab2-16-video-shot.jpg" width="787" height="1400" alt="Shot 6" loading="lazy"></button><figcaption>Shot 6 · 100–120s</figcaption></figure>
     </div>
     <p class="muted">Final file: <code>Lab2/Code/film/output/surface-ultra.mp4</code> (8.4 MB). Open it in any system player; no custom player page is needed.</p>
 
@@ -331,18 +333,18 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
 页面要有经营概览、分部视图、财年筛选、点击分部筛选和数据来源。
 请实际运行并用 Playwright 核对，而不是只给设计图。</pre>
     <div class="shots">
-      <figure><button type="button" data-full="../img/lab3-01-prompt.jpg"><img src="../img/lab3-01-prompt.jpg" alt="Lab 3 prompt" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>Sending the requirement in an Autopilot session.</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab3-90-result.jpg"><img src="../img/lab3-90-result.jpg" alt="Lab 3 final App summary" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>App summary: figures check out, single-agent analysis done, Playwright through steps 4–8, pytest 2 passed.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab3-01-prompt.jpg"><img src="../img/lab3-01-prompt.jpg" width="1400" height="1400" alt="Lab 3 prompt" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>Sending the requirement in an Autopilot session.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab3-90-result.jpg"><img src="../img/lab3-90-result.jpg" width="1400" height="1400" alt="Lab 3 final App summary" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>App summary: figures check out, single-agent analysis done, Playwright through steps 4–8, pytest 2 passed.</figcaption></figure>
     </div>
     <h3>The result</h3>
     <div class="shots wide">
-      <figure><button type="button" data-full="../img/lab3-10-overview.jpg"><img src="../img/lab3-10-overview.jpg" alt="Business overview" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Overview: revenue 281,724, operating income 128,528, operating margin 45.62%, net income 101,832 (USD millions). The three observations on the right come from single agent session f95c2d60.</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab3-11-cloud-filter.jpg"><img src="../img/lab3-11-cloud-filter.jpg" alt="Filtering on Intelligent Cloud" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Click Intelligent Cloud: the revenue card becomes 106,265; the net income slot says "operating income only" instead of inventing a segment net income.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab3-10-overview.jpg"><img src="../img/lab3-10-overview.jpg" width="1400" height="972" alt="Business overview" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Overview: revenue 281,724, operating income 128,528, operating margin 45.62%, net income 101,832 (USD millions). The three observations on the right come from single agent session f95c2d60.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab3-11-cloud-filter.jpg"><img src="../img/lab3-11-cloud-filter.jpg" width="1400" height="972" alt="Filtering on Intelligent Cloud" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Click Intelligent Cloud: the revenue card becomes 106,265; the net income slot says "operating income only" instead of inventing a segment net income.</figcaption></figure>
     </div>
     <div class="shots">
-      <figure><button type="button" data-full="../img/lab3-12-fy2024.jpg"><img src="../img/lab3-12-fy2024.jpg" alt="Switching to FY2024" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Switch to FY2024: cloud revenue 87,464, no invented growth rate.</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab3-13-segments.jpg"><img src="../img/lab3-13-segments.jpg" alt="Segment view" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Segment view: three segments, FY2024 vs FY2025.</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab3-14-sources.jpg"><img src="../img/lab3-14-sources.jpg" alt="Data and sources view" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Data and sources: annual report URL and sha256.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab3-12-fy2024.jpg"><img src="../img/lab3-12-fy2024.jpg" width="1400" height="972" alt="Switching to FY2024" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Switch to FY2024: cloud revenue 87,464, no invented growth rate.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab3-13-segments.jpg"><img src="../img/lab3-13-segments.jpg" width="1400" height="972" alt="Segment view" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Segment view: three segments, FY2024 vs FY2025.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab3-14-sources.jpg"><img src="../img/lab3-14-sources.jpg" width="1400" height="972" alt="Data and sources view" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Data and sources: annual report URL and sha256.</figcaption></figure>
     </div>
     <h3>Checks</h3>
     <div class="tbl"><table>
@@ -376,13 +378,13 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
 排程由 Python 验证本周、时区、会议冲突和已过期任务。
 提供 Canvas 扩展，只把本地完成状态保存到文件，不能回写 Outlook。</pre>
     <div class="shots">
-      <figure><button type="button" data-full="../img/lab4-01-prompt.jpg"><img src="../img/lab4-01-prompt.jpg" alt="Lab 4 prompt" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>Sending the requirement and ruling out what not to do.</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab4-90-result.jpg"><img src="../img/lab4-90-result.jpg" alt="Lab 4 final App summary" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>App summary: three sessions done, all 7 Canvas RPC smoke checks passed; no extension installed, no Outlook connected.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab4-01-prompt.jpg"><img src="../img/lab4-01-prompt.jpg" width="1400" height="1400" alt="Lab 4 prompt" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>Sending the requirement and ruling out what not to do.</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab4-90-result.jpg"><img src="../img/lab4-90-result.jpg" width="1400" height="1400" alt="Lab 4 final App summary" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>App summary: three sessions done, all 7 Canvas RPC smoke checks passed; no extension installed, no Outlook connected.</figcaption></figure>
     </div>
     <h3>The result</h3>
     <div class="shots wide">
-      <figure><button type="button" data-full="../img/lab4-11-evidence.jpg"><img src="../img/lab4-11-evidence.jpg" alt="Expanded source mail evidence" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Expanded source mail-102: the mail text is quoted verbatim, the 10/21 10:00 deadline matches it, and a task without a deadline stays "not specified".</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab4-12-persisted.jpg"><img src="../img/lab4-12-persisted.jpg" alt="Completion persists after reload" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Tick a task and reload: it stays done (stored in plan.json of the weekly-demo document).</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab4-11-evidence.jpg"><img src="../img/lab4-11-evidence.jpg" width="1400" height="972" alt="Expanded source mail evidence" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Expanded source mail-102: the mail text is quoted verbatim, the 10/21 10:00 deadline matches it, and a task without a deadline stays "not specified".</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab4-12-persisted.jpg"><img src="../img/lab4-12-persisted.jpg" width="1400" height="972" alt="Completion persists after reload" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Tick a task and reload: it stays done (stored in plan.json of the weekly-demo document).</figcaption></figure>
     </div>
     <h3>Checks</h3>
     <div class="tbl"><table>
@@ -448,6 +450,41 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
     });
   });
   lb.addEventListener("click", e => { if (e.target === lb) lb.close(); });
+})();
+</script>
+
+<script>
+(() => {
+  // 切换语言时带上当前章节；在切换器上选过的语言记在本机，下次从根地址进入时自动跳转
+  const KEY = "manual-lang";
+  const store = { get() { try { return localStorage.getItem(KEY); } catch { return null; } },
+                  set(v) { try { localStorage.setItem(KEY, v); } catch {} } };
+  const here = document.documentElement.lang;
+  const nav = document.querySelector(".lang");
+  // 页首的切换器滚出视口后，右上角浮出同一组链接，读到哪里都能直接切换
+  const float = nav.cloneNode(true);
+  float.classList.add("float"); float.hidden = true; float.setAttribute("aria-label", nav.getAttribute("aria-label") + " (floating)");
+  document.body.append(float);
+  new IntersectionObserver(([e]) => { float.hidden = e.isIntersecting; }).observe(nav);
+  const links = [...document.querySelectorAll(".lang a[hreflang]")];
+  const pref = store.get();
+  if (here === "zh-CN" && pref && pref !== here) {
+    const target = links.find(a => a.hreflang === pref);
+    if (target) { location.replace(target.href + location.hash); return; }
+  }
+  const currentSection = () => {
+    const sections = [...document.querySelectorAll("section[id]")];
+    const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 4;
+    if (atBottom && sections.length) return sections.at(-1).id;
+    let id = "";
+    for (const s of sections) if (s.getBoundingClientRect().top <= 140) id = s.id;
+    return id || location.hash.slice(1);
+  };
+  for (const a of links) a.addEventListener("click", e => {
+    store.set(a.hreflang);
+    const id = currentSection();
+    if (id) { e.preventDefault(); location.href = a.href.split("#")[0] + "#" + id; }
+  });
 })();
 </script>
 </body>

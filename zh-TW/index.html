@@ -147,6 +147,8 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
 .lang a { font: 500 12.5px var(--font-cn); color: var(--text-2); text-decoration: none; padding: 5px 12px; border-radius: 999px; }
 .lang a:hover { color: var(--text); }
 .lang a[aria-current="page"] { background: var(--orchid); color: #fff; }
+.lang.float { position: fixed; z-index: 20; top: max(12px, env(safe-area-inset-top, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); box-shadow: 0 6px 20px rgba(20, 12, 28, .45); }
+.lang[hidden] { display: none; }
 </style>
 </head>
 <body>
@@ -189,9 +191,9 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
       <li><b>把工具權限設為 Approve all。</b>點 Autopilot → Tool permissions → Approve all。不改的話，Autopilot 下沒人點批准，所有命令都會被拒（見 Lab 1 第一輪）。</li>
     </ol>
     <div class="shots">
-      <figure><button type="button" data-full="../img/lab1-02-prompt.jpg"><img src="../img/lab1-02-prompt.jpg" alt="App 新任務輸入框，已選 Autopilot 和 GPT-6 Luna，工作區為 Current checkout" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>輸入框下方：Autopilot · GPT-6 Luna · Medium；工作區 Current checkout。</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab1-06-tool-permissions.jpg"><img src="../img/lab1-06-tool-permissions.jpg" alt="Mode 選單中的 Tool permissions 選項" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>Mode 選單底部的 Tool permissions：Always ask / Assisted / Approve all。</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab1-04-trust-prompt.jpg"><img src="../img/lab1-04-trust-prompt.jpg" alt="Trust this repository 彈窗" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>首次執行彈出「Trust this repository?」。本次選 Skip for now。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-02-prompt.jpg"><img src="../img/lab1-02-prompt.jpg" width="1400" height="1400" alt="App 新任務輸入框，已選 Autopilot 和 GPT-6 Luna，工作區為 Current checkout" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>輸入框下方：Autopilot · GPT-6 Luna · Medium；工作區 Current checkout。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-06-tool-permissions.jpg"><img src="../img/lab1-06-tool-permissions.jpg" width="1400" height="1400" alt="Mode 選單中的 Tool permissions 選項" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>Mode 選單底部的 Tool permissions：Always ask / Assisted / Approve all。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-04-trust-prompt.jpg"><img src="../img/lab1-04-trust-prompt.jpg" width="1400" height="1400" alt="Trust this repository 彈窗" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>首次執行彈出「Trust this repository?」。本次選 Skip for now。</figcaption></figure>
     </div>
   </section>
 
@@ -220,21 +222,21 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
 執行環境補充：Python 一律用 ~/.venvs/hol_ghc_app/bin/python …
 不要提交 git、不要推送。完成後保持 8011 服務執行，並用中文列出每一步的結果。</pre>
     <div class="shots">
-      <figure><button type="button" data-full="../img/lab1-03-running.jpg"><img src="../img/lab1-03-running.jpg" alt="Lab1 會話開始執行" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>傳送後，Agent 先讀 README 和 Lab1/Code。</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab1-05-denied.jpg"><img src="../img/lab1-05-denied.jpg" alt="Always ask 權限下命令被拒" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>第一輪：命令全被拒，App 說明了沒能驗收。</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab1-08-running.jpg"><img src="../img/lab1-08-running.jpg" alt="改為 Approve all 後命令開始執行" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>改 Approve all 後：生成頁面、啟動 8011、跑測試和 Playwright。左上是 macOS 的本地網路權限彈窗。</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab1-09-result.jpg"><img src="../img/lab1-09-result.jpg" alt="Lab1 App 最終總結" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>App 的最終總結：6 項全部通過，只改了兩個檔案，未提交。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-03-running.jpg"><img src="../img/lab1-03-running.jpg" width="1400" height="1400" alt="Lab1 會話開始執行" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>傳送後，Agent 先讀 README 和 Lab1/Code。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-05-denied.jpg"><img src="../img/lab1-05-denied.jpg" width="1400" height="1400" alt="Always ask 權限下命令被拒" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>第一輪：命令全被拒，App 說明了沒能驗收。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-08-running.jpg"><img src="../img/lab1-08-running.jpg" width="1400" height="1400" alt="改為 Approve all 後命令開始執行" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>改 Approve all 後：生成頁面、啟動 8011、跑測試和 Playwright。左上是 macOS 的本地網路權限彈窗。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-09-result.jpg"><img src="../img/lab1-09-result.jpg" width="1400" height="1400" alt="Lab1 App 最終總結" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>App 的最終總結：6 項全部通過，只改了兩個檔案，未提交。</figcaption></figure>
     </div>
 
     <h3>作品截圖（獨立複核時用 Playwright 擷取）</h3>
     <div class="shots wide">
-      <figure><button type="button" data-full="../img/lab1-11-legal-target.jpg"><img src="../img/lab1-11-legal-target.jpg" alt="點擊紅兵後只有一個綠色合法落點" loading="lazy"></button><figcaption><span class="kind">作品</span>點擊最左紅兵 (0,6)：只出現一個合法落點 (0,5)，落點來自 Python 規則引擎。</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab1-12-first-move.jpg"><img src="../img/lab1-12-first-move.jpg" alt="走棋後狀態變為黑方走棋" loading="lazy"></button><figcaption><span class="kind">作品</span>走一步後狀態為「黑方走棋 · 已走 1 步」。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-11-legal-target.jpg"><img src="../img/lab1-11-legal-target.jpg" width="1400" height="940" alt="點擊紅兵後只有一個綠色合法落點" loading="lazy"></button><figcaption><span class="kind">作品</span>點擊最左紅兵 (0,6)：只出現一個合法落點 (0,5)，落點來自 Python 規則引擎。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-12-first-move.jpg"><img src="../img/lab1-12-first-move.jpg" width="1400" height="940" alt="走棋後狀態變為黑方走棋" loading="lazy"></button><figcaption><span class="kind">作品</span>走一步後狀態為「黑方走棋 · 已走 1 步」。</figcaption></figure>
     </div>
     <div class="shots">
-      <figure><button type="button" data-full="../img/lab1-10-game.jpg"><img src="../img/lab1-10-game.jpg" alt="開局棋盤" loading="lazy"></button><figcaption><span class="kind">作品</span>開局 32 枚棋子，紅方先行。</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab1-13-undo.jpg"><img src="../img/lab1-13-undo.jpg" alt="悔棋後恢復" loading="lazy"></button><figcaption><span class="kind">作品</span>悔一步後回到紅方、0 步。</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab1-14-mobile.jpg"><img src="../img/lab1-14-mobile.jpg" alt="390 像素手機寬度" loading="lazy"></button><figcaption><span class="kind">作品</span>390px 手機寬度，scrollWidth = 390，無橫向滾動。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-10-game.jpg"><img src="../img/lab1-10-game.jpg" width="1400" height="940" alt="開局棋盤" loading="lazy"></button><figcaption><span class="kind">作品</span>開局 32 枚棋子，紅方先行。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-13-undo.jpg"><img src="../img/lab1-13-undo.jpg" width="1400" height="940" alt="悔棋後恢復" loading="lazy"></button><figcaption><span class="kind">作品</span>悔一步後回到紅方、0 步。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab1-14-mobile.jpg"><img src="../img/lab1-14-mobile.jpg" width="427" height="1400" alt="390 像素手機寬度" loading="lazy"></button><figcaption><span class="kind">作品</span>390px 手機寬度，scrollWidth = 390，無橫向滾動。</figcaption></figure>
     </div>
 
     <h3>驗收</h3>
@@ -279,20 +281,20 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
 並解碼實際 MP4 的鏡頭截圖，不能用 HTML 預覽截圖冒充成片。
 （另附：執行步驟清單、venv 與公共 npm registry、全程不要停下來提問）</pre>
     <div class="shots">
-      <figure><button type="button" data-full="../img/lab2-02-plan-prompt.jpg"><img src="../img/lab2-02-plan-prompt.jpg" alt="Plan 模式下的規劃提示詞" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>Plan 模式傳送規劃需求。</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab2-03-plan-question.jpg"><img src="../img/lab2-03-plan-question.jpg" alt="App 規劃中提問旁白生成方式" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>規劃中 App 停下來問一個會影響實現的選擇。</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab2-04-plan-review.jpg"><img src="../img/lab2-04-plan-review.jpg" alt="Review plan 面板與 plan.md" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>右側是 plan.md，底部是 Review plan：批准執行 / 退出 Plan 模式 / 提修改意見。</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab2-90-result.jpg"><img src="../img/lab2-90-result.jpg" alt="Lab2 Autopilot 完成總結" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>Autopilot 完成：Plan 的 4 項任務全部打勾，成片驗收通過。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-02-plan-prompt.jpg"><img src="../img/lab2-02-plan-prompt.jpg" width="1400" height="1400" alt="Plan 模式下的規劃提示詞" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>Plan 模式傳送規劃需求。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-03-plan-question.jpg"><img src="../img/lab2-03-plan-question.jpg" width="1400" height="1400" alt="App 規劃中提問旁白生成方式" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>規劃中 App 停下來問一個會影響實現的選擇。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-04-plan-review.jpg"><img src="../img/lab2-04-plan-review.jpg" width="1400" height="1400" alt="Review plan 面板與 plan.md" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>右側是 plan.md，底部是 Review plan：批准執行 / 退出 Plan 模式 / 提修改意見。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-90-result.jpg"><img src="../img/lab2-90-result.jpg" width="1400" height="1400" alt="Lab2 Autopilot 完成總結" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>Autopilot 完成：Plan 的 4 項任務全部打勾，成片驗收通過。</figcaption></figure>
     </div>
 
     <h3>成片鏡頭（從最終 MP4 解碼）</h3>
     <div class="shots tall">
-      <figure><button type="button" data-full="../img/lab2-11-video-shot.jpg"><img src="../img/lab2-11-video-shot.jpg" alt="成片鏡頭 1" loading="lazy"></button><figcaption>鏡頭 1 · 0–20s</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab2-12-video-shot.jpg"><img src="../img/lab2-12-video-shot.jpg" alt="成片鏡頭 2" loading="lazy"></button><figcaption>鏡頭 2 · 20–40s</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab2-13-video-shot.jpg"><img src="../img/lab2-13-video-shot.jpg" alt="成片鏡頭 3" loading="lazy"></button><figcaption>鏡頭 3 · 40–60s</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab2-14-video-shot.jpg"><img src="../img/lab2-14-video-shot.jpg" alt="成片鏡頭 4" loading="lazy"></button><figcaption>鏡頭 4 · 60–80s</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab2-15-video-shot.jpg"><img src="../img/lab2-15-video-shot.jpg" alt="成片鏡頭 5" loading="lazy"></button><figcaption>鏡頭 5 · 80–100s</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab2-16-video-shot.jpg"><img src="../img/lab2-16-video-shot.jpg" alt="成片鏡頭 6" loading="lazy"></button><figcaption>鏡頭 6 · 100–120s</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-11-video-shot.jpg"><img src="../img/lab2-11-video-shot.jpg" width="787" height="1400" alt="成片鏡頭 1" loading="lazy"></button><figcaption>鏡頭 1 · 0–20s</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-12-video-shot.jpg"><img src="../img/lab2-12-video-shot.jpg" width="787" height="1400" alt="成片鏡頭 2" loading="lazy"></button><figcaption>鏡頭 2 · 20–40s</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-13-video-shot.jpg"><img src="../img/lab2-13-video-shot.jpg" width="787" height="1400" alt="成片鏡頭 3" loading="lazy"></button><figcaption>鏡頭 3 · 40–60s</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-14-video-shot.jpg"><img src="../img/lab2-14-video-shot.jpg" width="787" height="1400" alt="成片鏡頭 4" loading="lazy"></button><figcaption>鏡頭 4 · 60–80s</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-15-video-shot.jpg"><img src="../img/lab2-15-video-shot.jpg" width="787" height="1400" alt="成片鏡頭 5" loading="lazy"></button><figcaption>鏡頭 5 · 80–100s</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab2-16-video-shot.jpg"><img src="../img/lab2-16-video-shot.jpg" width="787" height="1400" alt="成片鏡頭 6" loading="lazy"></button><figcaption>鏡頭 6 · 100–120s</figcaption></figure>
     </div>
     <p class="muted">成片檔案：<code>Lab2/Code/film/output/surface-ultra.mp4</code>（8.4 MB），用系統播放器直接開啟即可，不需要另做播放頁面。</p>
 
@@ -331,18 +333,18 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
 頁面要有經營概覽、分部檢視、財年篩選、點擊分部篩選和資料來源。
 請實際執行並用 Playwright 核對，而不是只給設計圖。</pre>
     <div class="shots">
-      <figure><button type="button" data-full="../img/lab3-01-prompt.jpg"><img src="../img/lab3-01-prompt.jpg" alt="Lab3 提示詞" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>Autopilot 會話傳送需求。</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab3-90-result.jpg"><img src="../img/lab3-90-result.jpg" alt="Lab3 App 最終總結" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>App 總結：核對通過，單 Agent 分析完成，Playwright 走完步驟 4–8，pytest 2 passed。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab3-01-prompt.jpg"><img src="../img/lab3-01-prompt.jpg" width="1400" height="1400" alt="Lab3 提示詞" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>Autopilot 會話傳送需求。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab3-90-result.jpg"><img src="../img/lab3-90-result.jpg" width="1400" height="1400" alt="Lab3 App 最終總結" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>App 總結：核對通過，單 Agent 分析完成，Playwright 走完步驟 4–8，pytest 2 passed。</figcaption></figure>
     </div>
     <h3>作品截圖</h3>
     <div class="shots wide">
-      <figure><button type="button" data-full="../img/lab3-10-overview.jpg"><img src="../img/lab3-10-overview.jpg" alt="經營概覽" loading="lazy"></button><figcaption><span class="kind">作品</span>經營概覽：營收 281,724、營業利潤 128,528、利潤率 45.62%、淨利潤 101,832（百萬美元）。右側三條觀察來自單 Agent 會話 f95c2d60。</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab3-11-cloud-filter.jpg"><img src="../img/lab3-11-cloud-filter.jpg" alt="點擊 Intelligent Cloud 篩選" loading="lazy"></button><figcaption><span class="kind">作品</span>點擊 Intelligent Cloud：營收卡片變為 106,265；淨利潤位置註明「僅營業利潤」口徑，不編造分部淨利潤。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab3-10-overview.jpg"><img src="../img/lab3-10-overview.jpg" width="1400" height="972" alt="經營概覽" loading="lazy"></button><figcaption><span class="kind">作品</span>經營概覽：營收 281,724、營業利潤 128,528、利潤率 45.62%、淨利潤 101,832（百萬美元）。右側三條觀察來自單 Agent 會話 f95c2d60。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab3-11-cloud-filter.jpg"><img src="../img/lab3-11-cloud-filter.jpg" width="1400" height="972" alt="點擊 Intelligent Cloud 篩選" loading="lazy"></button><figcaption><span class="kind">作品</span>點擊 Intelligent Cloud：營收卡片變為 106,265；淨利潤位置註明「僅營業利潤」口徑，不編造分部淨利潤。</figcaption></figure>
     </div>
     <div class="shots">
-      <figure><button type="button" data-full="../img/lab3-12-fy2024.jpg"><img src="../img/lab3-12-fy2024.jpg" alt="切換 FY2024" loading="lazy"></button><figcaption><span class="kind">作品</span>切到 FY2024：雲業務營收 87,464，不編造同比。</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab3-13-segments.jpg"><img src="../img/lab3-13-segments.jpg" alt="業務分部檢視" loading="lazy"></button><figcaption><span class="kind">作品</span>業務分部檢視：三個分部 FY2024 / FY2025 對比。</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab3-14-sources.jpg"><img src="../img/lab3-14-sources.jpg" alt="資料與來源檢視" loading="lazy"></button><figcaption><span class="kind">作品</span>資料與來源：年報 URL 和 sha256。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab3-12-fy2024.jpg"><img src="../img/lab3-12-fy2024.jpg" width="1400" height="972" alt="切換 FY2024" loading="lazy"></button><figcaption><span class="kind">作品</span>切到 FY2024：雲業務營收 87,464，不編造同比。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab3-13-segments.jpg"><img src="../img/lab3-13-segments.jpg" width="1400" height="972" alt="業務分部檢視" loading="lazy"></button><figcaption><span class="kind">作品</span>業務分部檢視：三個分部 FY2024 / FY2025 對比。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab3-14-sources.jpg"><img src="../img/lab3-14-sources.jpg" width="1400" height="972" alt="資料與來源檢視" loading="lazy"></button><figcaption><span class="kind">作品</span>資料與來源：年報 URL 和 sha256。</figcaption></figure>
     </div>
     <h3>驗收</h3>
     <div class="tbl"><table>
@@ -376,13 +378,13 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
 排程由 Python 驗證本週、時區、會議衝突和已過期任務。
 提供 Canvas 擴充功能，只把本地完成狀態儲存到檔案，不能回寫 Outlook。</pre>
     <div class="shots">
-      <figure><button type="button" data-full="../img/lab4-01-prompt.jpg"><img src="../img/lab4-01-prompt.jpg" alt="Lab4 提示詞" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>傳送需求，劃清不做的部分。</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab4-90-result.jpg"><img src="../img/lab4-90-result.jpg" alt="Lab4 App 最終總結" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>App 總結：三個會話完成，Canvas RPC 冒煙測試 7 項全過；未安裝擴充功能、未連線 Outlook。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab4-01-prompt.jpg"><img src="../img/lab4-01-prompt.jpg" width="1400" height="1400" alt="Lab4 提示詞" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>傳送需求，劃清不做的部分。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab4-90-result.jpg"><img src="../img/lab4-90-result.jpg" width="1400" height="1400" alt="Lab4 App 最終總結" loading="lazy"></button><figcaption><span class="kind">APP 截圖</span>App 總結：三個會話完成，Canvas RPC 冒煙測試 7 項全過；未安裝擴充功能、未連線 Outlook。</figcaption></figure>
     </div>
     <h3>作品截圖</h3>
     <div class="shots wide">
-      <figure><button type="button" data-full="../img/lab4-11-evidence.jpg"><img src="../img/lab4-11-evidence.jpg" alt="展開來源郵件證據" loading="lazy"></button><figcaption><span class="kind">作品</span>展開來源 mail-102：逐字引用郵件原文；截止 10/21 10:00 與原文一致；無截止日期的任務保持「未指定」。</figcaption></figure>
-      <figure><button type="button" data-full="../img/lab4-12-persisted.jpg"><img src="../img/lab4-12-persisted.jpg" alt="勾選完成後重新整理仍保持" loading="lazy"></button><figcaption><span class="kind">作品</span>勾選完成後重新整理頁面，狀態仍在（存在 weekly-demo 文件的 plan.json 裡）。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab4-11-evidence.jpg"><img src="../img/lab4-11-evidence.jpg" width="1400" height="972" alt="展開來源郵件證據" loading="lazy"></button><figcaption><span class="kind">作品</span>展開來源 mail-102：逐字引用郵件原文；截止 10/21 10:00 與原文一致；無截止日期的任務保持「未指定」。</figcaption></figure>
+      <figure><button type="button" data-full="../img/lab4-12-persisted.jpg"><img src="../img/lab4-12-persisted.jpg" width="1400" height="972" alt="勾選完成後重新整理仍保持" loading="lazy"></button><figcaption><span class="kind">作品</span>勾選完成後重新整理頁面，狀態仍在（存在 weekly-demo 文件的 plan.json 裡）。</figcaption></figure>
     </div>
     <h3>驗收</h3>
     <div class="tbl"><table>
@@ -448,6 +450,41 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
     });
   });
   lb.addEventListener("click", e => { if (e.target === lb) lb.close(); });
+})();
+</script>
+
+<script>
+(() => {
+  // 切换语言时带上当前章节；在切换器上选过的语言记在本机，下次从根地址进入时自动跳转
+  const KEY = "manual-lang";
+  const store = { get() { try { return localStorage.getItem(KEY); } catch { return null; } },
+                  set(v) { try { localStorage.setItem(KEY, v); } catch {} } };
+  const here = document.documentElement.lang;
+  const nav = document.querySelector(".lang");
+  // 页首的切换器滚出视口后，右上角浮出同一组链接，读到哪里都能直接切换
+  const float = nav.cloneNode(true);
+  float.classList.add("float"); float.hidden = true; float.setAttribute("aria-label", nav.getAttribute("aria-label") + " (floating)");
+  document.body.append(float);
+  new IntersectionObserver(([e]) => { float.hidden = e.isIntersecting; }).observe(nav);
+  const links = [...document.querySelectorAll(".lang a[hreflang]")];
+  const pref = store.get();
+  if (here === "zh-CN" && pref && pref !== here) {
+    const target = links.find(a => a.hreflang === pref);
+    if (target) { location.replace(target.href + location.hash); return; }
+  }
+  const currentSection = () => {
+    const sections = [...document.querySelectorAll("section[id]")];
+    const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 4;
+    if (atBottom && sections.length) return sections.at(-1).id;
+    let id = "";
+    for (const s of sections) if (s.getBoundingClientRect().top <= 140) id = s.id;
+    return id || location.hash.slice(1);
+  };
+  for (const a of links) a.addEventListener("click", e => {
+    store.set(a.hreflang);
+    const id = currentSection();
+    if (id) { e.preventDefault(); location.href = a.href.split("#")[0] + "#" + id; }
+  });
 })();
 </script>
 </body>
