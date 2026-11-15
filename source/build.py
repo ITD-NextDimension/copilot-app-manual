@@ -27,6 +27,23 @@ def with_prompts(body, copy, done, failed):
 body_zh = with_prompts(body_zh, "复制", "已复制", "请手动选择复制")
 body_en = with_prompts(body_en, "Copy", "Copied", "Select to copy")
 
+
+def with_detailed(body, lang, eyebrow, title, desc, cta):
+    """Put a card linking to the detailed lab manual (/lab-manual/) right above the hero's table of contents.
+    data-lab-lang presets that page's language: it reads localStorage "itd-lab-language" on the same origin."""
+    card = (f'<a class="detailed" href="lab-manual/" data-lab-lang="{lang}">'
+            f'<span class="eyebrow">{eyebrow}</span><b>{title}</b><span class="desc">{desc}</span>'
+            f'<span class="cta">{cta} →</span></a>\n    ')
+    return body.replace('<nav class="toc"', card + '<nav class="toc"', 1)
+
+
+# zh-TW is converted from body_zh by OpenCC, so its card text is converted too; page() fixes its data-lab-lang and the href depth
+body_zh = with_detailed(body_zh, "zh", "详细版 · Lab Manual", "逐步点击的详细版学员手册",
+                        "从认识 App 到四个 Lab，每一步都有截图和可复制的提示词；简中 / 繁中 / English 三语。", "打开详细版手册")
+body_en = with_detailed(body_en, "en", "Detailed edition · Lab Manual", "The click-by-click learner manual",
+                        "From getting to know the App to all four labs, every step with a screenshot and a copyable prompt. Simplified Chinese / Traditional Chinese / English.",
+                        "Open the detailed manual")
+
 css += """
 .lang { display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 3px; }
 .lang a { font: 500 12.5px var(--font-cn); color: var(--text-2); text-decoration: none; padding: 5px 12px; border-radius: 999px; }
@@ -39,6 +56,11 @@ css += """
 .copy { position: absolute; top: 8px; right: 8px; font: 600 12.5px var(--font-cn); color: var(--text); background: var(--orchid-chip); border: 1px solid var(--border); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
 .copy:hover { background: #6A4A7E; }
 .copy.done { background: var(--orchid); border-color: transparent; color: #fff; }
+.detailed { display: grid; gap: 6px; max-width: 40em; margin: 24px 0 4px; padding: 18px 20px; text-decoration: none; color: var(--text); background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--orchid); border-radius: 12px; transition: border-color .15s, transform .15s; }
+.detailed:hover { border-color: var(--orchid-soft); transform: translateY(-1px); }
+.detailed b { font-size: 17px; }
+.detailed .desc { color: var(--text-2); font-size: 14px; }
+.detailed .cta { color: var(--orchid-soft); font-weight: 600; font-size: 14px; }
 """
 FONTS = "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Sans:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@500;600&family=Instrument+Serif:ital@0;1&display=swap"
 PAGES = {  # lang: (dir, title, description)
@@ -92,6 +114,9 @@ SWITCH_JS = """<script>
     const id = currentSection();
     if (id) { e.preventDefault(); location.href = a.href.split("#")[0] + "#" + id; }
   });
+  // 详细版手册按 localStorage 的 itd-lab-language 选语言（同源），点入口时带上当前页面的语言
+  for (const a of document.querySelectorAll("a[data-lab-lang]"))
+    a.addEventListener("click", () => { try { localStorage.setItem("itd-lab-language", a.dataset.labLang); } catch {} });
 })();
 </script>"""
 LABELS = [("zh-CN", "简体中文"), ("zh-TW", "繁體中文"), ("en", "English")]
@@ -129,6 +154,9 @@ def page(lang, body):
         page_css = page_css.replace('--font-cn: "Noto Sans SC", "PingFang SC"', '--font-cn: "Noto Sans TC", "PingFang TC", "Noto Sans SC", "PingFang SC"')
     body = sized(body).replace("<!--LANGSWITCH-->", switcher(lang))
     body = body.replace('src="img/', f'src="{up}img/').replace('data-full="img/', f'data-full="{up}img/')
+    body = body.replace('href="lab-manual/"', f'href="{up}lab-manual/"')
+    if lang == "zh-TW":
+        body = body.replace('data-lab-lang="zh"', 'data-lab-lang="tw"')
     alts = "\n".join(f'<link rel="alternate" hreflang="{l}" href="https://itd-nextdimension.github.io/copilot-app-manual/{PAGES[l][0]}">' for l in PAGES)
     return f"""<!doctype html>
 <html lang="{lang}">
