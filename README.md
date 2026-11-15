@@ -10,6 +10,10 @@
 
 截图中的个人账户信息与系统通知已做马赛克处理。
 
+## 详细版 Lab 手册
+
+逐步点击的详细版学员手册（简中 / 繁中 / English 三语，单文件 `lab-manual/index.html`）：https://itd-nextdimension.github.io/copilot-app-manual/lab-manual/
+
 ## 重新生成
 
 三个页面由 `source/build.py` 生成：简体正文来自 `source/zh-CN.artifact.html`，繁体由 OpenCC（`opencc-js`，沿用上游课程的台湾术语表）转换，英文正文是 `source/body-en.html` 的人工翻译。
