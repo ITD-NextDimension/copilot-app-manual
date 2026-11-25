@@ -1,6 +1,6 @@
 # Copilot App 实跑手册 · Field Manual
 
-本仓库是课程的**文档网站**，不是课程代码仓库。可运行的四个 Lab 位于独立仓库 [`kinfey/hol_ghc_app`](https://github.com/kinfey/hol_ghc_app)；Lab 1 在 `Lab1/Code/`。
+本仓库是课程的**文档网站**，不是课程代码仓库。可运行的四个 Lab 位于独立仓库 [`ITD-NextDimension/hol_ghc_app`](https://github.com/ITD-NextDimension/hol_ghc_app)；Lab 1 在 `Lab1/Code/`。
 
 ## 分开放置两个仓库
 
@@ -18,7 +18,7 @@ Demo-GH/
 mkdir -p Demo-GH
 cd Demo-GH
 git clone https://github.com/ITD-NextDimension/copilot-app-manual copilot-app-manual
-git clone https://github.com/kinfey/hol_ghc_app hol_ghc_app
+git clone https://github.com/ITD-NextDimension/hol_ghc_app hol_ghc_app
 ```
 
 这样会生成上方展示的两个平级目录。以上命令适用于目标子目录尚不存在的情况；不要在已有非空目录中运行 `git clone URL .`。如果目标目录已经有克隆，先运行 `git status --short --branch`，检查未提交改动后再决定是否更新；不要为了重克隆删除或移动已有内容。
@@ -80,7 +80,7 @@ python -m playwright install chromium
 
 ## 详细版 Lab 手册
 
-逐步点击的详细版学员手册（简中 / 繁中 / English 三语，单文件 `lab-manual/index.html`）：https://itd-nextdimension.github.io/copilot-app-manual/lab-manual/
+逐步点击的详细版学员手册（ITD 浅色主题；简中 / 繁中 / English 三语，单文件 `lab-manual/index.html`）。目录按操作顺序排列：准备工作（P.1–P.8）→ 第 0 部分认识 App → Lab 1–4（每个 Lab 末尾增加终端验收步骤）→ 课程验收与课后重置 → 讲师备注；左侧菜单可展开到每一步：https://itd-nextdimension.github.io/copilot-app-manual/lab-manual/
 
 ## 重新生成首页三语页面
 
