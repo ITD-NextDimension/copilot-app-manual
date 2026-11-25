@@ -80,7 +80,7 @@ python -m playwright install chromium
 
 ## 详细版 Lab 手册
 
-逐步点击的详细版学员手册（ITD 浅色主题；简中 / 繁中 / English 三语，单文件 `lab-manual/index.html`）。目录按操作顺序排列：准备工作（P.1–P.8）→ 第 0 部分认识 App → Lab 1–4（每个 Lab 末尾增加终端验收步骤）→ 课程验收与课后重置 → 讲师备注；左侧菜单可展开到每一步：https://itd-nextdimension.github.io/copilot-app-manual/lab-manual/
+逐步点击的详细版学员手册（ITD 浅色主题；简中 / 繁中 / English 三语，单文件 `lab-manual/index.html`）。目录按操作顺序排列：准备工作（P.1–P.8）→ 第 0 部分认识 App → Lab 1–4（每个 Lab 末尾增加终端验收步骤）→ 课程验收与课后重置；左侧菜单可展开到每一步：https://itd-nextdimension.github.io/copilot-app-manual/lab-manual/
 
 ## 重新生成首页三语页面
 
