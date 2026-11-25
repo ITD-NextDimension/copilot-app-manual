@@ -6,6 +6,6 @@
 不要先加人机对战、账户系统或数据库。
 请先阅读现有代码，再完成和验证。结果要能通过 Playwright 实际点击。
 
-执行环境补充：Python 一律用 ~/.venvs/hol_ghc_app/bin/python（已装好依赖和 Playwright Chromium）。
+执行环境补充：Python 使用已激活虚拟环境中的 python（已装好依赖和 Playwright Chromium）。
 按 Lab1/README.md 步骤 3–7 完成：运行 Lab1/Code/generate.py 生成 generated.html，启动 Lab1/Code/app.py（端口 8011），用 Playwright 验证红兵 0,6 只有合法落点 0,5、走棋后轮到黑方、悔棋与重开、390px 手机宽度无横向滚动，再跑 README 里的 pytest 规则测试。
 不要提交 git、不要推送。完成后保持 8011 服务运行，并用中文列出每一步的结果。

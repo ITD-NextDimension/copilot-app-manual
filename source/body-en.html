@@ -9,18 +9,19 @@
   <div class="hero">
     <div class="ghost" aria-hidden="true"></div>
     <span class="eyebrow">GitHub Copilot App · Field Manual</span>
-    <h1>From an idea to a work assistant: a real run of all four labs</h1>
+    <h1>From an idea to a work assistant: historical runs and the 25 Nov rerun</h1>
     <div class="rule"></div>
-    <p class="lead">This manual records one real run: GitHub Copilot App (model GPT-6 Luna) working through the four labs of <code>tarrywang/hol_ghc_app</code> using the course's own prompts. Every step comes with App screenshots and screenshots of the result, every conclusion was checked independently, and the problems we hit and the trade-offs we made are written down as well.</p>
-    <p class="muted">The course and the App sessions are in Chinese. Prompts are shown exactly as they were sent; the screenshots show the original Chinese UI.</p>
+    <p class="lead">This manual preserves historical run records from 2026-10-26 and 2026-11-12, and separately reports the 2026-11-25 rerun. Historical screenshots and results do not replace the current acceptance checks; see the separate status table below.</p>
+    <p class="muted"><b>25 Nov rerun:</b> all four labs passed final acceptance; Lab 4 passed 17 focused tests. All four labs passed acceptance; 62 offline tests passed without new model calls. Numbers below with historical dates belong to those earlier runs only.</p>
+    <p class="muted">The course and the App sessions are in Chinese. Prompts are reproduced in Chinese; machine-specific local paths are generalized. Screenshots show the original Chinese UI.</p>
     <div class="kpis">
-      <div class="kpi"><div class="big">4 / 4</div><div class="label">Labs passed</div><div class="sub">App run + independent check</div></div>
+      <div class="kpi"><div class="big">4 / 4</div><div class="label">Historical record: labs passed</div><div class="sub">2026-10-26 · App run + independent check</div></div>
       <div class="kpi"><div class="big">7</div><div class="label">gpt-6-luna sessions</div><div class="sub">SDK traces on record</div></div>
       <div class="kpi"><div class="big">44</div><div class="label">pytest passed</div><div class="sub">full tests/test_labs.py</div></div>
       <div class="kpi"><div class="big">120.0s</div><div class="label">Vertical video</div><div class="sub">1080×1920 · 30fps · AAC</div></div>
     </div>
     <nav class="toc" aria-label="Contents">
-      <a href="#prep">Setup</a><a href="#lab1">Lab 1 Chess</a><a href="#lab2">Lab 2 Product video</a><a href="#lab3">Lab 3 Earnings room</a><a href="#lab4">Lab 4 Weekly compass</a><a href="#lessons">Lessons and trade-offs</a><a href="#state">Current state</a>
+      <a href="#prep">Setup</a><a href="#rerun-status">25 Nov rerun status</a><a href="#lab1">Lab 1 Chess</a><a href="#lab2">Lab 2 Product video</a><a href="#lab3">Lab 3 Earnings room</a><a href="#lab4">Lab 4 Weekly compass</a><a href="#lessons">Lessons and trade-offs</a><a href="#state">State after the original run</a>
     </nav>
   </div>
 
@@ -30,32 +31,56 @@
     <h2>Setup</h2>
     <div class="rule"></div>
     <ol class="steps">
-      <li><b>Install the Copilot CLI.</b> <code>npm i -g @github/copilot</code> (1.0.103). The course's Python SDK calls the model through the <code>copilot</code> command, so installing the App alone is not enough. The CLI shares its sign-in with App 1.1.32; no second login is needed.</li>
-      <li><b>Create the Python environment.</b> <code>python3.12 -m venv ~/.venvs/hol_ghc_app</code>, install <code>requirements.txt</code> from public PyPI, then run <code>playwright install chromium</code>. The course commands use Microsoft's packagefeedproxy mirror, which is reachable from the public internet (tested 2026-10-30: npm and PyPI both return 200). Using the public registries here was a personal choice; the original commands work too. The venv lives outside OneDrive so it is not synced.</li>
+      <li><b>Preflight tool versions.</b> Run <code>python3 --version</code>, <code>copilot --version</code>, <code>node --version</code>, <code>npm --version</code>, <code>ffmpeg -version</code> and <code>ffprobe -version</code>. The course needs Python 3.11+ and Copilot CLI; Lab 2 video also needs Node.js 22+ and FFmpeg. If the CLI is missing, install it with the course README's <code>npm i -g @github/copilot</code> command; install other missing required tools before continuing.</li>
+      <li><b>Install Python dependencies inside a virtual environment.</b> From the course root run <code>python3 -m venv .venv</code>, activate it, confirm <code>python -m pip --version</code> points into <code>.venv</code>, then follow the README with <code>python -m pip install -r requirements.txt --index-url https://packagefeedproxy.microsoft.io/pypi/simple/</code> and <code>python -m playwright install chromium</code>. In Windows PowerShell, use <code>py -m venv .venv</code> and <code>.\.venv\Scripts\Activate.ps1</code>. Do not run <code>pip install</code> against system Python or use <code>--break-system-packages</code> to bypass PEP 668.</li>
       <li><b>Confirm the model.</b> Continue only if <code>python tools/probe.py</code> lists <code>gpt-6-luna</code>. If it does not, fix account access first instead of switching models.</li>
-      <li><b>Pick the project and workspace in the App.</b> The App's <code>hol_ghc_app</code> project points to <code>~/Projects/hol_ghc_app</code>. When starting a session, change Workspace from New worktree to <b>Current checkout</b>; this is what the course calls a local-folder session.</li>
-      <li><b>Pick the mode and model.</b> Below the input box choose <b>Autopilot</b>, and pick <b>GPT-6 Luna</b> under More models. Do not leave it on Auto.</li>
-      <li><b>Set tool permissions to Approve all.</b> Autopilot → Tool permissions → Approve all. Otherwise nobody is there to approve commands in Autopilot and every command is denied (see Lab 1, first attempt).</li>
+      <li><b>Open the course folder in the App.</b> Use Sessions + to add or open the local <code>hol_ghc_app</code> folder, and confirm it contains README.md and Lab1–Lab4. A Project is an App organization view; it is not a clone and does not replace adding the local folder.</li>
+      <li><b>Confirm where the session runs and which model it uses.</b> New sessions may default to <b>New worktree</b>; explicitly select <b>Current checkout</b> to work in this local clone. This preparation used <b>This computer</b>, <b>GPT-6 Luna · Medium</b>, and <b>Copilot Fusion off</b>. Do not leave the model on Auto.</li>
+      <li><b>Inspect the current Tool permissions setting.</b> Check its selection and effect in the session menu before sending a task: Always ask waits for approval, Assisted can reduce some prompts, and Approve all allows commands and tools to run without per-command approval. Choose based on repository trust and policy; do not disable macOS or other system security protections.</li>
     </ol>
+    <div class="note">
+      <span class="tag">2026-11-25 · SETUP RECORD</span>
+      <h4>Keep the repositories separate</h4>
+      <p>Recommended layout: sibling folders <code>copilot-app-manual/</code> and <code>hol_ghc_app/</code> under Demo-GH. From Demo-GH's parent directory, run <code>mkdir -p Demo-GH</code>, then <code>cd Demo-GH</code>, followed by <code>git clone https://github.com/ITD-NextDimension/copilot-app-manual copilot-app-manual</code> and <code>git clone https://github.com/kinfey/hol_ghc_app hol_ghc_app</code>. Never run <code>git clone URL .</code> in a non-empty directory. For an existing clone, inspect <code>git status --short --branch</code> and review changes before deciding whether to update. If the documentation repository is already at the Demo-GH root, keep it there, clone the course repo into <code>hol_ghc_app/</code>, and add that path only to the documentation repo's <code>.git/info/exclude</code>.</p>
+      <p>After the first send, the App may show “Trust this repository?”. Skipping trust will cause Autopilot tool calls to be denied. Before choosing <b>Always trust</b>, verify the repository source and review its configuration, hooks and extensions; this option allows repository configuration, hooks, extensions and future updates to run. Repository trust and Tool permissions are separate controls: trust applies to repository content, while Tool permissions controls approval for Copilot tool use. Trust only repositories you have reviewed and accept; do not disable system security.</p>
+      <p>If a multi-organization Copilot license reports “Billing setup required” or the home page says usage is blocked, open <a href="https://github.com/settings/copilot/features">Copilot features settings</a>, select a Copilot-authorized entity under Usage billed to, then retry; Miruth was selected in this preparation. A credits balance does not mean the user has usable budget, so do not assume every block is a low-credit issue. An unrelated MCP sign-in prompt does not block the local chess app and does not need to be authorized for this lab.</p>
+      <p class="why">This section records setup only; the 2026-11-25 rerun is listed separately below. The old failed session and 2026-11-12 acceptance data remain historical and are not evidence for the current rerun.</p>
+    </div>
     <div class="shots">
       <figure><button type="button" data-full="img/lab1-02-prompt.jpg">
-    <p class="muted">Every prompt below is the complete text sent to the App, in the order it was sent, in Chinese as the course is written. Use the Copy button on each prompt to copy it.</p><img src="img/lab1-02-prompt.jpg" alt="App task input with Autopilot and GPT-6 Luna selected, workspace set to Current checkout" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>Below the input: Autopilot · GPT-6 Luna · Medium; workspace Current checkout.</figcaption></figure>
+    <p class="muted">Prompts below follow the order sent; to avoid exposing machine-specific details, virtual-environment paths have been generalized to the active environment's <code>python</code>. Use the Copy button on each prompt.</p><img src="img/lab1-02-prompt.jpg" alt="App task input with Autopilot and GPT-6 Luna selected, workspace set to Current checkout" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>Below the input: Autopilot · GPT-6 Luna · Medium; workspace Current checkout.</figcaption></figure>
       <figure><button type="button" data-full="img/lab1-06-tool-permissions.jpg"><img src="img/lab1-06-tool-permissions.jpg" alt="Tool permissions option in the Mode menu" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>Tool permissions at the bottom of the Mode menu: Always ask / Assisted / Approve all.</figcaption></figure>
-      <figure><button type="button" data-full="img/lab1-04-trust-prompt.jpg"><img src="img/lab1-04-trust-prompt.jpg" alt="Trust this repository prompt" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>The first run asks "Trust this repository?". We chose Skip for now.</figcaption></figure>
+      <figure><button type="button" data-full="img/lab1-04-trust-prompt.jpg"><img src="img/lab1-04-trust-prompt.jpg" alt="Trust this repository prompt" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>Historical screenshot: Skip for now was selected then; this is a historical record, not general trust guidance.</figcaption></figure>
     </div>
+  </section>
+
+  <section id="rerun-status">
+    <span class="eyebrow">Run record · 2026-11-25</span>
+    <h2>25 Nov rerun status</h2>
+    <div class="rule"></div>
+    <p>This table covers only the current rerun; the 2026-10-26 and 2026-11-12 chapters, screenshots and figures remain historical. All four labs passed acceptance; 62 offline tests passed without new model calls.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Lab</th><th>Status</th><th>Current verification</th></tr></thead>
+      <tbody>
+        <tr><td>Lab 1 · Chess</td><td class="pass">Passed</td><td>Fixed the endgame-move hint; 20 move-rule tests and Playwright passed. An independent browser click confirmed the red pawn moves one step and undo works.</td></tr>
+        <tr><td>Lab 2 · Video</td><td>Passed</td><td>Passed: final render from current source; H.264/AAC, 1080×1920, 30 fps, 3600 frames, 120.000 seconds; Xiaoxiao narration 111.336 seconds. HyperFrames, full decode and audio signal checks passed. File: Lab2/Code/film/output/surface-ultra-2026-11-25.mp4.</td></tr>
+        <tr><td>Lab 3 · Financials</td><td class="pass">Passed</td><td>One real gpt-6-luna · Medium SDK session; 2 focused financial pytest tests passed; final Playwright passed 6 checks with no page errors. Four cards: 281724 / 128528 / 45.62% / 101832; Cloud: 106265 / 44589 / 41.96%; FY2024 Cloud: 87464.</td></tr>
+        <tr><td>Lab 4 · Weekly compass</td><td>Passed · 17 tests</td><td>Three real independent gpt-6-luna / Autopilot SDK sessions with fictional data and a fixed clock; browser completion state persisted across refresh; <code>app.py:8014</code>; private route 404 and unauthenticated POST 403. Native hol-weekboard Canvas load/complete/reopen persistence passed; after unchecking an item, the UI returned to 0/3.</td></tr>
+      </tbody>
+    </table></div>
   </section>
 
   <!-- ============ LAB 1 ============ -->
   <section id="lab1">
     <span class="eyebrow">Lab 01 · 35 min</span>
-    <h2>Chu River, Han Border: a Chinese chess game <span class="status">Passed</span></h2>
+    <h2>Chu River, Han Border: a Chinese chess game <span class="status">25 Nov rerun passed</span></h2>
     <div class="rule"></div>
     <p>Learn to let the App work continuously inside a local folder: a Python rules engine handles the moves, the model only generates the page shell, and Playwright checks the result with real clicks.</p>
 
     <h3>Steps in the App</h3>
     <ol class="steps">
       <li>Start a session (Autopilot + GPT-6 Luna + Current checkout), paste the requirement from the README, add a short note about the environment, and send. The App names the session itself.</li>
-      <li><b>First attempt failed:</b> tool permissions were still Always ask. The agent read the code, and every bash call returned <code>Permission denied because no interactive user response was available</code>. The App reported plainly that it could not claim the checks had passed instead of pretending to finish.</li>
+      <li><b>Historical run (2026-11-12), first attempt failed:</b> tool permissions were still Always ask. The agent read the code, and every bash call returned <code>Permission denied because no interactive user response was available</code>. The App reported plainly that it could not claim the checks had passed instead of pretending to finish. This is not the outcome of the new experiment.</li>
       <li>Switch tool permissions to Approve all and send "please continue". The App then runs <code>generate.py</code> → starts <code>app.py</code> in the background (8011) → Playwright clicks → a 390px viewport → pytest.</li>
     </ol>
     <p class="prompt-label">PROMPT 1 · FIRST REQUEST: COURSE TEXT + ENVIRONMENT NOTE</p>
@@ -84,7 +109,7 @@
     <div class="tbl"><table>
       <thead><tr><th>Check</th><th>App reported</th><th>Independent check</th><th>Result</th></tr></thead>
       <tbody>
-        <tr><td>generate.py really calls the model</td><td>generated.html regenerated</td><td>generation.json: gpt-6-luna · autopilot · session db326b22</td><td class="pass">Pass</td></tr>
+        <tr><td>generate.py really calls the model</td><td>generated.html regenerated</td><td>generation.json: gpt-6-luna · autopilot · trace verified</td><td class="pass">Pass</td></tr>
         <tr><td>32 pieces, red first</td><td>Pass</td><td>.piece = 32</td><td class="pass">Pass</td></tr>
         <tr><td>Legal targets of red soldier (0,6)</td><td>Only (0,5)</td><td>Only (0,5)</td><td class="pass">Pass</td></tr>
         <tr><td>Turns alternate</td><td>Black to move · 1 move</td><td>Same</td><td class="pass">Pass</td></tr>
@@ -106,7 +131,7 @@
     <ol class="steps">
       <li>Start a session in <b>Plan</b> mode and send the README's "plan first, do not execute" prompt. The App read the existing project, checked the facts on Microsoft's product page, and wrote a 116-line <code>plan.md</code>: 6 shots, a source check table, an asset list, draft narration, CLI steps and acceptance criteria.</li>
       <li>While planning, the App stopped to ask: use a <b>fixed, reviewed narration</b>, or <b>keep SDK generation with stricter checks</b>? We chose the latter. The course's acceptance relies on the plan and autopilot model traces in <code>story.json</code>; a fixed script would leave no such record.</li>
-      <li>In the Review plan panel choose "Exit plan mode", switch the mode to <b>Autopilot</b>, and send the README's approval prompt. The App runs fetch_sources → story.py → video.py prepare / voice → hyperframes check / render → ffprobe, and decodes six frames from the final video to check them.</li>
+      <li>In the Review plan panel choose A, "Approve and implement this plan". The current App switches to <b>Autopilot</b> and starts execution directly; do not wait for a separate Continue action. If execution does not start after approval, send the README's approval prompt. The workflow then runs fetch_sources → story.py → video.py prepare / voice → hyperframes check / render → ffprobe and decodes six frames from the real video. See the 2026-11-25 table for final acceptance.</li>
     </ol>
     <p class="prompt-label">PROMPT 1 · PLAN MODE</p>
 <!--PROMPT:lab2-1-->
@@ -116,7 +141,7 @@
       <figure><button type="button" data-full="img/lab2-02-plan-prompt.jpg"><img src="img/lab2-02-plan-prompt.jpg" alt="Planning prompt in Plan mode" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>Sending the planning request in Plan mode.</figcaption></figure>
       <figure><button type="button" data-full="img/lab2-03-plan-question.jpg"><img src="img/lab2-03-plan-question.jpg" alt="The App asks how to generate the narration" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>While planning, the App stops to ask about a choice that affects the implementation.</figcaption></figure>
       <figure><button type="button" data-full="img/lab2-04-plan-review.jpg"><img src="img/lab2-04-plan-review.jpg" alt="Review plan panel and plan.md" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>plan.md on the right; Review plan at the bottom: approve and run / exit Plan mode / suggest changes.</figcaption></figure>
-      <figure><button type="button" data-full="img/lab2-90-result.jpg"><img src="img/lab2-90-result.jpg" alt="Lab 2 Autopilot summary" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>Autopilot done: all 4 plan tasks ticked, the final video passes its checks.</figcaption></figure>
+      <figure><button type="button" data-full="img/lab2-90-result.jpg"><img src="img/lab2-90-result.jpg" alt="Historical Lab 2 Autopilot summary" loading="lazy"></button><figcaption><span class="kind">APP SCREENSHOT</span>Historical run screenshot: all four plan tasks were completed then; this does not mean the 25 Nov video has passed.</figcaption></figure>
     </div>
 
     <h3>Shots (decoded from the final MP4)</h3>
@@ -147,7 +172,7 @@
   <!-- ============ LAB 3 ============ -->
   <section id="lab3">
     <span class="eyebrow">Lab 03 · 45 min</span>
-    <h2>Earnings room: one agent explains an annual report <span class="status">Passed</span></h2>
+    <h2>Earnings room: one agent explains an annual report <span class="status">25 Nov rerun passed</span></h2>
     <div class="rule"></div>
     <p>Learn "Python does the math, the agent explains it". The figures come from Microsoft's FY2025 annual report and are checked in Python. Only one analysis agent is allowed; it explains the figures it is given, does not look up numbers online, and gives no investment advice.</p>
     <h3>Steps in the App</h3>
@@ -163,7 +188,7 @@
     </div>
     <h3>The result</h3>
     <div class="shots wide">
-      <figure><button type="button" data-full="img/lab3-10-overview.jpg"><img src="img/lab3-10-overview.jpg" alt="Business overview" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Overview: revenue 281,724, operating income 128,528, operating margin 45.62%, net income 101,832 (USD millions). The three observations on the right come from single agent session f95c2d60.</figcaption></figure>
+      <figure><button type="button" data-full="img/lab3-10-overview.jpg"><img src="img/lab3-10-overview.jpg" alt="Business overview" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Overview: revenue 281,724, operating income 128,528, operating margin 45.62%, net income 101,832 (USD millions). The three observations on the right come from a historical single-agent run.</figcaption></figure>
       <figure><button type="button" data-full="img/lab3-11-cloud-filter.jpg"><img src="img/lab3-11-cloud-filter.jpg" alt="Filtering on Intelligent Cloud" loading="lazy"></button><figcaption><span class="kind">RESULT</span>Click Intelligent Cloud: the revenue card becomes 106,265; the net income slot says "operating income only" instead of inventing a segment net income.</figcaption></figure>
     </div>
     <div class="shots">
@@ -185,7 +210,7 @@
   <!-- ============ LAB 4 ============ -->
   <section id="lab4">
     <span class="eyebrow">Lab 04 · 55 min</span>
-    <h2>Weekly compass: multiple agents and Canvas <span class="status partial">Fictional-data branch passed</span></h2>
+    <h2>Weekly compass: multiple agents and Canvas <span class="status partial">Passed · 17 tests</span></h2>
     <div class="rule"></div>
     <p>Learn how three separate agents divide the work: a mail triager and a calendar reader analyse in parallel, and a planner combines their output. Python validates the schedule, and completion state is written to a local file, never back to Outlook. This run covered the fictional-data branch only.</p>
     <h3>Steps in the App</h3>
@@ -208,7 +233,7 @@
     <div class="tbl"><table>
       <thead><tr><th>Check</th><th>Independent check</th><th>Result</th></tr></thead>
       <tbody>
-        <tr><td>Three separate sessions</td><td>mail-triage 623b9d65 · calendar-reader 2b9a249e · weekly-planner 9747fb48, all gpt-6-luna · autopilot</td><td class="pass">Pass</td></tr>
+        <tr><td>Three separate sessions</td><td>mail-triage · calendar-reader · weekly-planner, all gpt-6-luna · autopilot</td><td class="pass">Pass</td></tr>
         <tr><td>Tasks cite source and evidence</td><td>3 tasks; deadlines set only when the mail states one</td><td class="pass">Pass</td></tr>
         <tr><td>Completion persists</td><td>Tick → reload → still ticked; restored after the test</td><td class="pass">Pass</td></tr>
         <tr><td>Private file and write protection</td><td>/private/live-input.json → 404; POST /api/complete without token → 403</td><td class="pass">Pass</td></tr>
@@ -224,8 +249,8 @@
     <h2>Lessons and trade-offs</h2>
     <div class="rule"></div>
     <div class="grid2">
-      <div class="note hot"><span class="tag">MOST IMPORTANT</span><h4>Autopilot needs Approve all</h4><p>Tool permissions default to Always ask. In Autopilot nobody approves, so every command is denied and the agent can only read code.</p><p class="why">Trade-off: Approve all lets the agent run commands in this repository without confirmation. That is what the course's continuous execution depends on; the prompts set the limits ("only change LabN/Code, do not commit").</p></div>
-      <div class="note"><span class="tag">REPOSITORY TRUST</span><h4>We chose Skip for now</h4><p>The repository has no hooks, MCP or extension config, so it does not need to be trusted; trusting it would let such config run code automatically in the future.</p><p class="why">Note: without trust the App shows "Tool permissions limited", but commands still run under Approve all.</p></div>
+      <div class="note hot"><span class="tag">PERMISSIONS</span><h4>Check Tool permissions per session</h4><p>In the historical 2026-11-12 run, Autopilot with Always ask was blocked because no interactive approval was available. That observation is not a recommendation to disable system security.</p><p class="why">Always ask, Assisted and Approve all control how Copilot asks before using tools. Approve all permits commands without per-command confirmation; use it only for a trusted folder and when policy allows, while keeping macOS and other system protections enabled.</p></div>
+      <div class="note"><span class="tag">REPOSITORY TRUST</span><h4>Repository trust and tool permissions are independent controls</h4><p>A historical screenshot shows Skip for now; skipping repository trust on first send will cause Autopilot tool calls to be denied. Before choosing Always trust, verify the repository source and review its configuration, hooks and extensions; this option permits repository configuration, hooks, extensions and future updates to run.</p><p class="why">Repository trust and Tool permissions are separate controls; the latter governs approval for Copilot tool use. Trust only repositories you have reviewed and accept. Do not disable system security or authorize unrelated MCP services.</p></div>
       <div class="note"><span class="tag">SCREEN LOCK</span><h4>The App keeps working; the UI needs an unlocked screen</h4><p>The Mac locked as soon as the remote desktop disconnected, and the App window could not be reached. The fix: while unlocked, send Labs 2/3/4 in one go (they change different folders, so they can run in parallel), and add "do not stop to ask questions" to the prompts.</p><p class="why">Cost: fewer progress screenshots, only "when sent" and "when done".</p></div>
       <div class="note"><span class="tag">WORKSPACE</span><h4>Current checkout switches back to main</h4><p>The run branch created beforehand was switched back to main by the App; the changes stayed uncommitted in main's working tree.</p><p class="why">To keep them, create a branch with <code>git switch -c</code> first, then commit.</p></div>
       <div class="note"><span class="tag">PACKAGE SOURCES</span><h4>Both the mirror and public registries work</h4><p>The README uses packagefeedproxy.microsoft.io. This run used the public PyPI and npm registries with pinned versions, with the same results.</p><p class="why">Correction: the first version of this manual said the mirror was unreachable for outside accounts, without testing it. On 2026-10-30 it was reachable from the public internet, and the upstream Pages workflow uses it.</p></div>
@@ -238,12 +263,12 @@
   <!-- ============ STATE ============ -->
   <section id="state">
     <span class="eyebrow">Status</span>
-    <h2>Current state</h2>
+    <h2>State at the end of the original run (2026-10-26)</h2>
     <div class="rule"></div>
     <ul class="list">
-      <li>Repository <code>~/Projects/hol_ghc_app</code>: 23 changed files + 8 new files, all <b>uncommitted and unpushed</b>, in main's working tree.</li>
-      <li>Three local servers are still running: 8011 (chess), 8013 (earnings), 8014 (weekly compass), started by the App with nohup.</li>
-      <li>Four sessions remain in the App: chess game, Surface Laptop Ultra video plan, earnings room, work assistant.</li>
+      <li>Course repository: 23 changed files + 8 new files, all <b>uncommitted and unpushed</b>, in main's working tree (historical state).</li>
+      <li>At the end of the original 2026-10-26 run, three local servers were still running: 8011 (chess), 8013 (earnings), and 8014 (weekly compass), started by the App with nohup.</li>
+      <li>At that time, four sessions remained in the App: chess game, Surface Laptop Ultra video plan, earnings room, and work assistant.</li>
       <li>The original screenshots of this manual are in <code>manual/shots/</code>, compressed copies in <code>manual/img/</code>, and the App session transcripts in <code>manual/lab*-app-*.txt</code>.</li>
     </ul>
   </section>

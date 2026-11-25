@@ -145,17 +145,18 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
   <div class="hero">
     <div class="ghost" aria-hidden="true"></div>
     <span class="eyebrow">GitHub Copilot App · 实操手册</span>
-    <h1>从一个想法，到一个工作助理：四个 Lab 实跑记录</h1>
+    <h1>从一个想法，到一个工作助理：四个 Lab 历史实跑与 2026-11-25 复跑</h1>
     <div class="rule"></div>
-    <p class="lead">这份手册记录了一次真实运行：用 GitHub Copilot App（模型 GPT-6 Luna）按课程原文提示词跑完 <code>tarrywang/hol_ghc_app</code> 的四个 Lab。每一步都有 App 截图和作品截图，结论都经过独立复核；踩过的坑和当时的取舍也一并写明。</p>
+    <p class="lead">本手册保留 2026-10-26 与 2026-11-12 的历史运行记录，并单独记录 2026-11-25 复跑结果。历史截图和结果不会替代本轮验收；本轮状态见下方独立表格。</p>
+    <p class="muted"><b>2026-11-25 复跑：</b>四个 Lab 最终验收通过；Lab 4 的 17 项定向测试和 62 项综合离线测试通过。下方带历史日期的数字仅属于旧记录。</p>
     <div class="kpis">
-      <div class="kpi"><div class="big">4 / 4</div><div class="label">Lab 全部通过</div><div class="sub">App 执行 + 独立复核</div></div>
+      <div class="kpi"><div class="big">4 / 4</div><div class="label">历史记录：Lab 全部通过</div><div class="sub">2026-10-26 · App 执行 + 独立复核</div></div>
       <div class="kpi"><div class="big">7</div><div class="label">gpt-6-luna 会话</div><div class="sub">SDK 记录可核对</div></div>
       <div class="kpi"><div class="big">44</div><div class="label">pytest 通过</div><div class="sub">tests/test_labs.py 全量</div></div>
       <div class="kpi"><div class="big">120.0s</div><div class="label">竖屏成片</div><div class="sub">1080×1920 · 30fps · AAC</div></div>
     </div>
     <nav class="toc" aria-label="目录">
-      <a href="#prep">开始前准备</a><a href="#lab1">Lab 1 象棋</a><a href="#lab2">Lab 2 产品短片</a><a href="#lab3">Lab 3 财报观察室</a><a href="#lab4">Lab 4 工作罗盘</a><a href="#lessons">踩坑与取舍</a><a href="#state">当前状态</a>
+      <a href="#prep">开始前准备</a><a href="#rerun-status">2026-11-25 复跑状态</a><a href="#lab1">Lab 1 象棋</a><a href="#lab2">Lab 2 产品短片</a><a href="#lab3">Lab 3 财报观察室</a><a href="#lab4">Lab 4 工作罗盘</a><a href="#lessons">踩坑与取舍</a><a href="#state">原实测收尾状态</a>
     </nav>
   </div>
 
@@ -165,32 +166,56 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
     <h2>开始前准备</h2>
     <div class="rule"></div>
     <ol class="steps">
-      <li><b>安装 Copilot CLI。</b><code>npm i -g @github/copilot</code>（1.0.103）。课程的 Python SDK 要靠 <code>copilot</code> 命令调模型；只装 App 不够。CLI 与 App 1.1.32 共用登录，不用再登录一次。</li>
-      <li><b>建 Python 环境。</b><code>python3.12 -m venv ~/.venvs/hol_ghc_app</code>，用公共 PyPI 装 <code>requirements.txt</code>，再 <code>playwright install chromium</code>。课程原文用的是微软的 packagefeedproxy 镜像，公网可以访问（2026-10-30 实测 npm / PyPI 均返回 200）；本次改用公共源只是个人选择，按原文命令安装同样可以。venv 放在 OneDrive 外，避免同步。</li>
+      <li><b>先做工具版本预检。</b>运行 <code>python3 --version</code>、<code>copilot --version</code>、<code>node --version</code>、<code>npm --version</code>、<code>ffmpeg -version</code> 与 <code>ffprobe -version</code>。课程要求 Python 3.11+、Copilot CLI；Lab 2 视频还需要 Node.js 22+ 与 FFmpeg。若 CLI 缺失，可按课程 README 用 <code>npm i -g @github/copilot</code> 安装；其他缺失工具也应先安装再继续。</li>
+      <li><b>在虚拟环境中安装 Python 依赖。</b>在课程根目录运行 <code>python3 -m venv .venv</code>，激活环境后用 <code>python -m pip --version</code> 确认 pip 指向 <code>.venv</code>，再按 README 执行 <code>python -m pip install -r requirements.txt --index-url https://packagefeedproxy.microsoft.io/pypi/simple/</code> 和 <code>python -m playwright install chromium</code>。Windows PowerShell 使用 <code>py -m venv .venv</code> 与 <code>.\.venv\Scripts\Activate.ps1</code>。不要对系统 Python 直接运行 <code>pip install</code>，也不要用 <code>--break-system-packages</code> 绕过 PEP 668。</li>
       <li><b>确认模型。</b><code>python tools/probe.py</code> 的模型列表里有 <code>gpt-6-luna</code>，才继续；没有就先解决账号权限，不换模型。</li>
-      <li><b>在 App 里选项目和工作区。</b>App 里的 <code>hol_ghc_app</code> 项目指向 <code>~/Projects/hol_ghc_app</code>。新建会话时把 Workspace 从 New worktree 改成 <b>Current checkout</b>，对应课程说的「本地文件夹会话」。</li>
-      <li><b>选模式和模型。</b>输入框下方选 <b>Autopilot</b>，模型在 More models 里选 <b>GPT-6 Luna</b>。不要停在 Auto。</li>
-      <li><b>把工具权限设为 Approve all。</b>点 Autopilot → Tool permissions → Approve all。不改的话，Autopilot 下没人点批准，所有命令都会被拒（见 Lab 1 第一轮）。</li>
+      <li><b>在 App 里打开课程文件夹。</b>从 Sessions 旁的 + 添加或打开本地 <code>hol_ghc_app</code> 文件夹，确认其中有 README.md 和 Lab1–Lab4。Project 是 App 内的会话组织入口，不等于克隆仓库，也不会代替添加本地文件夹。</li>
+      <li><b>核对运行位置和模型。</b>新会话默认可能是 <b>New worktree</b>；课程要使用当前本地克隆，必须显式改为 <b>Current checkout</b>。本次准备环境选择 <b>This computer</b>、<b>GPT-6 Luna · Medium</b>，并关闭 <b>Copilot Fusion</b>。不要停在 Auto。</li>
+      <li><b>检查当前 Tool permissions。</b>发送任务前先查看当前会话的权限选项和作用；Always ask 会逐项等待批准，Assisted 可减少部分确认，Approve all 允许命令和工具不经逐项确认运行。按可信目录和组织策略选择，不要关闭 macOS 或其他系统安全保护。</li>
     </ol>
+    <div class="note">
+      <span class="tag">2026-11-25 · 实验前准备记录</span>
+      <h4>两个仓库分开放置；新实验结果待实测补入</h4>
+      <p>推荐在 Demo-GH 下建立平级的 <code>copilot-app-manual/</code> 与 <code>hol_ghc_app/</code>。从 Demo-GH 的父目录依次运行 <code>mkdir -p Demo-GH</code>、<code>cd Demo-GH</code>，再运行 <code>git clone https://github.com/ITD-NextDimension/copilot-app-manual copilot-app-manual</code> 和 <code>git clone https://github.com/kinfey/hol_ghc_app hol_ghc_app</code>。不要在非空目录运行 <code>git clone URL .</code>；已有克隆先检查 <code>git status --short --branch</code>，再决定是否更新。若文档仓库已在 Demo-GH 根目录，保留原位，将课程仓库放进 <code>hol_ghc_app/</code>，并仅在文档仓库的 <code>.git/info/exclude</code> 忽略它。</p>
+      <p>首次发送后若出现 “Trust this repository?”，跳过信任会导致 Autopilot 工具调用被拒绝。选择 <b>Always trust</b> 前，先确认仓库来源并检查其配置、hooks、扩展等内容；该选项允许仓库配置、hooks、扩展及未来更新执行。仓库信任与 Tool permissions 是两个独立控制：前者决定是否信任仓库内容，后者决定 Copilot 使用工具时的批准方式。只信任你审查并认可的仓库；不要因此关闭系统安全保护。</p>
+      <p>多组织 Copilot 许可证若报 “Billing setup required” 或主页显示 usage blocked，打开 <a href="https://github.com/settings/copilot/features">Copilot features 设置</a>，在 Usage billed to 选择有授权的计费实体再重试；本次准备选择 Miruth。Credits 显示有余额不代表用户一定有可用预算，不能一概归因为余额不足。与本地象棋无关的 MCP 登录提示不影响实验，无需授权无关服务。</p>
+      <p class="why">本段只记录仓库与 App 的准备检查；2026-11-25 复跑结果在下方单独列出。旧失败会话和 2026-11-12 的验收数据仍是历史记录，不能代替本轮验收。</p>
+    </div>
     <div class="shots">
       <figure><button type="button" data-full="img/lab1-02-prompt.jpg">
-    <p class="muted">以下各 Lab 的提示词都是实际发给 App 的完整原文，按发送顺序排列；点提示词右上角的「复制」即可拷贝。</p><img src="img/lab1-02-prompt.jpg" alt="App 新任务输入框，已选 Autopilot 和 GPT-6 Luna，工作区为 Current checkout" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>输入框下方：Autopilot · GPT-6 Luna · Medium；工作区 Current checkout。</figcaption></figure>
+    <p class="muted">以下各 Lab 提示词按实际发送顺序整理；为避免暴露本机信息，虚拟环境路径已统一为已激活环境中的 <code>python</code>。点提示词右上角的「复制」即可拷贝。</p><img src="img/lab1-02-prompt.jpg" alt="App 新任务输入框，已选 Autopilot 和 GPT-6 Luna，工作区为 Current checkout" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>输入框下方：Autopilot · GPT-6 Luna · Medium；工作区 Current checkout。</figcaption></figure>
       <figure><button type="button" data-full="img/lab1-06-tool-permissions.jpg"><img src="img/lab1-06-tool-permissions.jpg" alt="Mode 菜单中的 Tool permissions 选项" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>Mode 菜单底部的 Tool permissions：Always ask / Assisted / Approve all。</figcaption></figure>
-      <figure><button type="button" data-full="img/lab1-04-trust-prompt.jpg"><img src="img/lab1-04-trust-prompt.jpg" alt="Trust this repository 弹窗" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>首次运行弹出「Trust this repository?」。本次选 Skip for now。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab1-04-trust-prompt.jpg"><img src="img/lab1-04-trust-prompt.jpg" alt="Trust this repository 弹窗" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>历史截图：当时选择 Skip for now；仅作历史记录，不是当前通用建议。</figcaption></figure>
     </div>
+  </section>
+
+  <section id="rerun-status">
+    <span class="eyebrow">Run record · 2026-11-25</span>
+    <h2>2026-11-25 复跑状态</h2>
+    <div class="rule"></div>
+    <p>此表仅记录本轮复跑；2026-10-26 与 2026-11-12 的章节、截图和数字仍是历史记录。四个 Lab 验收通过；综合离线测试 62 项通过，未重复调用模型。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Lab</th><th>状态</th><th>本轮验证</th></tr></thead>
+      <tbody>
+        <tr><td>Lab 1 · 象棋</td><td class="pass">通过</td><td>修复终局落点提示；20 项走棋规则测试与 Playwright 通过；独立浏览器点击红兵、前进一步、悔棋通过。</td></tr>
+        <tr><td>Lab 2 · 视频</td><td>通过</td><td>通过：当前源码最终渲染；H.264/AAC、1080×1920、30 fps、3600 帧、120.000 秒；晓晓女声 111.336 秒；HyperFrames 检查、全片解码和音频信号检查通过。成片：Lab2/Code/film/output/surface-ultra-2026-11-25.mp4。</td></tr>
+        <tr><td>Lab 3 · 财报</td><td class="pass">通过</td><td>真实单一 gpt-6-luna · Medium SDK 会话；财务定向 pytest 2 项通过；最终 Playwright 6 项通过且无页面错误。四张卡片：281724 / 128528 / 45.62% / 101832；Cloud：106265 / 44589 / 41.96%；FY2024 Cloud：87464。</td></tr>
+        <tr><td>Lab 4 · 工作罗盘</td><td>通过 · 17 项测试</td><td>三个真实 gpt-6-luna / Autopilot 独立 SDK 会话；虚构资料与固定时钟；浏览器完成状态刷新后持久化；<code>app.py:8014</code>；私有路由 404、无令牌 POST 403。原生 hol-weekboard Canvas 加载、完成、重开持久化通过；取消勾选后界面恢复为 0/3。</td></tr>
+      </tbody>
+    </table></div>
   </section>
 
   <!-- ============ LAB 1 ============ -->
   <section id="lab1">
     <span class="eyebrow">Lab 01 · 35 分钟</span>
-    <h2>楚河汉界：中国象棋小游戏 <span class="status">通过</span></h2>
+    <h2>楚河汉界：中国象棋小游戏 <span class="status">2026-11-25 复跑通过</span></h2>
     <div class="rule"></div>
     <p>学会在本地文件夹里让 App 连续做事：用 Python 规则引擎管走棋，模型只生成页面外壳，最后用 Playwright 实际点击来验收。</p>
 
     <h3>App 操作</h3>
     <ol class="steps">
       <li>新建会话（Autopilot + GPT-6 Luna + Current checkout），粘贴 README 的需求，补一段执行环境说明后发送。App 自动把会话命名为「象棋小游戏开发」。</li>
-      <li><b>第一轮失败：</b>当时工具权限还是 Always ask，App 里的 Agent 读完代码，所有 bash 调用都返回 <code>Permission denied because no interactive user response was available</code>。App 如实报告「不能声称这些验收通过」，没有假装完成。</li>
+      <li><b>历史会话（2026-11-12）的第一轮失败：</b>当时工具权限还是 Always ask，App 里的 Agent 读完代码，所有 bash 调用都返回 <code>Permission denied because no interactive user response was available</code>。App 如实报告「不能声称这些验收通过」，没有假装完成；这是历史记录，不是新实验的结果。</li>
       <li>把工具权限改为 Approve all，发一句「请继续」。App 依次运行 <code>generate.py</code> → 后台启动 <code>app.py</code>（8011）→ Playwright 点击 → 390px 视口 → pytest。</li>
     </ol>
     <p class="prompt-label">PROMPT 1 · 首条需求：课程原文 + 执行环境补充</p>
@@ -219,7 +244,7 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
     <div class="tbl"><table>
       <thead><tr><th>检查项</th><th>App 报告</th><th>独立复核</th><th>结果</th></tr></thead>
       <tbody>
-        <tr><td>generate.py 真实调用模型</td><td>重新生成 generated.html</td><td>generation.json：gpt-6-luna · autopilot · 会话 db326b22</td><td class="pass">通过</td></tr>
+        <tr><td>generate.py 真实调用模型</td><td>重新生成 generated.html</td><td>generation.json：gpt-6-luna · autopilot · 调用记录可核对</td><td class="pass">通过</td></tr>
         <tr><td>32 子、红方先行</td><td>通过</td><td>.piece = 32</td><td class="pass">通过</td></tr>
         <tr><td>红兵 (0,6) 合法落点</td><td>仅 (0,5)</td><td>仅 (0,5)</td><td class="pass">通过</td></tr>
         <tr><td>轮流走棋</td><td>黑方走棋 · 已走 1 步</td><td>同左</td><td class="pass">通过</td></tr>
@@ -236,12 +261,13 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
     <h2>产品故事：Surface Laptop Ultra 竖屏短片 <span class="status">通过</span></h2>
     <div class="rule"></div>
     <p>学 Plan → 审阅 → Autopilot 这套工作方式。先只出方案，人看过再批准执行；官网资料是唯一事实来源，最后验收的是真实 MP4 文件，不是网页预览。</p>
+    <p class="muted">本节截图、成片规格与旧验收表均为历史实测记录；本轮 Lab 2 视频仍在制作，不能据此判定通过。</p>
 
     <h3>App 操作</h3>
     <ol class="steps">
       <li>新建会话，模式选 <b>Plan</b>，发送 README 的「请先规划，不要执行」。App 读了现有工程，打开微软官网核对事实，写出 116 行的 <code>plan.md</code>：6 个镜头、来源核对表、素材清单、旁白草案、CLI 步骤、验收标准。</li>
       <li>规划中 App 停下来问：旁白用<b>固定审校稿</b>，还是<b>保留 SDK 动态生成并加强校验</b>？本次选后者。课程要靠 <code>story.json</code> 里的 plan / autopilot 两段模型调用记录来验收，用固定稿就没有这份记录了。</li>
-      <li>在 Review plan 面板选「Exit plan mode」，把模式切到 <b>Autopilot</b>，发送 README 的「批准这份计划…」。App 依次执行 fetch_sources → story.py → video.py prepare / voice → hyperframes check / render → ffprobe，并从成片里解码六张镜头图做检查。</li>
+      <li>在 Review plan 面板选 A「批准并执行此计划」。当前 App 会直接切到 <b>Autopilot</b> 并开始执行，不必等待单独的 Continue；如果批准后没有启动，再发送 README 的「批准这份计划…」执行提示词。后续执行 fetch_sources → story.py → video.py prepare / voice → hyperframes check / render → ffprobe，并从真实成片解码六张镜头图检查。本轮最终验收见上方 2026-11-25 状态表。</li>
     </ol>
     <p class="prompt-label">PROMPT 1 · PLAN 模式</p>
 <!--PROMPT:lab2-1-->
@@ -251,7 +277,7 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
       <figure><button type="button" data-full="img/lab2-02-plan-prompt.jpg"><img src="img/lab2-02-plan-prompt.jpg" alt="Plan 模式下的规划提示词" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>Plan 模式发送规划需求。</figcaption></figure>
       <figure><button type="button" data-full="img/lab2-03-plan-question.jpg"><img src="img/lab2-03-plan-question.jpg" alt="App 规划中提问旁白生成方式" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>规划中 App 停下来问一个会影响实现的选择。</figcaption></figure>
       <figure><button type="button" data-full="img/lab2-04-plan-review.jpg"><img src="img/lab2-04-plan-review.jpg" alt="Review plan 面板与 plan.md" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>右侧是 plan.md，底部是 Review plan：批准执行 / 退出 Plan 模式 / 提修改意见。</figcaption></figure>
-      <figure><button type="button" data-full="img/lab2-90-result.jpg"><img src="img/lab2-90-result.jpg" alt="Lab2 Autopilot 完成总结" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>Autopilot 完成：Plan 的 4 项任务全部打勾，成片验收通过。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab2-90-result.jpg"><img src="img/lab2-90-result.jpg" alt="Lab2 历史 Autopilot 完成总结" loading="lazy"></button><figcaption><span class="kind">APP 截图</span>旧实测截图：当时 Plan 的 4 项任务完成；不代表 2026-11-25 本轮视频已通过。</figcaption></figure>
     </div>
 
     <h3>成片镜头（从最终 MP4 解码）</h3>
@@ -282,7 +308,7 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
   <!-- ============ LAB 3 ============ -->
   <section id="lab3">
     <span class="eyebrow">Lab 03 · 45 分钟</span>
-    <h2>经营观察室：让一个 Agent 讲清一份财报 <span class="status">通过</span></h2>
+    <h2>经营观察室：让一个 Agent 讲清一份财报 <span class="status">2026-11-25 复跑通过</span></h2>
     <div class="rule"></div>
     <p>学「Python 算数，Agent 解释」。数字来自 Microsoft FY2025 年报，用 Python 核对；只允许一个分析 Agent，它只解释给定的数字，不上网补数，也不给投资建议。</p>
     <h3>App 操作</h3>
@@ -298,7 +324,7 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
     </div>
     <h3>作品截图</h3>
     <div class="shots wide">
-      <figure><button type="button" data-full="img/lab3-10-overview.jpg"><img src="img/lab3-10-overview.jpg" alt="经营概览" loading="lazy"></button><figcaption><span class="kind">作品</span>经营概览：营收 281,724、营业利润 128,528、利润率 45.62%、净利润 101,832（百万美元）。右侧三条观察来自单 Agent 会话 f95c2d60。</figcaption></figure>
+      <figure><button type="button" data-full="img/lab3-10-overview.jpg"><img src="img/lab3-10-overview.jpg" alt="经营概览" loading="lazy"></button><figcaption><span class="kind">作品</span>经营概览：营收 281,724、营业利润 128,528、利润率 45.62%、净利润 101,832（百万美元）。右侧三条观察来自单 Agent 历史运行记录。</figcaption></figure>
       <figure><button type="button" data-full="img/lab3-11-cloud-filter.jpg"><img src="img/lab3-11-cloud-filter.jpg" alt="点击 Intelligent Cloud 筛选" loading="lazy"></button><figcaption><span class="kind">作品</span>点击 Intelligent Cloud：营收卡片变为 106,265；净利润位置注明「仅营业利润」口径，不编造分部净利润。</figcaption></figure>
     </div>
     <div class="shots">
@@ -320,7 +346,7 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
   <!-- ============ LAB 4 ============ -->
   <section id="lab4">
     <span class="eyebrow">Lab 04 · 55 分钟</span>
-    <h2>每周工作罗盘：多 Agent 与 Canvas <span class="status partial">虚构资料分支通过</span></h2>
+    <h2>每周工作罗盘：多 Agent 与 Canvas <span class="status partial">通过 · 17 项测试</span></h2>
     <div class="rule"></div>
     <p>学三个独立 Agent 分工：邮件整理员和日历观察员并行分析，规划员整合；排程由 Python 验证；完成状态写入本地文件，不回写 Outlook。本次只跑虚构资料分支。</p>
     <h3>App 操作</h3>
@@ -343,7 +369,7 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
     <div class="tbl"><table>
       <thead><tr><th>检查项</th><th>独立复核</th><th>结果</th></tr></thead>
       <tbody>
-        <tr><td>三个不同会话</td><td>mail-triage 623b9d65 · calendar-reader 2b9a249e · weekly-planner 9747fb48，均为 gpt-6-luna · autopilot</td><td class="pass">通过</td></tr>
+        <tr><td>三个不同会话</td><td>mail-triage · calendar-reader · weekly-planner，均为 gpt-6-luna · autopilot</td><td class="pass">通过</td></tr>
         <tr><td>任务有来源与证据</td><td>3 项任务；截止日期只在原文写明时设置</td><td class="pass">通过</td></tr>
         <tr><td>完成状态持久化</td><td>勾选 → 刷新仍勾选；测试后已复原</td><td class="pass">通过</td></tr>
         <tr><td>私密文件与写入保护</td><td>/private/live-input.json → 404；无令牌 POST /api/complete → 403</td><td class="pass">通过</td></tr>
@@ -359,8 +385,8 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
     <h2>踩坑与取舍</h2>
     <div class="rule"></div>
     <div class="grid2">
-      <div class="note hot"><span class="tag">最关键</span><h4>Autopilot 要配 Approve all</h4><p>工具权限默认是 Always ask。Autopilot 下没人点批准，命令全部被拒，Agent 只能读代码。</p><p class="why">取舍：Approve all 让 Agent 在本仓库里不经确认就跑命令。这是课程「连续执行」的前提；靠提示词里的「只修改 LabN/Code、不要提交」划边界。</p></div>
-      <div class="note"><span class="tag">仓库信任</span><h4>选 Skip for now</h4><p>仓库里没有 hooks、MCP 或扩展配置，不需要信任它；信任会让这些配置以后都能自动运行代码。</p><p class="why">注意：不信任时 App 会提示「Tool permissions limited」，但在 Approve all 下命令能正常执行。</p></div>
+      <div class="note hot"><span class="tag">权限说明</span><h4>按会话确认 Tool permissions</h4><p>2026-11-12 的历史记录中，Autopilot 配合 Always ask 时，因没有交互批准而被拒绝；这是当时的执行环境观察，不是要求关闭系统安全。</p><p class="why">Always ask、Assisted、Approve all 影响 Copilot 运行工具时的确认方式。Approve all 会允许该会话不经逐项确认运行命令；只在可信目录和合适策略下使用，并保持 macOS 等系统安全保护开启。</p></div>
+      <div class="note"><span class="tag">仓库信任</span><h4>仓库信任与工具权限是独立控制</h4><p>历史截图曾显示 Skip for now；首次发送时跳过仓库信任会导致 Autopilot 工具调用被拒绝。选择 Always trust 前应确认仓库来源并检查其配置、hooks 和扩展；此选项允许仓库配置、hooks、扩展及未来更新执行。</p><p class="why">仓库信任与 Tool permissions 是独立控制：后者决定 Copilot 使用工具时的批准方式。只信任你已审查并认可的仓库，不要关闭系统安全保护，也不需要授权无关 MCP 服务。</p></div>
       <div class="note"><span class="tag">锁屏</span><h4>App 后台照跑，界面操作要解锁</h4><p>向日葵断开后 Mac 立即锁屏，取不到 App 窗口。解法：解锁时一次性把 Lab 2/3/4 派出去，三个会话改的是不同目录，可以并行；提示词加「不要停下来提问」。</p><p class="why">代价：运行中途的进度截图少了，只有「发出时」和「完成后」两张。</p></div>
       <div class="note"><span class="tag">工作区</span><h4>Current checkout 会切回 main</h4><p>预先开的 run 分支被 App 切回了 main，改动停在 main 的工作区里，没有提交。</p><p class="why">要留档的话，先 <code>git switch -c</code> 带着改动开分支再提交。</p></div>
       <div class="note"><span class="tag">依赖源</span><h4>镜像和公共源都能用</h4><p>README 用的是 packagefeedproxy.microsoft.io。本次 PyPI 和 npm 都改用了公共 registry，版本保持锁定，结果一致。</p><p class="why">更正：手册初版写「外部账号连不上这个镜像」，当时没有验证。2026-10-30 实测公网可访问，上游课程的 Pages 工作流也在用它。</p></div>
@@ -373,12 +399,12 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
   <!-- ============ STATE ============ -->
   <section id="state">
     <span class="eyebrow">Status</span>
-    <h2>当前状态</h2>
+    <h2>原实测收尾时的状态（2026-10-26）</h2>
     <div class="rule"></div>
     <ul class="list">
-      <li>仓库 <code>~/Projects/hol_ghc_app</code>：23 个文件改动 + 8 个新文件，全部<b>未提交、未推送</b>，停在 main 的工作区。</li>
-      <li>三个本地服务仍在运行：8011（象棋）、8013（财报）、8014（工作罗盘），由 App 用 nohup 启动。</li>
-      <li>App 里留下 4 个会话：象棋小游戏开发、Surface laptop ultra 竖屏视频规划、财报观察室、工作助理实验。</li>
+      <li>课程仓库：23 个文件改动 + 8 个新文件，全部<b>未提交、未推送</b>，停在 main 的工作区（历史状态）。</li>
+      <li>在 2026-10-26 原实测结束时，三个本地服务仍在运行：8011（象棋）、8013（财报）、8014（工作罗盘），由 App 用 nohup 启动。</li>
+      <li>当时 App 里保留 4 个会话：象棋小游戏开发、Surface laptop ultra 竖屏视频规划、财报观察室、工作助理实验。</li>
       <li>本手册的原始截图在 <code>manual/shots/</code>，压缩版在 <code>manual/img/</code>，App 会话文字记录在 <code>manual/lab*-app-*.txt</code>。</li>
     </ul>
   </section>
