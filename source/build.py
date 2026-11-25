@@ -64,9 +64,9 @@ css += """
 """
 FONTS = "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Sans:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@500;600&family=Instrument+Serif:ital@0;1&display=swap"
 PAGES = {  # lang: (dir, title, description)
-    "zh-CN": ("", "Copilot App 实跑手册", "用 GitHub Copilot App（GPT-6 Luna）实跑 hol_ghc_app 四个 Lab 的操作手册。"),
-    "zh-TW": ("zh-TW/", "Copilot App 實跑手冊", "用 GitHub Copilot App（GPT-6 Luna）實跑 hol_ghc_app 四個 Lab 的操作手冊。"),
-    "en": ("en/", "Copilot App Field Manual", "A real run of the four hol_ghc_app labs with GitHub Copilot App (GPT-6 Luna)."),
+    "zh-CN": ("", "Copilot App 实跑手册", "用 GitHub Copilot App（GPT-6 Luna）实跑 gh_app_workshop 四个 Lab 的操作手册。"),
+    "zh-TW": ("zh-TW/", "Copilot App 實跑手冊", "用 GitHub Copilot App（GPT-6 Luna）實跑 gh_app_workshop 四個 Lab 的操作手冊。"),
+    "en": ("en/", "Copilot App Field Manual", "A real run of the four gh_app_workshop labs with GitHub Copilot App (GPT-6 Luna)."),
 }
 COPY_JS = """<script>
 (() => {

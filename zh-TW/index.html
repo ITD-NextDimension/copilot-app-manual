@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Copilot App 實跑手冊</title>
-<meta name="description" content="用 GitHub Copilot App（GPT-6 Luna）實跑 hol_ghc_app 四個 Lab 的操作手冊。">
+<meta name="description" content="用 GitHub Copilot App（GPT-6 Luna）實跑 gh_app_workshop 四個 Lab 的操作手冊。">
 <link rel="alternate" hreflang="zh-CN" href="https://itd-nextdimension.github.io/copilot-app-manual/">
 <link rel="alternate" hreflang="zh-TW" href="https://itd-nextdimension.github.io/copilot-app-manual/zh-TW/">
 <link rel="alternate" hreflang="en" href="https://itd-nextdimension.github.io/copilot-app-manual/en/">
@@ -167,7 +167,7 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
   <header class="top">
     <div class="lockup" aria-label="ITD Next Dimension"><span class="mark" aria-hidden="true"></span><div class="text"><span class="wm">ITD</span><span class="wm-it">Next Dimension</span></div></div>
     <nav class="lang" aria-label="Language"><a href=".././" hreflang="zh-CN" lang="zh-CN">简体中文</a><a href="../zh-TW/" hreflang="zh-TW" lang="zh-TW" aria-current="page">繁體中文</a><a href="../en/" hreflang="en" lang="en">English</a></nav>
-    <div class="meta">2026-10-26 · Mac mini M4 · hol_ghc_app</div>
+    <div class="meta">2026-10-26 · Mac mini M4 · gh_app_workshop</div>
   </header>
 
   <div class="hero">
@@ -198,14 +198,14 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
       <li><b>先做工具版本預檢。</b>執行 <code>python3 --version</code>、<code>copilot --version</code>、<code>node --version</code>、<code>npm --version</code>、<code>ffmpeg -version</code> 與 <code>ffprobe -version</code>。課程要求 Python 3.11+、Copilot CLI；Lab 2 影片還需要 Node.js 22+ 與 FFmpeg。若 CLI 缺失，可按課程 README 用 <code>npm i -g @github/copilot</code> 安裝；其他缺失工具也應先安裝再繼續。</li>
       <li><b>在虛擬環境中安裝 Python 依賴。</b>在課程根目錄執行 <code>python3 -m venv .venv</code>，啟用環境後用 <code>python -m pip --version</code> 確認 pip 指向 <code>.venv</code>，再按 README 執行 <code>python -m pip install -r requirements.txt --index-url https://packagefeedproxy.microsoft.io/pypi/simple/</code> 和 <code>python -m playwright install chromium</code>。Windows PowerShell 使用 <code>py -m venv .venv</code> 與 <code>.\.venv\Scripts\Activate.ps1</code>。不要對系統 Python 直接執行 <code>pip install</code>，也不要用 <code>--break-system-packages</code> 繞過 PEP 668。</li>
       <li><b>確認模型。</b><code>python tools/probe.py</code> 的模型列表裡有 <code>gpt-6-luna</code>，才繼續；沒有就先解決帳號權限，不換模型。</li>
-      <li><b>在 App 裡開啟課程資料夾。</b>從 Sessions 旁的 + 新增或開啟本地 <code>hol_ghc_app</code> 資料夾，確認其中有 README.md 和 Lab1–Lab4。Project 是 App 內的會話組織入口，不等於克隆倉庫，也不會代替新增本地資料夾。</li>
+      <li><b>在 App 裡開啟課程資料夾。</b>從 Sessions 旁的 + 新增或開啟本地 <code>gh_app_workshop</code> 資料夾，確認其中有 README.md 和 Lab1–Lab4。Project 是 App 內的會話組織入口，不等於克隆倉庫，也不會代替新增本地資料夾。</li>
       <li><b>核對執行位置和模型。</b>新會話預設可能是 <b>New worktree</b>；課程要使用當前本地克隆，必須顯式改為 <b>Current checkout</b>。本次準備環境選擇 <b>This computer</b>、<b>GPT-6 Luna · Medium</b>，並關閉 <b>Copilot Fusion</b>。不要停在 Auto。</li>
       <li><b>檢查當前 Tool permissions。</b>傳送任務前先檢視當前會話的權限選項和作用；Always ask 會逐項等待批准，Assisted 可減少部分確認，Approve all 允許命令和工具不經逐項確認執行。按可信目錄和組織策略選擇，不要關閉 macOS 或其他系統安全保護。</li>
     </ol>
     <div class="note">
       <span class="tag">2026-11-25 · 實驗前準備記錄</span>
       <h4>兩個倉庫分開放置；新實驗結果待實測補入</h4>
-      <p>推薦在 Demo-GH 下建立平級的 <code>copilot-app-manual/</code> 與 <code>hol_ghc_app/</code>。從 Demo-GH 的父目錄依次執行 <code>mkdir -p Demo-GH</code>、<code>cd Demo-GH</code>，再執行 <code>git clone https://github.com/ITD-NextDimension/copilot-app-manual copilot-app-manual</code> 和 <code>git clone https://github.com/ITD-NextDimension/hol_ghc_app hol_ghc_app</code>。不要在非空目錄執行 <code>git clone URL .</code>；已有克隆先檢查 <code>git status --short --branch</code>，再決定是否更新。若文件倉庫已在 Demo-GH 根目錄，保留原位，將課程倉庫放進 <code>hol_ghc_app/</code>，並僅在文件倉庫的 <code>.git/info/exclude</code> 忽略它。</p>
+      <p>推薦在 Demo-GH 下建立平級的 <code>copilot-app-manual/</code> 與 <code>gh_app_workshop/</code>。從 Demo-GH 的父目錄依次執行 <code>mkdir -p Demo-GH</code>、<code>cd Demo-GH</code>，再執行 <code>git clone https://github.com/ITD-NextDimension/copilot-app-manual copilot-app-manual</code> 和 <code>git clone https://github.com/ITD-NextDimension/gh_app_workshop gh_app_workshop</code>。不要在非空目錄執行 <code>git clone URL .</code>；已有克隆先檢查 <code>git status --short --branch</code>，再決定是否更新。若文件倉庫已在 Demo-GH 根目錄，保留原位，將課程倉庫放進 <code>gh_app_workshop/</code>，並僅在文件倉庫的 <code>.git/info/exclude</code> 忽略它。</p>
       <p>首次傳送後若出現 “Trust this repository?”，跳過信任會導致 Autopilot 工具呼叫被拒絕。選擇 <b>Always trust</b> 前，先確認倉庫來源並檢查其配置、hooks、擴充功能等內容；該選項允許倉庫配置、hooks、擴充功能及未來更新執行。倉庫信任與 Tool permissions 是兩個獨立控制：前者決定是否信任倉庫內容，後者決定 Copilot 使用工具時的批准方式。只信任你審查並認可的倉庫；不要因此關閉系統安全保護。</p>
       <p>多組織 Copilot 許可證若報 “Billing setup required” 或主頁顯示 usage blocked，開啟 <a href="https://github.com/settings/copilot/features">Copilot features 設定</a>，在 Usage billed to 選擇有授權的計費實體再重試；本次準備選擇 Miruth。Credits 顯示有餘額不代表使用者一定有可用預算，不能一概歸因為餘額不足。與本地象棋無關的 MCP 登入提示不影響實驗，無需授權無關服務。</p>
       <p class="why">本段只記錄倉庫與 App 的準備檢查；2026-11-25 復跑結果在下方單獨列出。舊失敗會話和 2026-11-12 的驗收資料仍是歷史記錄，不能代替本輪驗收。</p>

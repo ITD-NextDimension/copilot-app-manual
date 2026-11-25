@@ -1,6 +1,6 @@
 # Copilot App 实跑手册 · Field Manual
 
-本仓库是课程的**文档网站**，不是课程代码仓库。可运行的四个 Lab 位于独立仓库 [`ITD-NextDimension/hol_ghc_app`](https://github.com/ITD-NextDimension/hol_ghc_app)；Lab 1 在 `Lab1/Code/`。
+本仓库是课程的**文档网站**，不是课程代码仓库。可运行的四个 Lab 位于独立仓库 [`ITD-NextDimension/gh_app_workshop`](https://github.com/ITD-NextDimension/gh_app_workshop)；Lab 1 在 `Lab1/Code/`。
 
 ## 分开放置两个仓库
 
@@ -9,7 +9,7 @@
 ```text
 Demo-GH/
 ├── copilot-app-manual/
-└── hol_ghc_app/
+└── gh_app_workshop/
 ```
 
 从 `Demo-GH` 的父目录开始，先创建并进入目标目录，再分别克隆两个仓库：
@@ -18,16 +18,16 @@ Demo-GH/
 mkdir -p Demo-GH
 cd Demo-GH
 git clone https://github.com/ITD-NextDimension/copilot-app-manual copilot-app-manual
-git clone https://github.com/ITD-NextDimension/hol_ghc_app hol_ghc_app
+git clone https://github.com/ITD-NextDimension/gh_app_workshop gh_app_workshop
 ```
 
 这样会生成上方展示的两个平级目录。以上命令适用于目标子目录尚不存在的情况；不要在已有非空目录中运行 `git clone URL .`。如果目标目录已经有克隆，先运行 `git status --short --branch`，检查未提交改动后再决定是否更新；不要为了重克隆删除或移动已有内容。
 
-如果文档仓库已经克隆在 `Demo-GH` 根目录，就保留原位，将课程仓库克隆到 `Demo-GH/hol_ghc_app/`。为避免父仓库把嵌套仓库当成待提交内容，只在文档仓库的 `.git/info/exclude` 添加 `hol_ghc_app/`；这是本机 Git 忽略规则，不是提交或子模块。
+如果文档仓库已经克隆在 `Demo-GH` 根目录，就保留原位，将课程仓库克隆到 `Demo-GH/gh_app_workshop/`。为避免父仓库把嵌套仓库当成待提交内容，只在文档仓库的 `.git/info/exclude` 添加 `gh_app_workshop/`；这是本机 Git 忽略规则，不是提交或子模块。
 
 ## 在 Copilot App 打开课程代码
 
-从 **Sessions** 旁的 **+** 添加或打开本地文件夹 `hol_ghc_app/`，并确认里面有课程 `README.md` 和 `Lab1`–`Lab4`。App 的 **Project** 是组织项目会话的入口，不会替代 Git 克隆，也不会自动把课程文件放到本机。
+从 **Sessions** 旁的 **+** 添加或打开本地文件夹 `gh_app_workshop/`，并确认里面有课程 `README.md` 和 `Lab1`–`Lab4`。App 的 **Project** 是组织项目会话的入口，不会替代 Git 克隆，也不会自动把课程文件放到本机。
 
 新会话默认可能是 **New worktree**；课程要使用当前本地克隆，必须显式改为 **Where to work: Current checkout**，并核对 **Run on: This computer**、**GPT-6 Luna · Medium**；本次准备环境中 **Copilot Fusion 已关闭**。在发送任务前查看当前 **Tool permissions** 选项及其作用：`Always ask` 会逐项等待批准，`Assisted` 可减少部分确认，`Approve all` 允许该会话不经逐项确认运行命令和工具。按可信目录和组织策略选择权限，不要关闭 macOS 或其他系统安全保护。
 
@@ -57,7 +57,7 @@ python -m playwright install chromium
 
 ## 2026-11-25 复跑记录
 
-准备核对确认 `copilot-app-manual` 是文档网站，`hol_ghc_app` 是课程代码仓库；课程目录结构见该仓库。下表是本轮复跑结果，和 2026-10-26、2026-11-12 的旧记录分开。四个 Lab 验收通过；综合离线测试 62 项通过，未重复调用模型。
+准备核对确认 `copilot-app-manual` 是文档网站，`gh_app_workshop` 是课程代码仓库；课程目录结构见该仓库。下表是本轮复跑结果，和 2026-10-26、2026-11-12 的旧记录分开。四个 Lab 验收通过；综合离线测试 62 项通过，未重复调用模型。
 
 | 实验 | 2026-11-25 状态 |
 |---|---|

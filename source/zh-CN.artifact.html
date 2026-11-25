@@ -139,7 +139,7 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
 <div class="wrap">
   <header class="top">
     <div class="lockup" aria-label="ITD Next Dimension"><span class="mark" aria-hidden="true"></span><div class="text"><span class="wm">ITD</span><span class="wm-it">Next Dimension</span></div></div>
-    <div class="meta">2026-10-26 · Mac mini M4 · hol_ghc_app</div>
+    <div class="meta">2026-10-26 · Mac mini M4 · gh_app_workshop</div>
   </header>
 
   <div class="hero">
@@ -169,14 +169,14 @@ dialog form button { font: 600 13px var(--font-cn); color: var(--text); backgrou
       <li><b>先做工具版本预检。</b>运行 <code>python3 --version</code>、<code>copilot --version</code>、<code>node --version</code>、<code>npm --version</code>、<code>ffmpeg -version</code> 与 <code>ffprobe -version</code>。课程要求 Python 3.11+、Copilot CLI；Lab 2 视频还需要 Node.js 22+ 与 FFmpeg。若 CLI 缺失，可按课程 README 用 <code>npm i -g @github/copilot</code> 安装；其他缺失工具也应先安装再继续。</li>
       <li><b>在虚拟环境中安装 Python 依赖。</b>在课程根目录运行 <code>python3 -m venv .venv</code>，激活环境后用 <code>python -m pip --version</code> 确认 pip 指向 <code>.venv</code>，再按 README 执行 <code>python -m pip install -r requirements.txt --index-url https://packagefeedproxy.microsoft.io/pypi/simple/</code> 和 <code>python -m playwright install chromium</code>。Windows PowerShell 使用 <code>py -m venv .venv</code> 与 <code>.\.venv\Scripts\Activate.ps1</code>。不要对系统 Python 直接运行 <code>pip install</code>，也不要用 <code>--break-system-packages</code> 绕过 PEP 668。</li>
       <li><b>确认模型。</b><code>python tools/probe.py</code> 的模型列表里有 <code>gpt-6-luna</code>，才继续；没有就先解决账号权限，不换模型。</li>
-      <li><b>在 App 里打开课程文件夹。</b>从 Sessions 旁的 + 添加或打开本地 <code>hol_ghc_app</code> 文件夹，确认其中有 README.md 和 Lab1–Lab4。Project 是 App 内的会话组织入口，不等于克隆仓库，也不会代替添加本地文件夹。</li>
+      <li><b>在 App 里打开课程文件夹。</b>从 Sessions 旁的 + 添加或打开本地 <code>gh_app_workshop</code> 文件夹，确认其中有 README.md 和 Lab1–Lab4。Project 是 App 内的会话组织入口，不等于克隆仓库，也不会代替添加本地文件夹。</li>
       <li><b>核对运行位置和模型。</b>新会话默认可能是 <b>New worktree</b>；课程要使用当前本地克隆，必须显式改为 <b>Current checkout</b>。本次准备环境选择 <b>This computer</b>、<b>GPT-6 Luna · Medium</b>，并关闭 <b>Copilot Fusion</b>。不要停在 Auto。</li>
       <li><b>检查当前 Tool permissions。</b>发送任务前先查看当前会话的权限选项和作用；Always ask 会逐项等待批准，Assisted 可减少部分确认，Approve all 允许命令和工具不经逐项确认运行。按可信目录和组织策略选择，不要关闭 macOS 或其他系统安全保护。</li>
     </ol>
     <div class="note">
       <span class="tag">2026-11-25 · 实验前准备记录</span>
       <h4>两个仓库分开放置；新实验结果待实测补入</h4>
-      <p>推荐在 Demo-GH 下建立平级的 <code>copilot-app-manual/</code> 与 <code>hol_ghc_app/</code>。从 Demo-GH 的父目录依次运行 <code>mkdir -p Demo-GH</code>、<code>cd Demo-GH</code>，再运行 <code>git clone https://github.com/ITD-NextDimension/copilot-app-manual copilot-app-manual</code> 和 <code>git clone https://github.com/ITD-NextDimension/hol_ghc_app hol_ghc_app</code>。不要在非空目录运行 <code>git clone URL .</code>；已有克隆先检查 <code>git status --short --branch</code>，再决定是否更新。若文档仓库已在 Demo-GH 根目录，保留原位，将课程仓库放进 <code>hol_ghc_app/</code>，并仅在文档仓库的 <code>.git/info/exclude</code> 忽略它。</p>
+      <p>推荐在 Demo-GH 下建立平级的 <code>copilot-app-manual/</code> 与 <code>gh_app_workshop/</code>。从 Demo-GH 的父目录依次运行 <code>mkdir -p Demo-GH</code>、<code>cd Demo-GH</code>，再运行 <code>git clone https://github.com/ITD-NextDimension/copilot-app-manual copilot-app-manual</code> 和 <code>git clone https://github.com/ITD-NextDimension/gh_app_workshop gh_app_workshop</code>。不要在非空目录运行 <code>git clone URL .</code>；已有克隆先检查 <code>git status --short --branch</code>，再决定是否更新。若文档仓库已在 Demo-GH 根目录，保留原位，将课程仓库放进 <code>gh_app_workshop/</code>，并仅在文档仓库的 <code>.git/info/exclude</code> 忽略它。</p>
       <p>首次发送后若出现 “Trust this repository?”，跳过信任会导致 Autopilot 工具调用被拒绝。选择 <b>Always trust</b> 前，先确认仓库来源并检查其配置、hooks、扩展等内容；该选项允许仓库配置、hooks、扩展及未来更新执行。仓库信任与 Tool permissions 是两个独立控制：前者决定是否信任仓库内容，后者决定 Copilot 使用工具时的批准方式。只信任你审查并认可的仓库；不要因此关闭系统安全保护。</p>
       <p>多组织 Copilot 许可证若报 “Billing setup required” 或主页显示 usage blocked，打开 <a href="https://github.com/settings/copilot/features">Copilot features 设置</a>，在 Usage billed to 选择有授权的计费实体再重试；本次准备选择 Miruth。Credits 显示有余额不代表用户一定有可用预算，不能一概归因为余额不足。与本地象棋无关的 MCP 登录提示不影响实验，无需授权无关服务。</p>
       <p class="why">本段只记录仓库与 App 的准备检查；2026-11-25 复跑结果在下方单独列出。旧失败会话和 2026-11-12 的验收数据仍是历史记录，不能代替本轮验收。</p>
