@@ -1,0 +1,1 @@
+请在后台启动 Lab1/Code/app.py（端口 8011），然后在 App 的集成浏览器中打开 http://127.0.0.1:8011/generated.html。不要修改任何文件。

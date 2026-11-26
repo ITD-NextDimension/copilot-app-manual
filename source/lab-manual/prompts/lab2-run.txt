@@ -1,0 +1,5 @@
+批准这份计划。先调用 /hyperframes，按它给出的流程生成 2 分钟普通话女声口播稿与可编辑的 HyperFrames 分镜；产品图片用 /media-use，渲染和检查使用 /hyperframes-cli。
+用 edge-tts 的 zh-CN-XiaoxiaoNeural 从文本脚本合成旁白，并通过 CLI 导出带音轨 MP4。
+共 6 个 20 秒镜头。不要制作额外界面。完成后检查真实视频的尺寸、时长、帧率和音轨，
+并解码实际 MP4 的镜头截图，不能用 HTML 预览截图冒充成片。
+在回复里列出你实际调用了哪些 skill。

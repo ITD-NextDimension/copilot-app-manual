@@ -80,7 +80,19 @@ python -m playwright install chromium
 
 ## 详细版 Lab 手册
 
-逐步点击的详细版学员手册（ITD 浅色主题；简中 / 繁中 / English 三语，单文件 `lab-manual/index.html`）。目录按操作顺序排列：准备工作（P.1–P.8）→ 第 0 部分认识 App → Lab 1–4（每个 Lab 末尾增加终端验收步骤）→ 课程验收与课后重置；左侧菜单可展开到每一步：https://itd-nextdimension.github.io/copilot-app-manual/lab-manual/
+逐步点击的详细版学员手册（ITD 浅色主题；简中 / 繁中 / English 三语，右上角可切换 macOS / Windows 命令）：https://itd-nextdimension.github.io/copilot-app-manual/lab-manual/
+
+内容来自 2026-11-25 在 Mac mini 上用 GitHub Copilot App 的实跑：第 0 章边准备环境边认识 App，Lab 1–4 每个都有逻辑架构图、代码架构图、每一步的“为什么”、App / CLI 功能卡和验收标准，附录有停止服务、课间复位、实跑差异表和术语表。
+
+### 重新生成详细版手册
+
+源文件在 `source/lab-manual/`：`zh-CN.html`（简中正文）、`en.html`（英文人工翻译）、`prompts/`（学员粘贴的提示词）、`template.html`（页面样式与脚本）、`build.py`（含 8 张架构图的定义）。繁中由 `source/to-tw.mjs`（OpenCC）从简中转换。截图放在 `img/lab-manual/`（WebP，已裁掉菜单栏并打码账号、会话 ID 和本机路径）。
+
+```bash
+cd source
+npm i --no-save opencc-js@1.0.5
+python3 lab-manual/build.py
+```
 
 ## 重新生成首页三语页面
 

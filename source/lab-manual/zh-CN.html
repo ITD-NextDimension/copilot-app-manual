@@ -1,0 +1,575 @@
+<section class="hero">
+  <span class="eyebrow">GitHub Copilot App · 实战工作坊 · 学员手册</span>
+  <h1>从 Vibe Coding<br><span class="it">到 Agentic Engineering</span></h1>
+  <p class="lead">四个动手 Lab，依次补齐智能体的四个要素：工作流、技能、工具、数据。每一步都写清楚点哪里、为什么这样做、怎样算完成；截图全部来自 2026-11-25 在 Mac mini 上用 GitHub Copilot App 的真实实跑。</p>
+  <div class="facts">
+    <div><div class="big">3 h</div><div class="lbl">课堂时长</div><div class="sub">第 0 章请课前完成</div></div>
+    <div><div class="big">4</div><div class="lbl">动手 Lab</div><div class="sub">逐级放权</div></div>
+    <div><div class="big">1</div><div class="lbl">个课程仓库</div><div class="sub">ITD-NextDimension/gh_app_workshop</div></div>
+    <div><div class="big">2</div><div class="lbl">套命令</div><div class="sub">右上角切换 macOS / Windows</div></div>
+  </div>
+</section>
+
+<h2 id="overview">课程总览</h2>
+<hr class="rule">
+<p><strong>核心认知：智能体 = 工作流 + 技能 + 工具 + 数据。</strong>Copilot 本身就是这样构成的，你自己的智能体也照此构建。前两个 Lab 让 Copilot 替你干活，后两个 Lab 你用 Copilot 造出自己的智能体。</p>
+<div class="table wide"><table>
+<thead><tr><th>Lab</th><th>课堂时长</th><th>智能体要素</th><th>主要用到的 App 能力</th><th>你的角色</th><th>交付作品</th></tr></thead>
+<tbody>
+<tr><td><b>1 · 楚河汉界</b></td><td>35 分钟</td><td>工作流</td><td>会话、Autopilot、Changes、集成浏览器</td><td>AI 的项目经理</td><td>浏览器象棋游戏 + Python 规则引擎</td></tr>
+<tr><td><b>2 · 两分钟产品短片</b></td><td>45 分钟</td><td>技能</td><td>插件与 Skills、Plan → 批准 → Autopilot</td><td>AI 的教练</td><td>1080×1920、30fps、120 秒带中文旁白的 MP4</td></tr>
+<tr><td><b>3 · 经营观察室</b></td><td>45 分钟</td><td>工具</td><td>SDK 单 Agent、Canvas 浏览器动作</td><td>智能体架构师</td><td>财报分析页 + 单 Agent 解读</td></tr>
+<tr><td><b>4 · 每周工作罗盘</b></td><td>55 分钟</td><td>数据 + 决策</td><td>三个独立会话、会话级 Canvas 扩展</td><td>AI 产品负责人</td><td>多 Agent 周待办 + App 侧栏 Canvas</td></tr>
+</tbody></table></div>
+<h3 id="how-to-read">怎么读这本手册</h3>
+<ul>
+<li><b>每一步</b>依次是：做什么 → <b>为什么</b>（一两句） → 命令或提示词 → 截图 → <b>检查</b>（怎样算完成）。</li>
+<li><b>截图</b>默认显示重点特写；点“查看整个窗口”可看它在 App 中的位置。账号名和会话 ID 已打码。</li>
+<li><b>命令</b>按右上角的 macOS / Windows 开关显示。截图在 macOS 上拍摄；Windows 命令已按 PowerShell 写好，但没有实机截图。</li>
+<li><b>功能卡</b>（App 功能、CLI 功能）讲这一步用到的 GitHub Copilot App 或 Copilot CLI 能力，第一次遇到时细读，之后可跳过。</li>
+<li><b>提示词</b>保留中文原文，因为这就是你要粘贴进 App 的内容。在 App 输入框里，多行用 <kbd>Shift</kbd>+<kbd>Return</kbd> 换行，单按 <kbd>Return</kbd> 发送。</li>
+</ul>
+<p class="legend">架构图图例：深色块 = App / Agent 会话 · 浅紫块 = 模型或 Skills · 白块 = 代码 · 虚线框 = 数据或人</p>
+
+<h2 id="ch0">第 0 章 · 准备环境并认识 App</h2>
+<hr class="rule">
+<p>这一章边准备边认识 App：每装好一样东西，就顺手看清它在 App 里对应哪个按钮。全部做完大约 25 分钟，请在课前完成。做完后，四个 Lab 只需要 App 和一个终端窗口。</p>
+
+<h3 id="s0-1">0.1 安装并登录 App，确认有 GPT-6 Luna</h3>
+<p>从 <a href="https://gh.io/app">gh.io/app</a> 下载 GitHub Copilot App，用有 Copilot 授权的 GitHub 账号登录。点左上角 <b>New</b>，再点输入框下方的模型按钮（显示为 <code>GPT-6 Luna · Medium</code> 之类），展开 <b>Model</b>。</p>
+<p class="why"><b>为什么</b>四个 Lab 都用 GPT-6 Luna。课程代码会检查模型，列表里没有就直接停止，不会悄悄换成别的模型。</p>
+<shot n="0.1-model-menu">模型菜单：GPT-6 Luna 已勾选；上方还有 Copilot Fusion、Effort、Context window。</shot>
+<div class="check"><b>检查</b>Model 列表里有 <b>GPT-6 Luna</b>。没有的话，先找管理员解决账号或组织的模型权限，不要换模型继续。</div>
+<aside class="feature"><span class="tag">App 功能</span><h4>模型菜单 <span class="it">Model menu</span></h4>
+<ul><li><b>Copilot Fusion</b>：多模型协同，课程中保持关闭。</li>
+<li><b>Effort</b>：思考深度，课程用 <code>Medium</code>。越高越慢、消耗越多。</li>
+<li><b>Context window</b>：单次会话能记住的上下文长度（本次为 272K）。快满时 App 会自动压缩旧消息。</li></ul></aside>
+<div class="note"><b>提示</b>这里的 Copilot 是 GitHub Copilot App，不是 Microsoft 365 Copilot。首页可能弹出促销卡片或更新提示，点关闭即可，课堂中途不要重启 App。</div>
+
+<h3 id="s0-2">0.2 检查本机工具，缺什么装什么</h3>
+<p>打开终端（macOS 的“终端”，或 Windows 的 PowerShell），逐条运行下面的版本检查。每条都应打印版本号。</p>
+<p class="why"><b>为什么</b>App 里的 Agent 会在你的电脑上调用这些工具：Python 跑课程代码，Node.js 和 FFmpeg 给 Lab 2 渲染视频，Copilot CLI 给 Python 程序提供模型调用。</p>
+<cmd><mac>python3 --version
+git --version
+node --version
+npm --version
+ffmpeg -version
+ffprobe -version
+copilot --version</mac><win>py --version
+git --version
+node --version
+npm --version
+ffmpeg -version
+ffprobe -version
+copilot --version</win></cmd>
+<p>缺哪一样，按下表安装，装完重新打开终端再检查一次。</p>
+<div class="table wide"><table>
+<thead><tr><th>工具</th><th>要求</th><th>macOS 安装</th><th>Windows 安装</th><th>用在</th></tr></thead>
+<tbody>
+<tr><td>Homebrew</td><td>仅 macOS</td><td><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></td><td>—（Windows 用自带的 winget）</td><td>安装下面几样</td></tr>
+<tr><td>Python</td><td>3.11 或更高</td><td><code>brew install python@3.12</code></td><td><code>winget install -e --id Python.Python.3.12</code></td><td>全部 Lab</td></tr>
+<tr><td>Git</td><td>任意新版</td><td><code>brew install git</code></td><td><code>winget install -e --id Git.Git</code></td><td>克隆课程</td></tr>
+<tr><td>Node.js + npm</td><td>22 或更高</td><td><code>brew install node</code></td><td><code>winget install -e --id OpenJS.NodeJS.LTS</code></td><td>Lab 2、Copilot CLI</td></tr>
+<tr><td>FFmpeg / ffprobe</td><td>任意新版</td><td><code>brew install ffmpeg</code></td><td><code>winget install -e --id Gyan.FFmpeg</code></td><td>Lab 2</td></tr>
+<tr><td>Copilot CLI</td><td>已登录</td><td colspan="2"><code>npm install -g @github/copilot</code>，然后运行 <code>copilot login</code>，在打开的官方页面完成登录</td><td>Python SDK 调用模型</td></tr>
+</tbody></table></div>
+<div class="check"><b>检查</b>七条命令都打印版本。本次实跑：Python 3.15.2、git 2.50.1、Node 26.13.0、npm 11.20.0、FFmpeg 9.0.2、Copilot CLI 1.0.106。</div>
+<div class="warn"><b>安全</b>不要把密码、令牌粘贴进提示词、代码或截图。登录只在官方页面完成。</div>
+
+<h3 id="s0-3">0.3 建工作目录，克隆课程</h3>
+<p>在<b>你的用户主目录</b>下建一个 <code>Demo-GH</code> 文件夹，把课程克隆进去。macOS 上它是 <code>/Users/&lt;你的用户名&gt;/Demo-GH</code>，Windows 上是 <code>C:\Users\&lt;你的用户名&gt;\Demo-GH</code>。</p>
+<p class="why"><b>为什么</b>固定在主目录下，所有人的路径都一样，讲师排错时一眼能对上；路径里也没有空格和中文，Python 和 Node 工具不会出错。</p>
+<cmd><mac>cd ~
+mkdir -p Demo-GH
+cd Demo-GH
+pwd
+git clone https://github.com/ITD-NextDimension/gh_app_workshop gh_app_workshop
+cd gh_app_workshop
+ls</mac><win>Set-Location $HOME
+New-Item -ItemType Directory -Force Demo-GH | Out-Null
+Set-Location Demo-GH
+Get-Location
+git clone https://github.com/ITD-NextDimension/gh_app_workshop gh_app_workshop
+Set-Location gh_app_workshop
+Get-ChildItem</win></cmd>
+<div class="table"><table><thead><tr><th>克隆后的目录</th><th>是什么</th></tr></thead><tbody>
+<tr><td><code>Demo-GH/gh_app_workshop/</code></td><td>课程根目录。之后的命令，除非写了 <code>cd</code>，都在这里执行。</td></tr>
+<tr><td><code>Lab1/</code> … <code>Lab4/</code></td><td>每个 Lab 的 README 和 <code>Code/</code> 代码</td></tr>
+<tr><td><code>tools/</code>、<code>tests/</code></td><td>共享 Python 工具（模型调用、本地网页服务）和业务规则测试</td></tr>
+<tr><td><code>requirements.txt</code></td><td>Python 依赖清单</td></tr>
+</tbody></table></div>
+<div class="check"><b>检查</b>最后一条命令列出 <code>Lab1</code>–<code>Lab4</code>、<code>README.md</code>、<code>requirements.txt</code>、<code>tools</code>、<code>tests</code>。</div>
+<div class="note"><b>说明</b>只需要克隆 <code>gh_app_workshop</code> 这一个仓库。本手册的源码在另一个仓库 <code>copilot-app-manual</code>，那是讲师维护手册用的，学员不需要克隆。已经克隆过的话，先运行 <code>git status --short --branch</code> 看有没有本地改动，不要在非空文件夹里运行 <code>git clone URL .</code>。</div>
+
+<h3 id="s0-4">0.4 创建 Python 虚拟环境并安装依赖</h3>
+<p>仍在课程根目录，运行：</p>
+<p class="why"><b>为什么</b>虚拟环境（<code>.venv</code>）把课程依赖和系统 Python 隔开。macOS 的 Homebrew Python 会拒绝往系统里装包（PEP 668），不要用 <code>--break-system-packages</code> 绕过。</p>
+<cmd><mac>python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m playwright install chromium</mac><win>py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python -m playwright install chromium</win></cmd>
+<div class="check"><b>检查</b>四条命令都没有报错；激活后提示符前面出现 <code>(.venv)</code>。</div>
+<div class="note os-win"><b>Windows</b>如果 <code>Activate.ps1</code> 因执行策略被阻止，不要修改组织策略，直接把后面每条命令里的 <code>python</code> 换成 <code>.\.venv\Scripts\python.exe</code>。</div>
+<div class="note"><b>说明</b>每次新开终端都要重新激活：macOS 运行 <code>source .venv/bin/activate</code>，Windows 运行 <code>.\.venv\Scripts\Activate.ps1</code>。</div>
+
+<h3 id="s0-5">0.5 运行能力探测</h3>
+<cmd><mac>python tools/probe.py
+grep gpt-6-luna verification/capabilities.json</mac><win>python tools\probe.py
+Select-String gpt-6-luna verification\capabilities.json</win></cmd>
+<p class="why"><b>为什么</b>这一步证明 Python 程序能通过 Copilot SDK 调到模型。App 能用不代表 SDK 能用，Lab 1–4 的脚本走的是 SDK。</p>
+<div class="check"><b>检查</b>输出的模型列表里有 <code>gpt-6-luna</code>，第二条命令能找到它；没有认证错误。</div>
+<aside class="feature"><span class="tag">CLI 功能</span><h4>Copilot CLI 与 Python SDK <span class="it">CLI &amp; SDK</span></h4>
+<ul><li>Python 的 <code>github-copilot-sdk</code> 不直接连云端：它在后台启动 <code>copilot</code> 命令，通过标准输入输出（stdio）和它对话。所以 CLI 必须装好、登录好。</li>
+<li>App 和 CLI 共用 <code>~/.copilot</code> 目录（Windows 为 <code>%USERPROFILE%\.copilot</code>）：会话记录在 <code>session-state/</code>，插件、Skills、扩展也在这里。用 CLI 装的插件，App 不用重启就能看到（Lab 2 会用到）。</li>
+<li>课程的 <code>tools/agent.py</code> 给每个会话只开放“完成任务”一个工具，禁止它浏览网页、读写文件或创建子 Agent，并且不在模型不可用时偷偷换模型。</li></ul></aside>
+
+<h3 id="s0-6">0.6 在 App 添加课程文件夹</h3>
+<p>在 App 左侧 <b>Sessions</b> 旁点 <b>+</b>，选择 <b>Add local folder or repository</b>，在弹出的“Select folder or repository”里选中 <code>Demo-GH/gh_app_workshop</code>，点 <b>Open</b>。</p>
+<p class="why"><b>为什么</b>App 只能改它“打开”的文件夹。打开课程根目录后，Agent 才能读到四个 Lab 的代码。</p>
+<shot n="0.6a-plus-menu"><b>+</b> 菜单的四个选项：Chat、Add from GitHub、Add from URL、Add local folder or repository。</shot>
+<shot n="0.6b-sessions-list">添加后，<code>gh_app_workshop</code> 出现在 <b>Sessions</b> 下（不是 Projects）。</shot>
+<shot n="0.6c-new-session">点它（或它右侧的 <b>+</b>）会打开 New session，输入框下方是三项设置：文件夹、Run on、Where to work。</shot>
+<aside class="feature"><span class="tag">App 功能</span><h4>Sessions 与 Projects <span class="it">where sessions live</span></h4>
+<ul><li><b>Sessions</b>：按文件夹分组的会话列表。课程的每个 Lab 都从这里的 <code>gh_app_workshop</code> 新开一个会话。</li>
+<li><b>Projects</b>：可选的项目分组，不会克隆代码。本课程不需要。</li>
+<li><b>注意</b>：左上角的 <b>New</b> 会开一个不挂文件夹的空白会话（Chat）。<b>每个 Lab 都要从 Sessions 里 <code>gh_app_workshop</code> 的 + 开始</b>，否则 Agent 看不到课程文件。</li></ul></aside>
+
+<h3 id="s0-7">0.7 设置模式、权限和工作位置</h3>
+<p>在 New session 里依次检查输入框下方的按钮。</p>
+<h4>模式（Mode）</h4>
+<p>点模式按钮（默认显示 <code>Interactive</code>），弹出三种模式。输入框的边框颜色会跟着变：Interactive 灰色、Plan 蓝色、Autopilot 绿色。</p>
+<shot n="0.7a-mode-menu">Mode 菜单：Interactive（Step-by-step collaboration）、Plan（Plan first, execute when ready）、Autopilot（End-to-end execution without interruption），以及 Tool permissions。</shot>
+<shot n="0.7a-plan-blue-border">选 Plan 后边框变蓝，提示文字变成 “Plan a task…”。</shot>
+<shot n="0.7a-autopilot-green-border">选 Autopilot 后边框变绿，提示文字变成 “Delegate a task…”。</shot>
+<h4>工具权限（Tool permissions）</h4>
+<p>在同一菜单打开 <b>Tool permissions</b>，选 <b>Approve all</b>。</p>
+<p class="why"><b>为什么</b>Autopilot 中途不会停下来等人。如果权限是 Always ask，它每次运行命令都没人批准，命令会全部被拒绝，结果只读了文件、什么也没做成。</p>
+<shot n="0.7b-tool-permissions">Tool permissions：Always ask、Assisted、Approve all。</shot>
+<div class="warn"><b>安全</b>Approve all 允许 Agent 不经确认运行命令。只在课程文件夹和练习数据上使用。</div>
+<h4>文件夹、Run on、Where to work</h4>
+<shot n="0.7c1-folder-dropdown">文件夹：确认勾选的是 <code>gh_app_workshop</code>。</shot>
+<shot n="0.7c2-run-on-dropdown">Run on：保持 <b>This computer</b>。Cloud 会在云端运行，而课程需要你电脑上的 Python、FFmpeg 和浏览器。</shot>
+<shot n="0.7c3-where-to-work-default">Where to work：<b>默认是 New worktree，要改成 Current checkout</b>。</shot>
+<shot n="0.7c3b-current-checkout">改好后：<code>gh_app_workshop</code> · <code>This computer</code> · <code>Current checkout</code>。</shot>
+<p class="why"><b>为什么</b>New worktree 会为每个会话复制一份独立目录；课程要在你克隆的这一份上直接修改、运行和验收，所以用 Current checkout。</p>
+<aside class="feature"><span class="tag">App 功能</span><h4>三种模式与“模式记忆” <span class="it">modes</span></h4>
+<ul><li><b>Interactive</b>：一步一停，适合方向未定时边做边看。</li>
+<li><b>Plan</b>：先调研、写计划（<code>plan.md</code>），你批准之前不改任何文件。适合需求模糊、牵涉面广、改错代价高的任务（Lab 2）。</li>
+<li><b>Autopilot</b>：边界清楚时连续执行到底（Lab 1、3、4）。</li>
+<li><b>新会话会沿用上一个会话的模式。</b>实跑中 Lab 1 用了 Autopilot，Lab 2 新会话默认就是 Autopilot；Lab 2 用了 Plan，Lab 3 新会话默认就是 Plan。<b>每次发送前看一眼边框颜色。</b></li>
+<li><b>Where to work</b> 和 <b>Run on</b> 会被记住；Current checkout 下所有会话共用同一份工作目录，所以 Changes 面板显示的是整个文件夹的改动，不只是当前会话的（Lab 3 会看到）。</li></ul></aside>
+
+<h3 id="s0-8">0.8 看一眼 Customize（只看不装）</h3>
+<p>点左侧 <b>Customize</b>，在 <b>Browse</b> 和 <b>Installed</b> 两个页签之间切换，右上角的类型筛选有 MCP、Plugins、Skills、Extensions、Canvas。</p>
+<shot n="0.7d-customize">Customize · Browse：按 Plan、Build、Review、Test 等分类浏览可安装的能力。</shot>
+<shot n="0.7d-customize-installed">Installed：已装的 Plugins、Extensions、Canvas（内置 Editor、Browser、Terminal）和 Skills。</shot>
+<aside class="feature"><span class="tag">App 功能</span><h4>Customize 里的五类扩展 <span class="it">customize</span></h4>
+<div class="table"><table><thead><tr><th>类型</th><th>是什么</th><th>本课程</th></tr></thead><tbody>
+<tr><td>Skills</td><td>可复用的“做法说明书”，Agent 按需加载</td><td>Lab 2 安装 HyperFrames Skills</td></tr>
+<tr><td>Plugins</td><td>打包好的一组 Skills、Agent、MCP 等</td><td>Lab 2 的 hyperframes 插件</td></tr>
+<tr><td>Canvas</td><td>App 侧栏里的交互面板；内置 Editor、Browser、Terminal</td><td>Lab 1、3 用 Browser；Lab 4 新增一个</td></tr>
+<tr><td>Extensions</td><td>给 App 增加新能力（例如自定义 Canvas）</td><td>Lab 4 安装会话级扩展</td></tr>
+<tr><td>MCP</td><td>把外部数据和工具接给模型</td><td>不使用</td></tr></tbody></table></div></aside>
+
+<h3 id="s0-9">0.9 完成检查</h3>
+<div class="done-list"><span class="eyebrow">第 0 章完成标准</span><ul>
+<li>App 的模型列表里有 GPT-6 Luna</li>
+<li>七条版本命令都打印版本</li>
+<li><code>Demo-GH/gh_app_workshop</code> 已克隆，里面有 Lab1–Lab4</li>
+<li><code>.venv</code> 已创建，依赖已安装，<code>probe.py</code> 列出 gpt-6-luna</li>
+<li>App 的 Sessions 下有 <code>gh_app_workshop</code>；设置为 This computer · Current checkout · Approve all</li>
+</ul></div>
+<p>首次在 Lab 1 发送提示词时，App 还会请你信任这个仓库，见 1.3。</p>
+
+<!-- ============================== LAB 1 ============================== -->
+<h2 id="lab1">Lab 1 · 楚河汉界：把需求说清楚</h2>
+<hr class="rule">
+<p><b>故事：</b>工作室下周有团队活动，你想做一个能在浏览器里玩的中国象棋，又不想先学编程。你的需求不是“帮我写代码”，而是“让同事玩起来，并且能证明规则没有乱来”。</p>
+<div class="table"><table><tbody>
+<tr><th>学会什么</th><td>把需求写成“目标 + 约束 + 验证 + 停止条件”；读 Agent 的报告和 diff；在 App 里验收作品</td></tr>
+<tr><th>模式</th><td>Autopilot · GPT-6 Luna · Medium</td></tr>
+<tr><th>实跑耗时</th><td>Agent 运行约 10 分钟，加验收约 5 分钟</td></tr>
+<tr><th>交付</th><td>浏览器里可玩的双人象棋（127.0.0.1:8011）+ Python 规则引擎 + 规则测试</td></tr>
+</tbody></table></div>
+<h3 id="lab1-arch">逻辑架构与代码架构</h3>
+<diagram k="lab1-logic"></diagram>
+<p><b>逻辑架构：</b>你只写需求和验收标准；App 会话（Autopilot）去读代码、改页面、补测试，再用 Playwright 真点一遍。规则判断全部在 Python 里，页面只负责显示和点击。</p>
+<diagram k="lab1-code"></diagram>
+<p><b>代码架构：</b><code>generate.py</code> 通过 <code>tools/agent.py</code> 调 GPT-6 Luna 生成页面外壳 <code>generated.html</code>；<code>app.py</code> 用 <code>tools/web.py</code> 在本机 8011 端口提供页面和 <code>/api/state</code>、<code>/api/select</code>、<code>/api/move</code>、<code>/api/undo</code>、<code>/api/reset</code>；每一步合法落点都由 <code>xiangqi.Game</code> 计算。</p>
+
+<h3 id="s1-1">1.1 从课程文件夹新开 Autopilot 会话</h3>
+<p>在 Sessions 下点 <code>gh_app_workshop</code> 右侧的 <b>+</b>。模式选 <b>Autopilot</b>（绿色边框），模型 <b>GPT-6 Luna · Medium</b>，下方是 <code>gh_app_workshop</code> · <code>This computer</code> · <code>Current checkout</code>。</p>
+<p class="why"><b>为什么</b>需求已经很明确，适合让 Agent 连续做完；你把精力放在最后的验收上。</p>
+<shot n="1.1-autopilot-luna">发送前的状态：Autopilot（绿色边框）、GPT-6 Luna · Medium、三项工作位置设置。</shot>
+
+<h3 id="s1-2">1.2 粘贴需求并发送</h3>
+<prompt k="lab1-brief"></prompt>
+<p class="why"><b>为什么</b>这段需求是一个完整的“规格”：目标（给非技术同事玩的象棋）、约束（只改 Lab1/Code、不建子 Agent、不加人机对战）、验证（Playwright 真点）。写清楚约束，Agent 才不会自作主张扩大范围。</p>
+<shot n="1.2-prompt-input">粘贴后的输入框。用 <kbd>Shift</kbd>+<kbd>Return</kbd> 换行，<kbd>Return</kbd> 发送。</shot>
+
+<h3 id="s1-3">1.3 第一次发送：信任仓库</h3>
+<p>第一次在这个文件夹发送任务时，App 会问 <b>Trust the gh_app_workshop repository?</b>。确认来源是你在 0.3 克隆的课程仓库，选 <b>A. Always trust gh_app_workshop</b>（<kbd>⌘</kbd>+<kbd>Return</kbd>）。</p>
+<p class="why"><b>为什么</b>仓库里可能带有配置、hooks、扩展和插件，它们能运行代码。只有信任之后，Agent 才能执行命令；跳过信任，Autopilot 的每条命令都会被拒绝。</p>
+<shot n="1.3-trust-dialog">信任对话框：A. Always trust gh_app_workshop / B. Skip for now。</shot>
+<aside class="feature"><span class="tag">App 功能</span><h4>仓库信任与工具权限 <span class="it">two separate gates</span></h4>
+<ul><li><b>仓库信任</b>决定“这个仓库里的配置和扩展能不能运行”，按仓库记住。</li>
+<li><b>Tool permissions</b>（0.7）决定“Agent 每次用工具时要不要问你”。</li>
+<li>两者独立：只信任你看过、认可来源的仓库。</li></ul></aside>
+
+<h3 id="s1-4">1.4 看它怎么干活</h3>
+<p>Agent 运行时，对话里每个工具调用占一行（查看文件、搜索、运行命令），可以展开看细节。顶部有 <b>Commit (N)</b> 计数，底部有 <b>Changes</b> 和 <b>Background</b> 按钮。</p>
+<shot n="1.4-tool-calls-posthoc">展开的工具调用组：查看 web.py、generated.html 等文件，运行 Python，查询 Canvas 能力。</shot>
+<aside class="feature"><span class="tag">App 功能</span><h4>会话界面 <span class="it">session view</span></h4>
+<ul><li><b>工具调用组</b>：折叠显示“做了什么”，点开看命令和输出。</li>
+<li><b>中途纠偏</b>：运行时直接在输入框里打字，可以在不中断的情况下给它补充要求。</li>
+<li><b>Changes</b>：本文件夹未提交的改动；<b>Background</b>：Agent 在后台启动、仍在运行的进程（例如网页服务）。</li>
+<li><b>Commit (N)</b>：未提交的文件数。本课程不提交，只看不点。</li></ul></aside>
+
+<h3 id="s1-5">1.5 读报告，看 diff</h3>
+<p>完成后 Agent 会写一段简短报告。本次实跑它保留了 Python 规则引擎，补了规则测试，把页面文字改成中文，并用 Playwright 做了端到端点击；<code>test_xiangqi.py</code> 9 项通过。点底部 <b>Changes</b> 查看每个文件的改动。</p>
+<p class="why"><b>为什么</b>“它说做完了”不等于做对了。读 diff 是你的第一道把关：确认只改了 <code>Lab1/Code</code>，没有动别的地方。</p>
+<shot n="1.5-final-report">最终报告：说明改了什么、怎么验证的。</shot>
+<shot n="1.5-changes-diff">Changes 面板：本次改了 3 个文件（generated.html、index.html、test_xiangqi.py）。</shot>
+
+<h3 id="s1-6">1.6 在 App 的浏览器里打开游戏</h3>
+<p>在同一个会话发送：</p>
+<prompt k="lab1-open"></prompt>
+<p class="why"><b>为什么</b>让 Agent 在后台启动服务，你在 App 自带的浏览器里验收，不用切换窗口。</p>
+<shot n="1.6-browser-open">App 右侧打开浏览器标签，地址 127.0.0.1:8011/generated.html。</shot>
+<shot n="1.6b-board-status">状态栏显示“红方走棋 · 已走 0 步”。</shot>
+<aside class="feature"><span class="tag">App 功能</span><h4>集成浏览器 = 内置 Browser Canvas <span class="it">in-app browser</span></h4>
+<ul><li>Agent 通过 Canvas 动作打开它（工具行显示 “Opened canvas Browser”），也能读取页面内容。</li>
+<li>工具栏的 <b>Shared</b> 表示 Agent 也能看到这个页面；<b>Pick &amp; Polish</b> 可以点选页面元素让 Agent 局部修改。</li>
+<li>它的 <code>…</code> 菜单只有 Find in page、Zoom、Hard reload 等，<b>没有手机尺寸切换</b>（见 1.10）。</li>
+<li>按 <kbd>⌘</kbd>+<kbd>−</kbd>（Windows <kbd>Ctrl</kbd>+<kbd>−</kbd>）会缩放整个 App 界面，不只是网页；用 <kbd>⌘</kbd>+<kbd>0</kbd> 复原。</li></ul></aside>
+
+<h3 id="s1-7">1.7 点最左边的红“兵”</h3>
+<p>向下滚到棋盘，点最左边的红色“兵”。</p>
+<p class="why"><b>为什么</b>这是最容易看出规则对不对的一步：没过河的兵只能向前一格，不能横走或后退。</p>
+<shot n="1.7-legal-target">只出现一个绿点，就在它正前方。</shot>
+<div class="check"><b>检查</b>只有一个合法落点。绿点由 Python 规则引擎计算，不是页面脚本随手画的。</div>
+
+<h3 id="s1-8">1.8 走一步，看轮到谁</h3>
+<p>点绿点。兵向前走一格。</p>
+<shot n="1.8-first-move">状态变为“黑方走棋 · 已走 1 步”。</shot>
+<div class="check"><b>检查</b>此时不能再走红棋，双方必须轮流。</div>
+
+<h3 id="s1-9">1.9 悔棋与重开</h3>
+<p>点 <b>悔一步</b>，再点 <b>重新开局</b>。</p>
+<shot n="1.9a-undo">悔一步后：兵回到原位，“红方走棋 · 已走 0 步”。</shot>
+<shot n="1.9b-restart">重新开局：棋盘恢复 32 子。</shot>
+<div class="check"><b>检查</b>还没走棋就点悔一步，页面应明确提示“还没有走棋”，而不是默默失败。</div>
+
+<h3 id="s1-10">1.10 检查手机宽度</h3>
+<p>同事可能用手机打开，所以要确认在约 390 像素宽的屏幕上，棋盘和按钮都能用，页面没有横向滚动条。App 自带浏览器不能切手机尺寸，用下面两种方法之一：</p>
+<h4>方法 A（推荐）：请 App 用 Playwright 检查</h4>
+<prompt k="lab1-mobile"></prompt>
+<shot n="1.10c-playwright-390-reply">回复：视口 390×844，<code>scrollWidth</code> 为 390，没有横向溢出。</shot>
+<shot n="1.10d-mobile-artifact">截图保存在会话的 Artifacts 里（xiangqi-mobile.png），点开即可查看手机效果。</shot>
+<h4>方法 B：用 Chrome 开发者工具手动看</h4>
+<ol><li>在 Chrome 打开 <code>http://127.0.0.1:8011/generated.html</code>。</li>
+<li>按 <span class="os-mac"><kbd>⌘</kbd>+<kbd>⌥</kbd>+<kbd>I</kbd></span><span class="os-win"><kbd>F12</kbd></span> 打开开发者工具。</li>
+<li>按 <span class="os-mac"><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>M</kbd></span><span class="os-win"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd></span> 切换到设备模式，在顶部下拉里选 <b>iPhone 12 Pro</b>（390×844）。</li>
+<li>上下滑动页面：底部不应出现横向滚动条，棋子和按钮都能点。</li></ol>
+<div class="note"><b>说明</b>方法 B 本次没有实机截图（自动化工具无法操作 Chrome 开发者工具），方法 A 已覆盖同样的检查。</div>
+<shot n="1.10a-browser-menu-no-viewport">App 浏览器的 … 菜单：没有设备或视口切换项。</shot>
+
+<h3 id="s1-11">1.11 在终端跑规则测试</h3>
+<p>新开一个终端，进入课程根目录并激活 <code>.venv</code>（见 0.4），运行：</p>
+<cmd>python -m pytest -q tests/test_labs.py -k "initial_board or rules or horse or cannon or flying or crossed or stalemate"</cmd>
+<p class="why"><b>为什么</b>点几下只能覆盖几种走法；测试覆盖马腿、象眼、炮架、将帅照面、困毙等全部规则。</p>
+<div class="check"><b>检查</b>本次实跑：<b>19 passed</b>。</div>
+<div class="done-list"><span class="eyebrow">Lab 1 完成标准</span><ul>
+<li>红兵只有一个合法落点，双方轮流，悔棋和重开正确</li>
+<li>390 宽度下 <code>scrollWidth</code> 为 390，没有横向滚动</li>
+<li>规则测试全部通过</li>
+<li>改动只在 <code>Lab1/Code</code>（本次：generated.html、index.html、test_xiangqi.py）</li></ul></div>
+<div class="note"><b>排障</b>页面打不开：看会话的 Background 是否有 8011 的服务在跑，或让 Agent 重新启动。Agent 说找不到 <code>python</code> 而改用 <code>python3</code>、或在临时目录装 Playwright，都属正常。</div>
+
+<!-- ============================== LAB 2 ============================== -->
+<h2 id="lab2">Lab 2 · 两分钟产品短片：先教会它，再让它做</h2>
+<hr class="rule">
+<p><b>故事：</b>小游戏赢得了同事的兴趣。工作室接着请你为 Surface Laptop Ultra 做一段适合手机观看的产品短片。你不负责发明产品参数，而是把有来源的事实讲清楚。</p>
+<div class="table"><table><tbody>
+<tr><th>学会什么</th><td>用插件给 Copilot 装上专业 Skills；用 Plan 模式先审方案再执行；验收“真实文件”而不是预览</td></tr>
+<tr><th>模式</th><td>Plan → 批准 → Autopilot · GPT-6 Luna</td></tr>
+<tr><th>实跑耗时</th><td>装插件约 5 分钟（首次下载较大）；规划约 4 分钟；执行约 18 分钟</td></tr>
+<tr><th>交付</th><td>1080×1920、30fps、120 秒、H.264 + AAC 的竖屏 MP4，晓晓普通话女声旁白和字幕</td></tr>
+</tbody></table></div>
+<h3 id="lab2-arch">逻辑架构与代码架构</h3>
+<diagram k="lab2-logic"></diagram>
+<p><b>逻辑架构：</b>先在 Plan 会话里只出方案（<code>plan.md</code>），你批准后切到 Autopilot 执行。执行时 Agent 按 HyperFrames Skills 写画面、用 edge-tts 合成旁白，再用 HyperFrames CLI 渲染出 MP4。</p>
+<diagram k="lab2-code"></diagram>
+<p><b>代码架构：</b>官方网页和技术规格先变成带哈希的来源记录（<code>source.json</code>、<code>facts.json</code>）；分镜和旁白写在 <code>story-*.json</code>、<code>narration-*.txt</code>；<code>video.py prepare</code> 准备图片和字体，<code>voice</code> 合成 MP3 和 SRT；<code>film/</code> 里是用 HTML 写的 6 个镜头（composition）；HyperFrames CLI 负责 <code>check</code> 和 <code>render</code>；<code>video.py probe</code> 用 ffprobe 验收成片规格。</p>
+
+<h3 id="s2-0">2.0 先教会 Copilot 做视频：安装 HyperFrames Skills</h3>
+<p>在终端（课程根目录，<code>.venv</code> 已激活）运行：</p>
+<cmd>copilot plugin marketplace add heygen-com/hyperframes
+copilot plugin install hyperframes@hyperframes
+copilot plugin list
+npm ci --prefix Lab2/Code --ignore-scripts --no-audit --no-fund</cmd>
+<p class="why"><b>为什么</b>提示词只能描述“要什么”。Skill 是一份可复用的“做法说明书”，告诉 Copilot HyperFrames 特有的规则：时间轴怎么注册、<code>data-*</code> 属性什么意思、渲染和检查用哪些命令。没有它，Agent 只能按通用网页经验去猜，做出来的画面常常无法逐帧渲染。</p>
+<p>然后在 App 打开 <b>Customize → Installed</b>，确认出现 <code>hyperframes</code> 插件和它的 Skills。<b>不需要重启 App。</b></p>
+<shot n="2.0-customize-hyperframes">Installed：Plugins 里出现 hyperframes 0.9.96；Skills 里多了 hyperframes · Plugin · 9 skills。</shot>
+<shot n="2.0-hyperframes-skills">展开后是这 9 个 Skills。</shot>
+<div class="check"><b>检查</b><code>copilot plugin list</code> 显示 <code>hyperframes@hyperframes</code>；App 的 Customize 能看到它。<code>npm ci</code> 结尾是 “added … packages”。</div>
+<div class="note"><b>耗时</b><code>marketplace add</code> 第一次会下载 HyperFrames 的整个仓库（约 2.5 GB），本次花了约 4 分钟。请在课前或课间完成。</div>
+<aside class="feature"><span class="tag">Skills 讲解</span><h4>本 Lab 用哪些 Skill <span class="it">and why</span></h4>
+<div class="table"><table><thead><tr><th>Skill</th><th>管什么</th><th>本 Lab</th></tr></thead><tbody>
+<tr><td><code>/hyperframes</code></td><td>总入口：判断走哪个流程，讲清 composition、时间轴、<code>data-*</code> 规则</td><td>用</td></tr>
+<tr><td><code>/hyperframes-cli</code></td><td><code>check</code>、<code>preview</code>、<code>render</code> 等命令行用法</td><td>用</td></tr>
+<tr><td><code>/media-use</code></td><td>产品图片和素材怎么处理、怎么入场</td><td>用</td></tr>
+<tr><td><code>/hyperframes-registry</code></td><td>安装现成的动画块和组件</td><td>可选</td></tr>
+<tr><td><code>/figma</code>、<code>/slideshow</code>、<code>/remotion-to-hyperframes</code>、<code>/reverse-any-video</code>、<code>/style-sampling</code></td><td>其他场景</td><td>不用</td></tr></tbody></table></div>
+<p><b>Skill 和提示词的区别：</b>提示词是一次性的“这次要什么”；Skill 是长期有效的“这类事怎么做”，按需加载、可以复用、团队共享。所以本 Lab 的提示词只写目标和约束，做法交给 Skill。</p>
+<p><code>Lab2/Code/film/AGENTS.md</code> 由更新版本的 HyperFrames 生成，里面提到的 <code>/product-launch-video</code> 等在 v0.9.96 中不存在。App 显示 “Failed to load skill product-launch-video” 属正常，Agent 会改用 <code>/hyperframes</code> 给出的流程。</p></aside>
+<aside class="feature"><span class="tag">CLI 功能</span><h4>copilot plugin <span class="it">plugins from the terminal</span></h4>
+<ul><li><code>marketplace add</code> 登记一个插件市场（这里是 HyperFrames 的 GitHub 仓库）；<code>install</code> 安装其中的插件；<code>list</code> 列出已装插件。</li>
+<li>以后更新用 <code>copilot plugin update hyperframes</code>，卸载用 <code>copilot plugin uninstall hyperframes</code>。</li>
+<li>CLI 装的插件写在 <code>~/.copilot</code> 下，App 直接读取，所以装完 App 里就有。</li></ul></aside>
+
+<h3 id="s2-1">2.1 新开会话，切到 Plan</h3>
+<p>从 Sessions 下 <code>gh_app_workshop</code> 的 <b>+</b> 新开会话。<b>先看模式按钮</b>：因为上一个会话（Lab 1）用的是 Autopilot，新会话默认也是 Autopilot。打开模式菜单，选 <b>Plan</b>，确认边框变蓝。</p>
+<p class="why"><b>为什么</b>做视频涉及来源核对、素材下载、旁白、渲染多个环节，改错代价高。Plan 模式先交方案、不改文件，你看清楚再放行。忘了切模式，就不会出现审阅面板。</p>
+<shot n="2.1a-new-session-default-mode">新会话默认沿用了 Autopilot（绿色边框）。</shot>
+<shot n="2.1c-plan-blue">切到 Plan 后：蓝色边框，提示文字 “Plan a task…”。</shot>
+
+<h3 id="s2-2">2.2 发送规划需求，回答它的问题</h3>
+<prompt k="lab2-plan"></prompt>
+<p class="why"><b>为什么</b>最后一行要求它先调用 <code>/hyperframes</code>，并在计划里写明会用哪些 Skill，这样你在审方案时就能看到“它打算怎么做”，而不只是“做什么”。</p>
+<shot n="2.2a-plan-prompt">发送后，会话标题自动变为“Surface laptop 竖屏视频规划”。</shot>
+<shot n="2.5a-skill-calls-planning">工具行里能看到 Skill 调用：Loaded skill hyperframes、hyperframes-cli、media-use；product-launch-video 加载失败（该版本没有，属正常）。</shot>
+<p>规划中 Agent 可能弹出问题卡。本次它问“声音方案”，选 <b>B. 仅晓晓旁白，不加音乐</b>，与需求一致，然后点 <b>Send</b>。</p>
+<shot n="2.2b-ask-user-sound">问题卡：A. 晓晓旁白 + 轻音乐铺底（推荐）/ B. 仅晓晓旁白，不加音乐 / C. 自己填写。</shot>
+<shot n="2.2c-plan-panel">右侧打开计划面板（plan.md）：3 项任务、问题与方案、工作流与 Skills、来源核对与内容边界。</shot>
+
+<h3 id="s2-3">2.3 审阅计划并批准</h3>
+<p>计划写完后，输入框位置会出现 <b>Review plan</b> 面板，有三个选项：</p>
+<ul><li><b>A · Approve and implement this plan</b>：批准并立即执行（会自动切到 Autopilot）。</li>
+<li><b>B · Exit plan mode and I will prompt myself</b>：退出 Plan，自己再发指令。</li>
+<li><b>C · Suggest changes to the plan…</b>：写修改意见后点 Continue。</li></ul>
+<p>批准前核对四点：总长 120 秒；画面 9:16；旁白 6 段，每段对应一个镜头；没有未经核实的价格、续航或性能数字。然后选 <b>A</b>。</p>
+<shot n="2.3-review-plan">Review plan 面板（A / B / C）。</shot>
+<div class="warn"><b>注意</b>审阅面板出现时，不要按 <kbd>Esc</kbd>，也不要去点麦克风等其他按钮，否则面板会被关掉，对话里显示 “Plan not approved”。万一发生：手动把模式切到 <b>Autopilot</b>，再发送 2.4 的执行提示词，效果相同（本次实跑就是这样恢复的）。</div>
+
+<h3 id="s2-4">2.4 执行（仅在没有自动开始时发送）</h3>
+<p>选 A 后通常会直接开始执行。只有没开始、或面板被关掉时，才在同一会话（Autopilot）发送：</p>
+<prompt k="lab2-run"></prompt>
+<shot n="2.4-approve-message-autopilot">发送后开始执行：“Start approved video tasks”，读取分镜和旁白文件。</shot>
+<shot n="2.5b-running-plan-progress">底部出现 <b>Plan 3</b>（计划任务进度）和 <b>Background</b>（后台进程）。</shot>
+<shot n="2.5c-hyperframes-studio-in-app">执行中 Agent 在 App 浏览器里打开 HyperFrames Studio（127.0.0.1:3002）预览时间轴：6 个镜头、字幕、旁白三条轨道。</shot>
+<div class="note"><b>注意</b>hyperframes 的 Skill 运行时可能发送一条 Skill 使用统计，Copilot 会在对话里提示“若已登录可能关联账户”。不希望发送时，直接回复“不发送”。</div>
+<aside class="feature"><span class="tag">App 功能</span><h4>长任务里的三件事 <span class="it">long runs</span></h4>
+<ul><li><b>Plan N</b> 按钮：计划里剩余的任务数，点开看进度。</li>
+<li><b>Background N</b>：Agent 启动的后台进程（这里是 HyperFrames Studio 预览服务）。做完 Lab 记得停掉，见附录 A。</li>
+<li><b>自动压缩</b>：上下文快满时，App 会自动压缩旧消息（对话里显示 “Removed … messages”），任务会继续，不用处理。</li></ul></aside>
+
+<h3 id="s2-5">2.5 验收成片</h3>
+<p>最终报告应写出实测规格。展开 <b>View 6 images</b> 看 6 个镜头的截图，它们是从真实 MP4 解码的，不是 HTML 预览。</p>
+<shot n="2.6a-final-report">报告：H.264、1080×1920、30fps、120 秒、3600 帧、48 kHz AAC 旁白；完整解码通过；实际调用的 Skills 为 /hyperframes、/hyperframes-cli、/media-use。</shot>
+<shot n="2.6b-view-6-images">View 6 images：在 10、30、50、70、90、110 秒处从 MP4 解码的 6 个镜头。</shot>
+<p>再在终端复核一次规格：</p>
+<cmd>python Lab2/Code/video.py probe</cmd>
+<div class="table"><table><thead><tr><th>项目</th><th>要求</th><th>本次实测</th></tr></thead><tbody>
+<tr><td>编码</td><td>H.264 + AAC</td><td>h264 + aac</td></tr>
+<tr><td>尺寸</td><td>1080 × 1920（9:16）</td><td>1080 × 1920</td></tr>
+<tr><td>帧率 / 帧数</td><td>30/1 · 3600</td><td>30/1 · 3600</td></tr>
+<tr><td>时长</td><td>120 秒</td><td>120.000 秒</td></tr></tbody></table></div>
+<p>最后用系统播放器（macOS 的 QuickTime，Windows 的“媒体播放器”）打开 <code>Lab2/Code/film/output/surface-ultra-2026-11-25.mp4</code>，<b>听一遍旁白</b>。</p>
+<shot n="2.6c-quicktime-10s">QuickTime 播放到第 9 秒：标题卡和中文字幕。</shot>
+<div class="done-list"><span class="eyebrow">Lab 2 完成标准</span><ul>
+<li>Customize 里有 hyperframes 插件，Agent 实际调用了 Skills</li>
+<li>审阅并批准了计划（或按 2.3 的恢复办法继续）</li>
+<li><code>video.py probe</code> 各项符合；6 个镜头来自真实 MP4</li>
+<li>旁白是清晰的普通话女声；没有做播放网页或额外界面</li></ul></div>
+<div class="note"><b>版权</b>产品图片取自微软官网，不是 AI 生成的假产品图，也不因放进教学包就获得开源授权。对外发布前请另行确认使用权。</div>
+
+<!-- ============================== LAB 3 ============================== -->
+<h2 id="lab3">Lab 3 · 经营观察室：一个 Agent 讲清一份财报</h2>
+<hr class="rule">
+<p><b>故事：</b>同事问“微软的业务到底怎么样？”你不想把整份年报贴进聊天窗口，也不想凭模型印象回答。你要做一个像 Power BI 一样易读的页面，让每个数字都能回到原文。</p>
+<div class="table"><table><tbody>
+<tr><th>学会什么</th><td>把计算交给代码、把解释交给 Agent；用“只给一个工具”限制 Agent；数字可回溯</td></tr>
+<tr><th>模式</th><td>Autopilot · GPT-6 Luna · 一个分析 Agent</td></tr>
+<tr><th>实跑耗时</th><td>Agent 运行约 4 分钟，验收约 5 分钟</td></tr>
+<tr><th>交付</th><td>127.0.0.1:8013 的财报观察室 + 3 条有依据的观察</td></tr>
+</tbody></table></div>
+<h3 id="lab3-arch">逻辑架构与代码架构</h3>
+<diagram k="lab3-logic"></diagram>
+<p><b>逻辑架构：</b>数字只来自微软 2025 年报；Python 负责全部计算和核对（分部之和必须等于总数）；唯一的分析 Agent 只解释给它的数字，不上网补数、不给投资建议。</p>
+<diagram k="lab3-code"></diagram>
+<p><b>代码架构：</b><code>tools/fetch_sources.py</code> 抓取年报表格并记录 sha256；<code>finance.py</code> 的 <code>dataset()</code> 解析并核对、<code>view()</code> 计算筛选后的卡片；<code>analyze.py</code> 开一个受限的 SDK 会话写 3 条观察，存进 <code>output/analysis.json</code>；<code>app.py</code> 在 8013 端口提供 <code>/api/data</code> 和 <code>/api/analysis</code>。</p>
+
+<h3 id="s3-1">3.1 新开会话，切回 Autopilot</h3>
+<p>从 <code>gh_app_workshop</code> 的 <b>+</b> 新开会话。<b>这次默认是 Plan</b>（沿用 Lab 2），把模式切回 <b>Autopilot</b>，再粘贴：</p>
+<shot n="3.1a-new-session-default-plan">新会话默认是 Plan（蓝色边框），要切回 Autopilot。</shot>
+<prompt k="lab3-brief"></prompt>
+<p class="why"><b>为什么</b>“一个 Agent”不是界面上只画一个头像：参考代码只给分析会话一个“完成任务”工具，它无法创建子 Agent、上网或改文件，只能解释 Python 给它的数字。</p>
+<shot n="3.1b-autopilot-prompt">Autopilot（绿色边框）下发送 Lab 3 需求。</shot>
+
+<h3 id="s3-2">3.2 读报告，看改动</h3>
+<shot n="3.2a-final-report">报告：Python 核对了营收、营业利润、净利润、利润率和 FY2025/FY2024 分部之和；一个 SDK 分析会话、无子 Agent；Playwright 6 项检查通过。</shot>
+<shot n="3.2b-changes-all-36">Changes 面板列出 36 个文件，包含 Lab 1–3 的全部改动。</shot>
+<div class="note"><b>说明</b>Current checkout 下所有会话共用一份工作目录，所以 Changes 和顶部的 Commit (N) 统计的是整个文件夹，不只是这个会话。只看 <code>Lab3/Code</code> 下的文件即可。</div>
+
+<h3 id="s3-3">3.3 打开观察室</h3>
+<prompt k="lab3-open"></prompt>
+<shot n="3.3a-canvas-tool-rows">工具行：List canvas capabilities Browser → 检查/启动 8013 → Opened canvas Browser → Invoke canvas action Read page。</shot>
+<shot n="3.3b-dashboard">观察室在 App 浏览器中打开。</shot>
+<aside class="feature"><span class="tag">App 功能</span><h4>Canvas 动作 <span class="it">canvas actions</span></h4>
+<ul><li><b>List canvas capabilities</b>：查看某个 Canvas（这里是 Browser）能做哪些动作。</li>
+<li><b>Opened canvas</b>：在侧栏打开它；<b>Invoke canvas action</b>：调用它的动作，例如 Read page 读出页面文字来自检。</li>
+<li>Lab 4 会安装一个自己的 Canvas，用的是同一套机制。</li></ul></aside>
+
+<h3 id="s3-4">3.4 核对四张卡片</h3>
+<p>全部业务 · FY2025（单位：百万美元）。</p>
+<shot n="3.4-four-cards">营收 281,724（同比 +14.93%）· 营业利润 128,528 · 营业利润率 45.62% · 净利润 101,832。</shot>
+<p class="why"><b>为什么</b>先用自己的话讲一遍：营收是做了多少生意，营业利润是经营层面剩下多少，利润率是两者之比。FY2025 是截至 2025 年 6 月 30 日的财年，不是 2025 自然年。</p>
+
+<h3 id="s3-5">3.5 点 Intelligent Cloud</h3>
+<shot n="3.5-intelligent-cloud">营收 106,265（同比 +21.50%）· 营业利润 44,589 · 利润率 41.96%；净利润位置显示“未披露”。</shot>
+<div class="check"><b>检查</b>年报不披露分部净利润，页面就不编造。右侧 Agent 的三条观察不会跟着筛选变化：筛选只改数据视图，不重新调用 Agent。</div>
+
+<h3 id="s3-6">3.6 切到 FY2024</h3>
+<shot n="3.6-fy2024">保持 Intelligent Cloud，财年切到 FY2024：营收 87,464 · 营业利润 37,813 · 利润率 43.23%，不显示同比。</shot>
+<div class="note"><b>已知小问题</b>切到 FY2024 后，副标题仍写“FY2025 截至 2025 年 6 月 30 日”，以卡片数字为准。</div>
+
+<h3 id="s3-7">3.7 分部视图与来源</h3>
+<shot n="3.7a-segments-tab">“业务分部”页签：三个分部的营收、营业利润、利润率。FY2024 分部数据为 2025 年报中的重述数。</shot>
+<shot n="3.7b-sources-tab">“数据与来源”页签：年报链接、分部之和核对（以 JSON 显示，各年合计等于年报总数）、来源快照（抓取时间与 sha256）。</shot>
+<p>最后在终端运行：</p>
+<cmd>python -m pytest -q tests/test_labs.py -k "financial or single_agent"</cmd>
+<div class="done-list"><span class="eyebrow">Lab 3 完成标准</span><ul>
+<li>四张卡片、Cloud 筛选、FY2024 的数字与上面一致</li>
+<li>分部之和核对等于年报总数；来源有链接、时间和 sha256</li>
+<li>测试 2 项通过；页面注明非投资建议、非 Power BI 产品</li></ul></div>
+
+<!-- ============================== LAB 4 ============================== -->
+<h2 id="lab4">Lab 4 · 每周工作罗盘：三个 Agent 与 Canvas</h2>
+<hr class="rule">
+<p><b>故事：</b>几封邮件里有任务，日历里有会议，你希望把它们变成一份有来源、不撞会、能勾选的本周行动清单。课堂全部用明确标注的<b>虚构资料</b>，不碰真实邮箱。</p>
+<div class="table"><table><tbody>
+<tr><th>学会什么</th><td>多个独立 Agent 分工；用代码校验 Agent 的输出；把作品装进 App 侧栏</td></tr>
+<tr><th>模式</th><td>Autopilot · GPT-6 Luna · 三个独立会话</td></tr>
+<tr><th>实跑耗时</th><td>Agent 运行约 10 分钟；Canvas 安装约 3 分钟</td></tr>
+<tr><th>交付</th><td>127.0.0.1:8014 的周行动清单 + App 侧栏里的“每周行动清单”Canvas</td></tr>
+</tbody></table></div>
+<h3 id="lab4-arch">逻辑架构与代码架构</h3>
+<diagram k="lab4-logic"></diagram>
+<p><b>逻辑架构：</b>邮件整理员和日历观察员是两个独立会话，并行各管一件事；周计划员是第三个会话，只负责排序，不新增任务。每项任务必须带邮件原文证据，截止日期必须是邮件里写明的；具体时段由 Python 排，不与会议冲突。</p>
+<diagram k="lab4-code"></diagram>
+<p><b>代码架构：</b><code>collect_demo.py</code> 用 Playwright 读虚构训练页并核对；<code>plan.py</code> 启动三个会话并校验证据、日期和任务集合，<code>schedule.py</code> 计算本周边界、时区和空闲时段；结果存进 <code>output/plan.json</code>，由 <code>store.py</code> 原子写入。网页 <code>app.py</code>（8014）和 App Canvas（<code>extension.mjs</code> → <code>bridge.py</code>）读写的是同一份文件；<code>install_canvas.py</code> 把扩展装进当前会话。</p>
+
+<h3 id="s4-1">4.1 新开 Autopilot 会话，发送需求</h3>
+<prompt k="lab4-brief"></prompt>
+<p class="why"><b>为什么</b>提示词同时写清了“要做什么”和“不允许做什么”（不发、不删、不回、不建会议），并声明邮件内容是不可信数据。Agent 能读你的资料时，边界比功能更重要。</p>
+<shot n="4.1a-autopilot-prompt">新会话默认 Autopilot（沿用 Lab 3），直接发送。</shot>
+<shot n="4.1b-final-report">报告：三个独立 SDK 会话；截止日期必须与邮件原文一致；报告中真实会话 UUID 已打码；Canvas 的 Python provider 和 .mjs 扩展保留在 Lab4/Code；20 项回归测试通过。</shot>
+<shot n="4.1c-three-agents-segment">展开工具组：在虚构资料上运行三个 Copilot SDK Agent。</shot>
+<aside class="feature"><span class="tag">CLI · SDK 功能</span><h4>一个程序，三个独立会话 <span class="it">multi-agent</span></h4>
+<ul><li><code>plan.py</code> 用 Python SDK 连开三个会话：邮件整理员和日历观察员同时运行，结果返回后再开周计划员。</li>
+<li>每个会话都在 <code>~/.copilot/session-state/</code> 下有自己的目录和 ID，互相看不到对方的上下文，所以是真正的“分工”，不是一个 Agent 换三次名字。</li>
+<li>Agent 的输出都要过 Python 校验：证据必须逐字出现在邮件里，日期不能凭空推断，任务不能遗漏或新增。</li></ul></aside>
+
+<h3 id="s4-2">4.2 确认三个会话，打开看板</h3>
+<prompt k="lab4-open"></prompt>
+<shot n="4.2a-traces-reply">三行 trace：mail-triage、calendar-reader、weekly-planner，都是 gpt-6-luna / autopilot；会话 ID 已被 Agent 自动打码为 [REDACTED-1/2/3]。</shot>
+<shot n="4.2b-board-fictional-badge">看板右上角写着“虚构练习数据 · 非真实邮箱”；三张 Agent 卡片；本周行动清单 0 / 3。演示时钟固定在 2026-10-19 09:00（Asia/Shanghai）。</shot>
+
+<h3 id="s4-3">4.3 看证据，勾选后刷新</h3>
+<p>点第一项任务下的 <b>查看来源 mail-102</b>，再勾选这项任务，然后点浏览器的刷新。</p>
+<p class="why"><b>为什么</b>证据让你判断“它为什么给我这项任务”；刷新后状态还在，说明完成状态写进了文件，而不是只存在页面内存里。</p>
+<shot n="4.3a-source-mail-102">邮件原文：“请在 2026-10-21 10:00 前准备三条 FY2025 财报观察，预计需要 45 分钟。”截止时间与任务一致。</shot>
+<shot n="4.3b-1of3-after-reload">刷新后仍显示 1 / 3 已完成。建议时段标注“未写入 Outlook”。</shot>
+
+<h3 id="s4-4">4.4 把看板装进 App 侧栏（原生 Canvas）</h3>
+<p>在同一会话的输入框输入 <code>/create-canvas</code>，App 会提示这是一个内置 Skill。按空格，再用 <kbd>Shift</kbd>+<kbd>Return</kbd> 换行，粘贴：</p>
+<shot n="4.4a-create-canvas-suggest">输入 /create-canvas 时的提示：用于创建、验证和调试可在 App 侧栏打开的 Canvas 扩展（Skill）。</shot>
+<prompt k="lab4-canvas"></prompt>
+<p class="why"><b>为什么</b>扩展装在“当前会话”里，而不是全局目录，关掉会话就不再加载，不会影响你以后的其他工作。<code>install_canvas.py</code> 会自动找到当前会话，不用手抄会话 ID。</p>
+<shot n="4.4b-install-canvas-output">运行 install_canvas.py：“已自动识别当前会话”“已安装会话级扩展 …/extensions/hol-weekboard”（会话 ID 与路径已打码）。</shot>
+<shot n="4.4c-canvas-final-report">报告：hol-weekboard 装在会话级（未装到全局），list / inspect 显示 ready，能力包含 complete；用 weekly-main 打开 weekly-demo；勾选写入 plan.json，重开后仍保持；未访问 Outlook。</shot>
+<shot n="4.4d-canvas-tab-weekboard">App 右侧出现“每周行动清单”Canvas 标签，与 8014 网页是同一份数据。</shot>
+<aside class="feature"><span class="tag">App 功能</span><h4>会话级 Canvas 扩展 <span class="it">extensions</span></h4>
+<ul><li><code>/create-canvas</code> 是 App 内置的 Skill，指导 Agent 按当前版本的接口创建和调试 Canvas。</li>
+<li>Agent 用 <b>Extensions manage</b> 的 guide / list / inspect 查看扩展状态，用 <b>Extensions reload</b> 重新加载。</li>
+<li>会话级扩展装在 <code>~/.copilot/session-state/&lt;会话 ID&gt;/extensions/</code> 下；业务逻辑仍在 Python，<code>extension.mjs</code> 只负责注册和转发。</li>
+<li><code>weekly-main</code> 是面板 ID，<code>weekly-demo</code> 才是文档 ID，不要混淆。</li></ul></aside>
+
+<h3 id="s4-5">4.5 恢复初始状态，跑全部测试</h3>
+<p>在 Canvas 里取消勾选，让清单回到 0 / 3，然后在终端运行全部测试：</p>
+<shot n="4.5-canvas-0of3">取消勾选后：0 / 3 已完成。</shot>
+<cmd>python -m pytest -q tests/test_labs.py</cmd>
+<div class="check"><b>检查</b>本次实跑：<b>48 passed</b>。</div>
+<div class="done-list"><span class="eyebrow">Lab 4 完成标准</span><ul>
+<li>三个 trace 的角色不同、模型均为 gpt-6-luna、会话 ID 各不相同</li>
+<li>每项任务都能展开邮件原文；没写截止日期的任务保持未指定</li>
+<li>勾选后刷新仍保持；侧栏 Canvas 与网页数据一致</li>
+<li>全部测试通过；没有访问或写入真实邮箱</li></ul></div>
+<div class="note"><b>课后延伸</b>用本人 Outlook 资料运行（<code>collect.py --live</code>）需要本人登录、人工脱敏，并确认组织政策允许把内容发给模型，课堂不做。步骤见课程仓库 <code>Lab4/README.md</code> 第 9 步。</div>
+
+<!-- ============================== APPENDIX ============================== -->
+<h2 id="appendix">附录</h2>
+<hr class="rule">
+<h3 id="a-stop">A · 课后停止后台服务</h3>
+<p>四个 Lab 会留下几个本机服务：8011（Lab 1）、8013（Lab 3）、8014（Lab 4）、3002（Lab 2 的 HyperFrames Studio）。最简单的办法是在每个会话底部点 <b>Background</b>，逐个停止；也可以在终端按端口停：</p>
+<cmd><mac>lsof -nP -iTCP:8011 -sTCP:LISTEN
+kill &lt;上一条显示的 PID&gt;</mac><win>Get-NetTCPConnection -LocalPort 8011 -State Listen | Select-Object OwningProcess
+Stop-Process -Id &lt;上一条显示的 OwningProcess&gt;</win></cmd>
+<p>把 8011 换成 8013、8014、3002 重复。只停你自己启动的服务，不认识的进程不要停。</p>
+
+<h3 id="a-reset">B · 课间复位（讲师）</h3>
+<p>Agent 会修改课程文件和生成结果。下一班开课前，在课程根目录把四个 Lab 恢复到仓库版本：</p>
+<cmd>git status --short
+git restore --source=HEAD -- Lab1 Lab2 Lab3 Lab4
+git clean -fd -- Lab1 Lab2 Lab3 Lab4</cmd>
+<p><code>git clean</code> 会删除 Lab 目录里新增的未跟踪文件（例如 Lab 2 的 <code>REVIEW.md</code>、Lab 3 的 <code>observatory.png</code>），不会删除 <code>.venv</code> 和 <code>node_modules</code> 这类被忽略的目录。先看清 <code>git status</code> 再执行。</p>
+
+<h3 id="a-diff">C · 实跑与课程 README 的差异（2026-11-25）</h3>
+<div class="table wide"><table><thead><tr><th>#</th><th>README 或旧手册的说法</th><th>实际 App 的行为</th><th>告诉学员</th></tr></thead><tbody>
+<tr><td>1</td><td>Sessions → + → Open local folder</td><td>菜单项为 Add local folder or repository；文件夹出现在 Sessions 下，不在 Projects</td><td>用新名称；从 Sessions 找文件夹</td></tr>
+<tr><td>2</td><td>点 New 开新会话</td><td>New 会开不挂文件夹的空白会话</td><td>每个 Lab 从 <code>gh_app_workshop</code> 的 + 开始</td></tr>
+<tr><td>3</td><td>每个 Lab 以它写的模式开始</td><td>新会话沿用上一会话的模式</td><td>发送前看边框颜色</td></tr>
+<tr><td>4</td><td>Where to work 用 Current checkout</td><td>默认是 New worktree</td><td>手动改成 Current checkout</td></tr>
+<tr><td>5</td><td>Lab 2 用 /product-launch-video</td><td>hyperframes v0.9.96 没有这个 Skill，加载失败</td><td>属正常；实际用 /hyperframes、/hyperframes-cli、/media-use</td></tr>
+<tr><td>6</td><td>批准计划后切到 Autopilot</td><td>Review plan 面板可能被 Esc 或误点关掉，显示 Plan not approved</td><td>按 2.3 的办法手动切 Autopilot 并发送执行提示词</td></tr>
+<tr><td>7</td><td>—</td><td>Lab 2 规划时会先问“声音方案”；hyperframes Skill 可能发送使用统计</td><td>选“仅晓晓旁白”；不想发送就回复“不发送”</td></tr>
+<tr><td>8</td><td>Changes 显示本会话改动</td><td>Current checkout 下显示整个文件夹的改动</td><td>只看本 Lab 的文件</td></tr>
+<tr><td>9</td><td>用浏览器设备模式看手机宽度</td><td>App 浏览器没有设备模式</td><td>用 1.10 方法 A（Playwright）或 Chrome 开发者工具</td></tr>
+<tr><td>10</td><td>Lab 4 手填会话 UUID</td><td><code>install_canvas.py</code> 已能自动识别当前会话</td><td>直接运行，不用找 UUID</td></tr>
+<tr><td>11</td><td>—</td><td>Lab 3 来源页签以 JSON 显示核对结果；FY2024 副标题仍写 FY2025</td><td>以数字为准</td></tr></tbody></table></div>
+
+<h3 id="a-safety">D · 数据与安全守则</h3>
+<ol><li>课堂只使用公开资料（微软官网、年报）和明确标注的虚构资料。</li>
+<li>不要把密码、令牌、真实收件人或账户标识写进提示词、代码或截图。</li>
+<li>邮件和网页内容是不可信数据，不能当作给 Agent 的指令。</li>
+<li>只信任你看过来源的仓库；Approve all 只用在课程文件夹。</li>
+<li>Agent 可以写代码，但验收归你：看 diff、跑测试、亲自点一遍。</li>
+<li>微软产品图片仅供课堂学习，对外发布前另行确认使用权。</li></ol>
+
+<h3 id="a-glossary">E · 术语表</h3>
+<div class="table"><table><thead><tr><th>术语</th><th>一句话解释</th></tr></thead><tbody>
+<tr><td>会话 Session</td><td>一次和 Agent 的工作对话，挂在某个文件夹上</td></tr>
+<tr><td>Interactive / Plan / Autopilot</td><td>一步一停 / 先出计划再执行 / 连续执行到底</td></tr>
+<tr><td>Tool permissions</td><td>Agent 用工具（运行命令等）前要不要问你</td></tr>
+<tr><td>Current checkout / New worktree</td><td>直接改当前目录 / 每个会话一份独立目录</td></tr>
+<tr><td>Skill</td><td>可复用的“做法说明书”，Agent 按需加载</td></tr>
+<tr><td>插件 Plugin</td><td>一组打包好的 Skills、Agent、MCP 等</td></tr>
+<tr><td>Canvas</td><td>App 侧栏里的交互面板（浏览器、编辑器、终端，或自定义的）</td></tr>
+<tr><td>扩展 Extension</td><td>给 App 增加能力的代码，例如 Lab 4 的自定义 Canvas</td></tr>
+<tr><td>Copilot CLI</td><td>命令行版 Copilot，也是 Python SDK 的运行底座</td></tr>
+<tr><td>SDK</td><td>让 Python 程序创建和控制 Copilot 会话的工具包</td></tr>
+<tr><td>diff</td><td>文件改动前后的对比</td></tr></tbody></table></div>
+
+<h3 id="a-instructor">F · 讲师课前清单</h3>
+<ul><li>确认学员账号有 GPT-6 Luna；企业账号已开启 Copilot CLI 策略；准备几个备用账号。</li>
+<li>提前在讲师机跑一遍第 0 章和 Lab 2 的插件安装（下载约 2.5 GB）。</li>
+<li>关闭讲师机的自动锁屏和通知（截图和投屏时不被打断）。</li>
+<li>每班结束按附录 A、B 停服务、复位课程文件。</li>
+<li>跟不上的学员：课程仓库已附带各 Lab 的生成结果，可直接从“打开页面 / 验收”那一步继续。</li></ul>
+
+<h3 id="a-version">G · 版本与实跑记录</h3>
+<p>实跑时间 2026-11-25 至 11-26（美国太平洋时间），Mac mini（Apple 芯片，macOS）。GitHub Copilot App（当日最新版），Copilot CLI 1.0.106，github-copilot-sdk（Python）1.0.22，GPT-6 Luna · Medium · 272K，hyperframes 插件 0.9.96。Python 3.15.2、Node 26.13.0、FFmpeg 9.0.2、Playwright 1.64.0。课程仓库 <a href="https://github.com/ITD-NextDimension/gh_app_workshop">ITD-NextDimension/gh_app_workshop</a>。截图中的账号名、会话 ID 和本机路径已打码，macOS 菜单栏已裁掉。</p>

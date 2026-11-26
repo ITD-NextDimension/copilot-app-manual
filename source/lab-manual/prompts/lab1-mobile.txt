@@ -1,0 +1,1 @@
+请用 Playwright 以 390×844 视口打开 http://127.0.0.1:8011/generated.html，截图并报告 document.documentElement.scrollWidth。不要修改任何文件。

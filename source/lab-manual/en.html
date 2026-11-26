@@ -1,0 +1,575 @@
+<section class="hero">
+  <span class="eyebrow">GitHub Copilot App · Hands-on workshop · Learner manual</span>
+  <h1>From Vibe Coding<br><span class="it">to Agentic Engineering</span></h1>
+  <p class="lead">Four hands-on labs, each adding one building block of an agent: workflow, skills, tools and data. Every step says where to click, why, and what "done" looks like. All screenshots come from a real run of the GitHub Copilot App on a Mac mini on 2026-11-25.</p>
+  <div class="facts">
+    <div><div class="big">3 h</div><div class="lbl">In class</div><div class="sub">Do Chapter 0 before class</div></div>
+    <div><div class="big">4</div><div class="lbl">Labs</div><div class="sub">More autonomy each time</div></div>
+    <div><div class="big">1</div><div class="lbl">Course repository</div><div class="sub">ITD-NextDimension/gh_app_workshop</div></div>
+    <div><div class="big">2</div><div class="lbl">Command sets</div><div class="sub">Switch macOS / Windows top right</div></div>
+  </div>
+</section>
+
+<h2 id="overview">Course overview</h2>
+<hr class="rule">
+<p><strong>The idea: an agent = workflow + skills + tools + data.</strong> Copilot itself is built this way, and so is the agent you build. In the first two labs Copilot works for you; in the last two you use Copilot to build an agent of your own.</p>
+<div class="table wide"><table>
+<thead><tr><th>Lab</th><th>In class</th><th>Building block</th><th>Main App features</th><th>Your role</th><th>What you deliver</th></tr></thead>
+<tbody>
+<tr><td><b>1 · Chinese chess</b></td><td>35 min</td><td>Workflow</td><td>Sessions, Autopilot, Changes, in-app browser</td><td>Project manager for the AI</td><td>Browser chess game + Python rules engine</td></tr>
+<tr><td><b>2 · Two-minute product video</b></td><td>45 min</td><td>Skills</td><td>Plugins and Skills, Plan → approve → Autopilot</td><td>Coach for the AI</td><td>1080×1920, 30 fps, 120 s MP4 with Mandarin voice-over</td></tr>
+<tr><td><b>3 · Finance observatory</b></td><td>45 min</td><td>Tools</td><td>One SDK agent, Canvas browser actions</td><td>Agent architect</td><td>Annual-report dashboard + one agent's commentary</td></tr>
+<tr><td><b>4 · Weekly compass</b></td><td>55 min</td><td>Data + decisions</td><td>Three separate sessions, session-level Canvas extension</td><td>AI product owner</td><td>Multi-agent weekly to-do list + Canvas in the App sidebar</td></tr>
+</tbody></table></div>
+<h3 id="how-to-read">How to read this manual</h3>
+<ul>
+<li><b>Each step</b> goes: what to do → <b>why</b> (one or two sentences) → command or prompt → screenshot → <b>check</b> (what "done" looks like).</li>
+<li><b>Screenshots</b> show a close-up first; open "Show the full window" to see where it sits in the App. Account names and session IDs are blurred.</li>
+<li><b>Commands</b> follow the macOS / Windows switch at the top right. Screenshots were taken on macOS; Windows commands are written for PowerShell but were not run on a Windows machine for this edition.</li>
+<li><b>Feature cards</b> (App feature, CLI feature) explain the GitHub Copilot App or Copilot CLI capability a step uses. Read them the first time; skip them later.</li>
+<li><b>Prompts</b> stay in Chinese, exactly as learners paste them into the App. In the prompt box, <kbd>Shift</kbd>+<kbd>Return</kbd> adds a new line and <kbd>Return</kbd> sends.</li>
+</ul>
+<p class="legend">Diagram key: dark box = App / agent session · lilac box = model or Skills · white box = code · dashed box = data or a person</p>
+
+<h2 id="ch0">Chapter 0 · Set up and get to know the App</h2>
+<hr class="rule">
+<p>This chapter combines setup with an App tour: each time you install something, you also see which App control it relates to. It takes about 25 minutes; please do it before class. After that, the four labs need only the App and one terminal window.</p>
+
+<h3 id="s0-1">0.1 Install and sign in to the App, check for GPT-6 Luna</h3>
+<p>Download the GitHub Copilot App from <a href="https://gh.io/app">gh.io/app</a> and sign in with a GitHub account that has a Copilot licence. Click <b>New</b> at the top left, then the model button under the prompt box (it reads something like <code>GPT-6 Luna · Medium</code>) and open <b>Model</b>.</p>
+<p class="why"><b>Why</b>All four labs use GPT-6 Luna. The course code checks the model and stops if it is missing; it never quietly switches to another model.</p>
+<shot n="0.1-model-menu">Model menu: GPT-6 Luna is ticked; above it are Copilot Fusion, Effort and Context window.</shot>
+<div class="check"><b>Check</b><b>GPT-6 Luna</b> is in the Model list. If not, ask an administrator to fix the account's or organisation's model access first. Don't carry on with another model.</div>
+<aside class="feature"><span class="tag">App feature</span><h4>Model menu <span class="it">what each line does</span></h4>
+<ul><li><b>Copilot Fusion</b>: several models working together. Keep it off for this course.</li>
+<li><b>Effort</b>: how hard the model thinks. The course uses <code>Medium</code>; higher is slower and uses more quota.</li>
+<li><b>Context window</b>: how much one session can remember (272K here). When it fills up, the App compacts older messages automatically.</li></ul></aside>
+<div class="note"><b>Note</b>This is the GitHub Copilot App, not Microsoft 365 Copilot. The home screen may show a promo card or an update prompt; close it, and don't restart the App mid-class.</div>
+
+<h3 id="s0-2">0.2 Check the local tools and install what's missing</h3>
+<p>Open a terminal (Terminal on macOS, PowerShell on Windows) and run each version check. Each one should print a version.</p>
+<p class="why"><b>Why</b>The agent in the App runs these tools on your computer: Python for the course code, Node.js and FFmpeg to render the Lab 2 video, and the Copilot CLI to give Python programs access to the model.</p>
+<cmd><mac>python3 --version
+git --version
+node --version
+npm --version
+ffmpeg -version
+ffprobe -version
+copilot --version</mac><win>py --version
+git --version
+node --version
+npm --version
+ffmpeg -version
+ffprobe -version
+copilot --version</win></cmd>
+<p>Install anything missing from the table below, then open a new terminal and check again.</p>
+<div class="table wide"><table>
+<thead><tr><th>Tool</th><th>Needs</th><th>Install on macOS</th><th>Install on Windows</th><th>Used by</th></tr></thead>
+<tbody>
+<tr><td>Homebrew</td><td>macOS only</td><td><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></td><td>— (Windows uses the built-in winget)</td><td>Installing the rest</td></tr>
+<tr><td>Python</td><td>3.11 or later</td><td><code>brew install python@3.12</code></td><td><code>winget install -e --id Python.Python.3.12</code></td><td>All labs</td></tr>
+<tr><td>Git</td><td>Any recent</td><td><code>brew install git</code></td><td><code>winget install -e --id Git.Git</code></td><td>Cloning the course</td></tr>
+<tr><td>Node.js + npm</td><td>22 or later</td><td><code>brew install node</code></td><td><code>winget install -e --id OpenJS.NodeJS.LTS</code></td><td>Lab 2, Copilot CLI</td></tr>
+<tr><td>FFmpeg / ffprobe</td><td>Any recent</td><td><code>brew install ffmpeg</code></td><td><code>winget install -e --id Gyan.FFmpeg</code></td><td>Lab 2</td></tr>
+<tr><td>Copilot CLI</td><td>Signed in</td><td colspan="2"><code>npm install -g @github/copilot</code>, then <code>copilot login</code> and finish sign-in on the official page it opens</td><td>Model calls from the Python SDK</td></tr>
+</tbody></table></div>
+<div class="check"><b>Check</b>All seven commands print a version. In this run: Python 3.15.2, git 2.50.1, Node 26.13.0, npm 11.20.0, FFmpeg 9.0.2, Copilot CLI 1.0.106.</div>
+<div class="warn"><b>Safety</b>Never paste a password or token into a prompt, code or screenshot. Sign in only on the official page.</div>
+
+<h3 id="s0-3">0.3 Create the working folder and clone the course</h3>
+<p>Create a <code>Demo-GH</code> folder in <b>your home folder</b> and clone the course into it. On macOS that is <code>/Users/&lt;your user name&gt;/Demo-GH</code>; on Windows, <code>C:\Users\&lt;your user name&gt;\Demo-GH</code>.</p>
+<p class="why"><b>Why</b>With the same path for everyone, the instructor can match it at a glance when troubleshooting, and a path without spaces or non-ASCII characters keeps the Python and Node tools happy.</p>
+<cmd><mac>cd ~
+mkdir -p Demo-GH
+cd Demo-GH
+pwd
+git clone https://github.com/ITD-NextDimension/gh_app_workshop gh_app_workshop
+cd gh_app_workshop
+ls</mac><win>Set-Location $HOME
+New-Item -ItemType Directory -Force Demo-GH | Out-Null
+Set-Location Demo-GH
+Get-Location
+git clone https://github.com/ITD-NextDimension/gh_app_workshop gh_app_workshop
+Set-Location gh_app_workshop
+Get-ChildItem</win></cmd>
+<div class="table"><table><thead><tr><th>After cloning</th><th>What it is</th></tr></thead><tbody>
+<tr><td><code>Demo-GH/gh_app_workshop/</code></td><td>The course root. Every later command runs here unless it says <code>cd</code>.</td></tr>
+<tr><td><code>Lab1/</code> … <code>Lab4/</code></td><td>Each lab's README and its <code>Code/</code></td></tr>
+<tr><td><code>tools/</code>, <code>tests/</code></td><td>Shared Python tools (model calls, local web server) and rule tests</td></tr>
+<tr><td><code>requirements.txt</code></td><td>Python dependencies</td></tr>
+</tbody></table></div>
+<div class="check"><b>Check</b>The last command lists <code>Lab1</code>–<code>Lab4</code>, <code>README.md</code>, <code>requirements.txt</code>, <code>tools</code> and <code>tests</code>.</div>
+<div class="note"><b>Note</b>You only need the <code>gh_app_workshop</code> repository. This manual's source lives in a separate repository, <code>copilot-app-manual</code>, which instructors use to maintain the manual; learners don't clone it. If you cloned the course before, run <code>git status --short --branch</code> to check for local changes first, and never run <code>git clone URL .</code> in a non-empty folder.</div>
+
+<h3 id="s0-4">0.4 Create the Python virtual environment and install dependencies</h3>
+<p>Still in the course root, run:</p>
+<p class="why"><b>Why</b>The virtual environment (<code>.venv</code>) keeps the course's packages apart from the system Python. Homebrew's Python on macOS refuses system-wide installs (PEP 668); don't bypass that with <code>--break-system-packages</code>.</p>
+<cmd><mac>python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m playwright install chromium</mac><win>py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python -m playwright install chromium</win></cmd>
+<div class="check"><b>Check</b>No errors from any of the four commands; after activation the prompt starts with <code>(.venv)</code>.</div>
+<div class="note os-win"><b>Windows</b>If execution policy blocks <code>Activate.ps1</code>, don't change the organisation's policy. Use <code>.\.venv\Scripts\python.exe</code> wherever a later command says <code>python</code>.</div>
+<div class="note"><b>Note</b>Activate again in every new terminal: <code>source .venv/bin/activate</code> on macOS, <code>.\.venv\Scripts\Activate.ps1</code> on Windows.</div>
+
+<h3 id="s0-5">0.5 Run the capability probe</h3>
+<cmd><mac>python tools/probe.py
+grep gpt-6-luna verification/capabilities.json</mac><win>python tools\probe.py
+Select-String gpt-6-luna verification\capabilities.json</win></cmd>
+<p class="why"><b>Why</b>This proves a Python program can reach the model through the Copilot SDK. The App working doesn't prove the SDK works, and the lab scripts go through the SDK.</p>
+<div class="check"><b>Check</b><code>gpt-6-luna</code> is in the model list and the second command finds it; there is no sign-in error.</div>
+<aside class="feature"><span class="tag">CLI feature</span><h4>Copilot CLI and the Python SDK <span class="it">how they connect</span></h4>
+<ul><li>The Python <code>github-copilot-sdk</code> doesn't talk to the cloud itself: it starts the <code>copilot</code> command in the background and talks to it over standard input/output (stdio). That's why the CLI must be installed and signed in.</li>
+<li>The App and the CLI share the <code>~/.copilot</code> folder (<code>%USERPROFILE%\.copilot</code> on Windows): session records in <code>session-state/</code>, plus plugins, Skills and extensions. A plugin installed with the CLI shows up in the App without a restart (Lab 2 uses this).</li>
+<li>The course's <code>tools/agent.py</code> gives each session a single "task complete" tool: no browsing, no file access, no sub-agents, and no silent model switch when the model is unavailable.</li></ul></aside>
+
+<h3 id="s0-6">0.6 Add the course folder to the App</h3>
+<p>Click <b>+</b> next to <b>Sessions</b> in the App's left sidebar, choose <b>Add local folder or repository</b>, select <code>Demo-GH/gh_app_workshop</code> in "Select folder or repository" and click <b>Open</b>.</p>
+<p class="why"><b>Why</b>The App can only change folders it has opened. Once the course root is open, the agent can read all four labs' code.</p>
+<shot n="0.6a-plus-menu">The four options on the <b>+</b> menu: Chat, Add from GitHub, Add from URL, Add local folder or repository.</shot>
+<shot n="0.6b-sessions-list">After adding, <code>gh_app_workshop</code> appears under <b>Sessions</b> (not Projects).</shot>
+<shot n="0.6c-new-session">Clicking it (or the <b>+</b> next to it) opens New session; under the prompt box are three settings: folder, Run on and Where to work.</shot>
+<aside class="feature"><span class="tag">App feature</span><h4>Sessions and Projects <span class="it">where sessions live</span></h4>
+<ul><li><b>Sessions</b>: your sessions grouped by folder. Every lab starts a new session from <code>gh_app_workshop</code> here.</li>
+<li><b>Projects</b>: optional grouping; it doesn't clone code. Not needed for this course.</li>
+<li><b>Watch out</b>: <b>New</b> at the top left opens a blank chat with no folder. <b>Start every lab from the + next to <code>gh_app_workshop</code> under Sessions</b>, or the agent can't see the course files.</li></ul></aside>
+
+<h3 id="s0-7">0.7 Set the mode, permissions and workspace</h3>
+<p>In New session, check each button under the prompt box.</p>
+<h4>Mode</h4>
+<p>Click the mode button (it reads <code>Interactive</code> by default) to see the three modes. The prompt box border changes colour: grey for Interactive, blue for Plan, green for Autopilot.</p>
+<shot n="0.7a-mode-menu">Mode menu: Interactive (Step-by-step collaboration), Plan (Plan first, execute when ready), Autopilot (End-to-end execution without interruption), plus Tool permissions.</shot>
+<shot n="0.7a-plan-blue-border">With Plan the border turns blue and the placeholder reads "Plan a task…".</shot>
+<shot n="0.7a-autopilot-green-border">With Autopilot the border turns green and the placeholder reads "Delegate a task…".</shot>
+<h4>Tool permissions</h4>
+<p>In the same menu open <b>Tool permissions</b> and choose <b>Approve all</b>.</p>
+<p class="why"><b>Why</b>Autopilot doesn't stop to wait for you. With Always ask, nobody approves its commands, so every command is refused and the run only reads files.</p>
+<shot n="0.7b-tool-permissions">Tool permissions: Always ask, Assisted, Approve all.</shot>
+<div class="warn"><b>Safety</b>Approve all lets the agent run commands without asking. Use it only on the course folder and practice data.</div>
+<h4>Folder, Run on, Where to work</h4>
+<shot n="0.7c1-folder-dropdown">Folder: make sure <code>gh_app_workshop</code> is ticked.</shot>
+<shot n="0.7c2-run-on-dropdown">Run on: keep <b>This computer</b>. Cloud runs remotely, but the course needs your local Python, FFmpeg and browser.</shot>
+<shot n="0.7c3-where-to-work-default">Where to work: <b>the default is New worktree; change it to Current checkout</b>.</shot>
+<shot n="0.7c3b-current-checkout">After the change: <code>gh_app_workshop</code> · <code>This computer</code> · <code>Current checkout</code>.</shot>
+<p class="why"><b>Why</b>New worktree copies the folder for each session. The course changes, runs and checks the one copy you cloned, so use Current checkout.</p>
+<aside class="feature"><span class="tag">App feature</span><h4>Three modes and "mode memory" <span class="it">modes</span></h4>
+<ul><li><b>Interactive</b>: stops after each step; good when the direction isn't settled.</li>
+<li><b>Plan</b>: researches and writes a plan (<code>plan.md</code>); changes nothing until you approve. For vague, wide or costly-to-undo tasks (Lab 2).</li>
+<li><b>Autopilot</b>: runs to the end when the task is well bounded (Labs 1, 3 and 4).</li>
+<li><b>A new session keeps the previous session's mode.</b> In this run Lab 1 used Autopilot, so the Lab 2 session opened in Autopilot; Lab 2 used Plan, so the Lab 3 session opened in Plan. <b>Check the border colour before every send.</b></li>
+<li><b>Where to work</b> and <b>Run on</b> are remembered too. Under Current checkout all sessions share one working folder, so the Changes panel shows the whole folder's changes, not just this session's (you'll see this in Lab 3).</li></ul></aside>
+
+<h3 id="s0-8">0.8 Look around Customize (look, don't install)</h3>
+<p>Click <b>Customize</b> in the sidebar and switch between the <b>Browse</b> and <b>Installed</b> tabs. The type filter at the top right has MCP, Plugins, Skills, Extensions and Canvas.</p>
+<shot n="0.7d-customize">Customize · Browse: installable capabilities grouped as Plan, Build, Review, Test and more.</shot>
+<shot n="0.7d-customize-installed">Installed: Plugins, Extensions, Canvas (built-in Editor, Browser, Terminal) and Skills.</shot>
+<aside class="feature"><span class="tag">App feature</span><h4>Five kinds of customization <span class="it">customize</span></h4>
+<div class="table"><table><thead><tr><th>Type</th><th>What it is</th><th>In this course</th></tr></thead><tbody>
+<tr><td>Skills</td><td>Reusable "how-to" instructions the agent loads when needed</td><td>Lab 2 installs the HyperFrames Skills</td></tr>
+<tr><td>Plugins</td><td>A packaged set of Skills, agents, MCP servers and more</td><td>Lab 2's hyperframes plugin</td></tr>
+<tr><td>Canvas</td><td>Interactive panels in the App sidebar; Editor, Browser and Terminal are built in</td><td>Labs 1 and 3 use Browser; Lab 4 adds one</td></tr>
+<tr><td>Extensions</td><td>Code that adds capabilities to the App (for example a custom Canvas)</td><td>Lab 4 installs a session-level extension</td></tr>
+<tr><td>MCP</td><td>Connects outside data and tools to the model</td><td>Not used</td></tr></tbody></table></div></aside>
+
+<h3 id="s0-9">0.9 Checklist</h3>
+<div class="done-list"><span class="eyebrow">Chapter 0 is done when</span><ul>
+<li>GPT-6 Luna is in the App's model list</li>
+<li>All seven version commands print a version</li>
+<li><code>Demo-GH/gh_app_workshop</code> is cloned and contains Lab1–Lab4</li>
+<li><code>.venv</code> exists, dependencies are installed, and <code>probe.py</code> lists gpt-6-luna</li>
+<li><code>gh_app_workshop</code> is under Sessions in the App, set to This computer · Current checkout · Approve all</li>
+</ul></div>
+<p>The first time you send a Lab 1 prompt, the App also asks you to trust the repository; see 1.3.</p>
+
+<!-- ============================== LAB 1 ============================== -->
+<h2 id="lab1">Lab 1 · Chinese chess: say clearly what you want</h2>
+<hr class="rule">
+<p><b>Story:</b> The studio has a team event next week. You want a Chinese chess game that runs in the browser, without learning to code first. Your request isn't "write me some code" but "let my colleagues play, and prove the rules aren't made up".</p>
+<div class="table"><table><tbody>
+<tr><th>You learn</th><td>Writing a request as goal + constraints + checks + stop condition; reading the agent's report and diff; checking the result in the App</td></tr>
+<tr><th>Mode</th><td>Autopilot · GPT-6 Luna · Medium</td></tr>
+<tr><th>Live run</th><td>About 10 min of agent time plus about 5 min of checking</td></tr>
+<tr><th>Deliverable</th><td>Two-player chess in the browser (127.0.0.1:8011) + Python rules engine + rule tests</td></tr>
+</tbody></table></div>
+<h3 id="lab1-arch">Logical and code architecture</h3>
+<diagram k="lab1-logic"></diagram>
+<p><b>Logical architecture:</b> you write only the request and the acceptance criteria. The App session (Autopilot) reads the code, edits the page, adds tests, then clicks through it with Playwright. All rule decisions are made in Python; the page only draws and handles clicks.</p>
+<diagram k="lab1-code"></diagram>
+<p><b>Code architecture:</b> <code>generate.py</code> calls GPT-6 Luna through <code>tools/agent.py</code> to produce the page shell <code>generated.html</code>. <code>app.py</code> uses <code>tools/web.py</code> to serve the page on local port 8011 with <code>/api/state</code>, <code>/api/select</code>, <code>/api/move</code>, <code>/api/undo</code> and <code>/api/reset</code>. Every legal move is computed by <code>xiangqi.Game</code>.</p>
+
+<h3 id="s1-1">1.1 Start an Autopilot session from the course folder</h3>
+<p>Under Sessions, click the <b>+</b> next to <code>gh_app_workshop</code>. Choose <b>Autopilot</b> (green border) and <b>GPT-6 Luna · Medium</b>; underneath it should read <code>gh_app_workshop</code> · <code>This computer</code> · <code>Current checkout</code>.</p>
+<p class="why"><b>Why</b>The request is already clear, so the agent can run it to the end while you focus on checking the result.</p>
+<shot n="1.1-autopilot-luna">Ready to send: Autopilot (green border), GPT-6 Luna · Medium, and the three workspace settings.</shot>
+
+<h3 id="s1-2">1.2 Paste the request and send</h3>
+<prompt k="lab1-brief"></prompt>
+<p class="why"><b>Why</b>The request is a complete spec: the goal (a chess game for non-technical colleagues), constraints (only Lab1/Code, no sub-agents, no computer opponent) and verification (real clicks in Playwright). Clear constraints stop the agent widening the scope on its own.</p>
+<shot n="1.2-prompt-input">The pasted prompt. <kbd>Shift</kbd>+<kbd>Return</kbd> for new lines, <kbd>Return</kbd> to send.</shot>
+
+<h3 id="s1-3">1.3 First send: trust the repository</h3>
+<p>The first time you send a task in this folder, the App asks <b>Trust the gh_app_workshop repository?</b>. Confirm it's the course repository you cloned in 0.3 and choose <b>A. Always trust gh_app_workshop</b> (<kbd>⌘</kbd>+<kbd>Return</kbd>).</p>
+<p class="why"><b>Why</b>A repository can carry configuration, hooks, extensions and plugins that run code. Only after you trust it can the agent run commands; if you skip, every Autopilot command is refused.</p>
+<shot n="1.3-trust-dialog">Trust dialog: A. Always trust gh_app_workshop / B. Skip for now.</shot>
+<aside class="feature"><span class="tag">App feature</span><h4>Repository trust vs tool permissions <span class="it">two separate gates</span></h4>
+<ul><li><b>Repository trust</b> decides whether this repository's configuration and extensions may run. It's remembered per repository.</li>
+<li><b>Tool permissions</b> (0.7) decide whether the agent asks you each time it uses a tool.</li>
+<li>They're independent. Only trust repositories whose source you've checked.</li></ul></aside>
+
+<h3 id="s1-4">1.4 Watch it work</h3>
+<p>While the agent runs, each tool call takes one line in the conversation (view a file, search, run a command), and you can expand it. The header shows a <b>Commit (N)</b> counter; at the bottom are <b>Changes</b> and <b>Background</b>.</p>
+<shot n="1.4-tool-calls-posthoc">An expanded group of tool calls: viewing web.py and generated.html, running Python, listing Canvas capabilities.</shot>
+<aside class="feature"><span class="tag">App feature</span><h4>The session view <span class="it">session view</span></h4>
+<ul><li><b>Tool-call groups</b>: a collapsed summary of what it did; expand to see commands and output.</li>
+<li><b>Steering</b>: type in the prompt box while it runs to add instructions without stopping it.</li>
+<li><b>Changes</b>: uncommitted changes in this folder. <b>Background</b>: processes the agent started that are still running (a web server, for example).</li>
+<li><b>Commit (N)</b>: the number of uncommitted files. The course commits nothing; look, don't click.</li></ul></aside>
+
+<h3 id="s1-5">1.5 Read the report and the diff</h3>
+<p>When it finishes, the agent writes a short report. In this run it kept the Python rules engine, added rule tests, translated the page text to Chinese and clicked through the game end to end with Playwright; 9 tests in <code>test_xiangqi.py</code> passed. Click <b>Changes</b> at the bottom to see each file's diff.</p>
+<p class="why"><b>Why</b>"It says it's done" doesn't mean it's right. Reading the diff is your first check: confirm it changed only <code>Lab1/Code</code>.</p>
+<shot n="1.5-final-report">Final report: what changed and how it was verified.</shot>
+<shot n="1.5-changes-diff">Changes panel: 3 files changed this time (generated.html, index.html, test_xiangqi.py).</shot>
+
+<h3 id="s1-6">1.6 Open the game in the App's browser</h3>
+<p>Send this in the same session:</p>
+<prompt k="lab1-open"></prompt>
+<p class="why"><b>Why</b>The agent starts the server in the background and you check the game in the App's own browser, without switching windows.</p>
+<shot n="1.6-browser-open">A browser tab opens on the right of the App at 127.0.0.1:8011/generated.html.</shot>
+<shot n="1.6b-board-status">The status line reads 红方走棋 · 已走 0 步 (Red to move, 0 moves played).</shot>
+<aside class="feature"><span class="tag">App feature</span><h4>The in-app browser is the built-in Browser Canvas <span class="it">in-app browser</span></h4>
+<ul><li>The agent opens it with a Canvas action (the tool line reads "Opened canvas Browser") and can read the page.</li>
+<li><b>Shared</b> in its toolbar means the agent can see this page too; <b>Pick &amp; Polish</b> lets you click an element and ask for a local change.</li>
+<li>Its <code>…</code> menu has only Find in page, Zoom, Hard reload and similar. <b>There is no phone-size switch</b> (see 1.10).</li>
+<li><kbd>⌘</kbd>+<kbd>−</kbd> (Windows <kbd>Ctrl</kbd>+<kbd>−</kbd>) zooms the whole App, not just the page; <kbd>⌘</kbd>+<kbd>0</kbd> resets it.</li></ul></aside>
+
+<h3 id="s1-7">1.7 Click the leftmost red soldier</h3>
+<p>Scroll down to the board and click the leftmost red 兵 (soldier).</p>
+<p class="why"><b>Why</b>It's the quickest way to see whether the rules are right: a soldier that hasn't crossed the river can only move one point forward, never sideways or back.</p>
+<shot n="1.7-legal-target">Exactly one green dot, directly ahead of it.</shot>
+<div class="check"><b>Check</b>One legal target only. The dot is computed by the Python rules engine, not drawn by page script.</div>
+
+<h3 id="s1-8">1.8 Make the move and check whose turn it is</h3>
+<p>Click the green dot. The soldier moves forward one point.</p>
+<shot n="1.8-first-move">The status changes to 黑方走棋 · 已走 1 步 (Black to move, 1 move played).</shot>
+<div class="check"><b>Check</b>Red can't move again now; turns must alternate.</div>
+
+<h3 id="s1-9">1.9 Undo and restart</h3>
+<p>Click <b>悔一步</b> (undo), then <b>重新开局</b> (restart).</p>
+<shot n="1.9a-undo">After undo: the soldier is back and the status reads 红方走棋 · 已走 0 步.</shot>
+<shot n="1.9b-restart">Restart: the board is back to 32 pieces.</shot>
+<div class="check"><b>Check</b>Clicking undo before any move should show a clear "no move yet" message, not fail silently.</div>
+
+<h3 id="s1-10">1.10 Check the phone layout</h3>
+<p>Colleagues may open it on a phone, so check that on a screen about 390 pixels wide the board and buttons still work and there's no sideways scrolling. The App's browser can't switch to phone size; use one of these two methods.</p>
+<h4>Method A (recommended): ask the App to check with Playwright</h4>
+<prompt k="lab1-mobile"></prompt>
+<shot n="1.10c-playwright-390-reply">Reply: viewport 390×844, <code>scrollWidth</code> 390, no horizontal overflow.</shot>
+<shot n="1.10d-mobile-artifact">The screenshot is saved in the session's Artifacts (xiangqi-mobile.png); open it to see the phone layout.</shot>
+<h4>Method B: check by hand in Chrome DevTools</h4>
+<ol><li>Open <code>http://127.0.0.1:8011/generated.html</code> in Chrome.</li>
+<li>Press <span class="os-mac"><kbd>⌘</kbd>+<kbd>⌥</kbd>+<kbd>I</kbd></span><span class="os-win"><kbd>F12</kbd></span> to open DevTools.</li>
+<li>Press <span class="os-mac"><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>M</kbd></span><span class="os-win"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd></span> for device mode and pick <b>iPhone 12 Pro</b> (390×844) from the menu at the top.</li>
+<li>Scroll the page: there should be no horizontal scrollbar, and pieces and buttons should still be clickable.</li></ol>
+<div class="note"><b>Note</b>Method B has no screenshot in this edition (the automation tool couldn't drive Chrome DevTools); Method A covers the same check.</div>
+<shot n="1.10a-browser-menu-no-viewport">The App browser's … menu: no device or viewport option.</shot>
+
+<h3 id="s1-11">1.11 Run the rule tests in the terminal</h3>
+<p>Open a new terminal in the course root, activate <code>.venv</code> (see 0.4) and run:</p>
+<cmd>python -m pytest -q tests/test_labs.py -k "initial_board or rules or horse or cannon or flying or crossed or stalemate"</cmd>
+<p class="why"><b>Why</b>A few clicks cover a few moves; the tests cover every rule, including the horse's leg, the elephant's eye, cannon screens, facing generals and stalemate.</p>
+<div class="check"><b>Check</b>In this run: <b>19 passed</b>.</div>
+<div class="done-list"><span class="eyebrow">Lab 1 is done when</span><ul>
+<li>The red soldier has one legal target, turns alternate, and undo and restart work</li>
+<li>At 390 px wide, <code>scrollWidth</code> is 390 with no sideways scrolling</li>
+<li>All rule tests pass</li>
+<li>Changes are only in <code>Lab1/Code</code> (this run: generated.html, index.html, test_xiangqi.py)</li></ul></div>
+<div class="note"><b>Troubleshooting</b>Page won't open: check the session's Background for the 8011 server, or ask the agent to start it again. The agent switching from <code>python</code> to <code>python3</code>, or installing Playwright in a temporary folder, is expected.</div>
+
+<!-- ============================== LAB 2 ============================== -->
+<h2 id="lab2">Lab 2 · Two-minute product video: teach it first, then let it work</h2>
+<hr class="rule">
+<p><b>Story:</b> The game won your colleagues over. Next, the studio asks you for a short phone-friendly video about the Surface Laptop Ultra. Your job isn't to invent specs but to explain sourced facts clearly.</p>
+<div class="table"><table><tbody>
+<tr><th>You learn</th><td>Giving Copilot specialist Skills through a plugin; reviewing a plan in Plan mode before it runs; checking the real file, not a preview</td></tr>
+<tr><th>Mode</th><td>Plan → approve → Autopilot · GPT-6 Luna</td></tr>
+<tr><th>Live run</th><td>Plugin install about 5 min (large first download); planning about 4 min; execution about 18 min</td></tr>
+<tr><th>Deliverable</th><td>A vertical 1080×1920, 30 fps, 120 s H.264 + AAC MP4 with Xiaoxiao Mandarin voice-over and subtitles</td></tr>
+</tbody></table></div>
+<h3 id="lab2-arch">Logical and code architecture</h3>
+<diagram k="lab2-logic"></diagram>
+<p><b>Logical architecture:</b> a Plan session produces only a plan (<code>plan.md</code>). After you approve, the session switches to Autopilot and executes: the agent writes the scenes following the HyperFrames Skills, synthesises the voice-over with edge-tts, and renders the MP4 with the HyperFrames CLI.</p>
+<diagram k="lab2-code"></diagram>
+<p><b>Code architecture:</b> the official product page and tech specs become source records with hashes (<code>source.json</code>, <code>facts.json</code>). The storyboard and script live in <code>story-*.json</code> and <code>narration-*.txt</code>. <code>video.py prepare</code> fetches images and fonts, <code>voice</code> makes the MP3 and SRT, and <code>film/</code> holds the six scenes (compositions) written in HTML. The HyperFrames CLI runs <code>check</code> and <code>render</code>, and <code>video.py probe</code> checks the final file with ffprobe.</p>
+
+<h3 id="s2-0">2.0 Teach Copilot to make video: install the HyperFrames Skills</h3>
+<p>In a terminal (course root, <code>.venv</code> active) run:</p>
+<cmd>copilot plugin marketplace add heygen-com/hyperframes
+copilot plugin install hyperframes@hyperframes
+copilot plugin list
+npm ci --prefix Lab2/Code --ignore-scripts --no-audit --no-fund</cmd>
+<p class="why"><b>Why</b>A prompt only describes what you want. A Skill is a reusable how-to that teaches Copilot HyperFrames' own rules: how timelines are registered, what the <code>data-*</code> attributes mean, which commands render and check. Without it the agent guesses from general web experience, and the scenes often can't be rendered frame by frame.</p>
+<p>Then open <b>Customize → Installed</b> in the App and confirm the <code>hyperframes</code> plugin and its Skills are there. <b>No App restart needed.</b></p>
+<shot n="2.0-customize-hyperframes">Installed: hyperframes 0.9.96 under Plugins, and a new "hyperframes · Plugin · 9 skills" group under Skills.</shot>
+<shot n="2.0-hyperframes-skills">Expanded, these are the 9 Skills.</shot>
+<div class="check"><b>Check</b><code>copilot plugin list</code> shows <code>hyperframes@hyperframes</code>, and the App's Customize shows it. <code>npm ci</code> ends with "added … packages".</div>
+<div class="note"><b>Time</b>The first <code>marketplace add</code> downloads the whole HyperFrames repository (about 2.5 GB) and took about 4 minutes in this run. Do it before class or in a break.</div>
+<aside class="feature"><span class="tag">Skills explained</span><h4>Which Skills this lab uses <span class="it">and why</span></h4>
+<div class="table"><table><thead><tr><th>Skill</th><th>What it covers</th><th>This lab</th></tr></thead><tbody>
+<tr><td><code>/hyperframes</code></td><td>The entry point: picks the workflow and explains compositions, timelines and <code>data-*</code> rules</td><td>Used</td></tr>
+<tr><td><code>/hyperframes-cli</code></td><td>Command-line use: <code>check</code>, <code>preview</code>, <code>render</code></td><td>Used</td></tr>
+<tr><td><code>/media-use</code></td><td>How to treat and reveal product images and footage</td><td>Used</td></tr>
+<tr><td><code>/hyperframes-registry</code></td><td>Installing ready-made animation blocks and components</td><td>Optional</td></tr>
+<tr><td><code>/figma</code>, <code>/slideshow</code>, <code>/remotion-to-hyperframes</code>, <code>/reverse-any-video</code>, <code>/style-sampling</code></td><td>Other scenarios</td><td>Not used</td></tr></tbody></table></div>
+<p><b>Skill vs prompt:</b> a prompt is a one-off "what I want this time"; a Skill is a lasting "how this kind of work is done" that loads on demand and can be reused and shared across a team. That's why this lab's prompts state only goals and constraints and leave the method to the Skills.</p>
+<p><code>Lab2/Code/film/AGENTS.md</code> was generated by a newer HyperFrames release and mentions Skills such as <code>/product-launch-video</code> that don't exist in v0.9.96. "Failed to load skill product-launch-video" in the App is expected; the agent follows the workflow <code>/hyperframes</code> gives it instead.</p></aside>
+<aside class="feature"><span class="tag">CLI feature</span><h4>copilot plugin <span class="it">plugins from the terminal</span></h4>
+<ul><li><code>marketplace add</code> registers a plugin marketplace (here, the HyperFrames GitHub repository); <code>install</code> installs a plugin from it; <code>list</code> shows installed plugins.</li>
+<li>Update later with <code>copilot plugin update hyperframes</code>; remove with <code>copilot plugin uninstall hyperframes</code>.</li>
+<li>Plugins installed by the CLI live under <code>~/.copilot</code>, which the App reads directly, so they appear in the App straight away.</li></ul></aside>
+
+<h3 id="s2-1">2.1 Start a new session and switch to Plan</h3>
+<p>Start a new session from the <b>+</b> next to <code>gh_app_workshop</code>. <b>Look at the mode button first</b>: the previous session (Lab 1) used Autopilot, so this one opens in Autopilot too. Open the mode menu, choose <b>Plan</b>, and check the border turns blue.</p>
+<p class="why"><b>Why</b>A video involves source checks, downloads, narration and rendering, and mistakes are costly. Plan mode delivers a plan first and changes no files, so you decide before anything runs. If you forget to switch, the review panel never appears.</p>
+<shot n="2.1a-new-session-default-mode">The new session opened in Autopilot (green border), carried over from Lab 1.</shot>
+<shot n="2.1c-plan-blue">After switching to Plan: blue border and "Plan a task…".</shot>
+
+<h3 id="s2-2">2.2 Send the planning request and answer its question</h3>
+<prompt k="lab2-plan"></prompt>
+<p class="why"><b>Why</b>The last line asks it to call <code>/hyperframes</code> first and name the Skills it will use in the plan, so when you review you see how it intends to work, not only what it will make.</p>
+<shot n="2.2a-plan-prompt">After sending, the session is titled automatically ("Surface laptop 竖屏视频规划").</shot>
+<shot n="2.5a-skill-calls-planning">Skill calls in the tool lines: Loaded skill hyperframes, hyperframes-cli and media-use; product-launch-video failed to load (it doesn't exist in this version, which is expected).</shot>
+<p>While planning, the agent may ask a question card. This time it asked about the sound design; choose <b>B. 仅晓晓旁白，不加音乐</b> (Xiaoxiao voice-over only, no music), which matches the request, and click <b>Send</b>.</p>
+<shot n="2.2b-ask-user-sound">Question card: A. voice-over + light background music (recommended) / B. voice-over only, no music / C. your own answer.</shot>
+<shot n="2.2c-plan-panel">The plan panel (plan.md) opens on the right: 3 tasks, problem and approach, workflow and Skills, source checks and content limits.</shot>
+
+<h3 id="s2-3">2.3 Review the plan and approve it</h3>
+<p>When the plan is written, a <b>Review plan</b> panel replaces the prompt box with three choices:</p>
+<ul><li><b>A · Approve and implement this plan</b>: approve and start now (switches to Autopilot automatically).</li>
+<li><b>B · Exit plan mode and I will prompt myself</b>: leave Plan and give your own next instruction.</li>
+<li><b>C · Suggest changes to the plan…</b>: type your feedback and click Continue.</li></ul>
+<p>Before approving, check four things: total length 120 s; 9:16 frame; six narration parts, one per scene; no unverified price, battery or performance figures. Then choose <b>A</b>.</p>
+<shot n="2.3-review-plan">The Review plan panel (A / B / C).</shot>
+<div class="warn"><b>Watch out</b>While the review panel is open, don't press <kbd>Esc</kbd> or click other buttons such as the microphone: the panel closes and the conversation shows "Plan not approved". If that happens, switch the mode to <b>Autopilot</b> yourself and send the execution prompt from 2.4; the result is the same (that's how this run recovered).</div>
+
+<h3 id="s2-4">2.4 Execute (send this only if it didn't start by itself)</h3>
+<p>Choosing A normally starts execution straight away. Only if it didn't, or the panel was closed, send this in the same session in Autopilot:</p>
+<prompt k="lab2-run"></prompt>
+<shot n="2.4-approve-message-autopilot">After sending, execution starts: "Start approved video tasks", reading the storyboard and narration files.</shot>
+<shot n="2.5b-running-plan-progress"><b>Plan 3</b> (plan progress) and <b>Background</b> (background processes) appear at the bottom.</shot>
+<shot n="2.5c-hyperframes-studio-in-app">During the run the agent opens HyperFrames Studio (127.0.0.1:3002) in the App browser to preview the timeline: six scenes, captions and narration tracks.</shot>
+<div class="note"><b>Note</b>The hyperframes Skill may send a Skill usage event, and Copilot says so in the conversation ("may be linked to your account if signed in"). If you don't want it sent, reply "不发送" (don't send).</div>
+<aside class="feature"><span class="tag">App feature</span><h4>Three things in a long run <span class="it">long runs</span></h4>
+<ul><li><b>Plan N</b>: the plan tasks still open; click to see progress.</li>
+<li><b>Background N</b>: processes the agent started (here, the HyperFrames Studio preview server). Stop them after the lab; see Appendix A.</li>
+<li><b>Auto-compaction</b>: when the context fills up, the App compacts older messages (the conversation shows "Removed … messages"). The task carries on; nothing to do.</li></ul></aside>
+
+<h3 id="s2-5">2.5 Check the finished video</h3>
+<p>The final report should state the measured specs. Expand <b>View 6 images</b> to see six scene stills decoded from the real MP4, not an HTML preview.</p>
+<shot n="2.6a-final-report">Report: H.264, 1080×1920, 30 fps, 120 s, 3600 frames, 48 kHz AAC narration; full decode passed; Skills actually used: /hyperframes, /hyperframes-cli, /media-use.</shot>
+<shot n="2.6b-view-6-images">View 6 images: stills decoded from the MP4 at 10, 30, 50, 70, 90 and 110 s.</shot>
+<p>Then re-check the specs in the terminal:</p>
+<cmd>python Lab2/Code/video.py probe</cmd>
+<div class="table"><table><thead><tr><th>Item</th><th>Required</th><th>Measured in this run</th></tr></thead><tbody>
+<tr><td>Codecs</td><td>H.264 + AAC</td><td>h264 + aac</td></tr>
+<tr><td>Size</td><td>1080 × 1920 (9:16)</td><td>1080 × 1920</td></tr>
+<tr><td>Frame rate / frames</td><td>30/1 · 3600</td><td>30/1 · 3600</td></tr>
+<tr><td>Duration</td><td>120 s</td><td>120.000 s</td></tr></tbody></table></div>
+<p>Finally open <code>Lab2/Code/film/output/surface-ultra-2026-11-25.mp4</code> in the system player (QuickTime on macOS, Media Player on Windows) and <b>listen to the voice-over</b>.</p>
+<shot n="2.6c-quicktime-10s">QuickTime at 0:09: the title card and Chinese subtitles.</shot>
+<div class="done-list"><span class="eyebrow">Lab 2 is done when</span><ul>
+<li>The hyperframes plugin is in Customize and the agent actually called its Skills</li>
+<li>You reviewed and approved the plan (or recovered as in 2.3)</li>
+<li><code>video.py probe</code> passes, and the six stills come from the real MP4</li>
+<li>The voice-over is clear Mandarin, and no web page or player UI was built</li></ul></div>
+<div class="note"><b>Rights</b>Product images come from Microsoft's website, not AI-generated stand-ins, and putting them in a training pack doesn't grant an open licence. Check usage rights before publishing outside class.</div>
+
+<!-- ============================== LAB 3 ============================== -->
+<h2 id="lab3">Lab 3 · Finance observatory: one agent explains an annual report</h2>
+<hr class="rule">
+<p><b>Story:</b> A colleague asks how Microsoft's business is really doing. You don't want to paste the whole annual report into a chat, or answer from the model's memory. You want a page as readable as Power BI, where every number traces back to the source.</p>
+<div class="table"><table><tbody>
+<tr><th>You learn</th><td>Code does the arithmetic, the agent explains; limiting an agent by giving it one tool; traceable numbers</td></tr>
+<tr><th>Mode</th><td>Autopilot · GPT-6 Luna · one analysis agent</td></tr>
+<tr><th>Live run</th><td>About 4 min of agent time, about 5 min of checking</td></tr>
+<tr><th>Deliverable</th><td>The finance observatory at 127.0.0.1:8013 + three sourced findings</td></tr>
+</tbody></table></div>
+<h3 id="lab3-arch">Logical and code architecture</h3>
+<diagram k="lab3-logic"></diagram>
+<p><b>Logical architecture:</b> numbers come only from Microsoft's 2025 annual report. Python does all the arithmetic and checks (segment sums must equal the totals). The single analysis agent only explains the numbers it's given: no web lookups, no investment advice.</p>
+<diagram k="lab3-code"></diagram>
+<p><b>Code architecture:</b> <code>tools/fetch_sources.py</code> fetches the report's tables and records a sha256. In <code>finance.py</code>, <code>dataset()</code> parses and reconciles and <code>view()</code> computes the filtered cards. <code>analyze.py</code> opens one locked-down SDK session to write three findings into <code>output/analysis.json</code>, and <code>app.py</code> serves <code>/api/data</code> and <code>/api/analysis</code> on port 8013.</p>
+
+<h3 id="s3-1">3.1 Start a new session and switch back to Autopilot</h3>
+<p>Start a new session from the <b>+</b> next to <code>gh_app_workshop</code>. <b>This time it opens in Plan</b> (carried over from Lab 2); switch the mode back to <b>Autopilot</b>, then paste:</p>
+<shot n="3.1a-new-session-default-plan">The new session opened in Plan (blue border); switch back to Autopilot.</shot>
+<prompt k="lab3-brief"></prompt>
+<p class="why"><b>Why</b>"One agent" isn't just one avatar in the UI. The reference code gives the analysis session a single "task complete" tool, so it can't create sub-agents, browse or edit files; it can only explain the numbers Python hands it.</p>
+<shot n="3.1b-autopilot-prompt">Sending the Lab 3 request in Autopilot (green border).</shot>
+
+<h3 id="s3-2">3.2 Read the report and the changes</h3>
+<shot n="3.2a-final-report">Report: Python reconciled revenue, operating income, net income, margin and the FY2025/FY2024 segment sums; one SDK analysis session, no sub-agents; 6 Playwright checks passed.</shot>
+<shot n="3.2b-changes-all-36">The Changes panel lists 36 files, including everything changed in Labs 1–3.</shot>
+<div class="note"><b>Note</b>Under Current checkout every session shares one working folder, so Changes and the Commit (N) counter cover the whole folder, not just this session. Look only at files under <code>Lab3/Code</code>.</div>
+
+<h3 id="s3-3">3.3 Open the observatory</h3>
+<prompt k="lab3-open"></prompt>
+<shot n="3.3a-canvas-tool-rows">Tool lines: List canvas capabilities Browser → check/start port 8013 → Opened canvas Browser → Invoke canvas action Read page.</shot>
+<shot n="3.3b-dashboard">The observatory opens in the App browser.</shot>
+<aside class="feature"><span class="tag">App feature</span><h4>Canvas actions <span class="it">canvas actions</span></h4>
+<ul><li><b>List canvas capabilities</b>: what a Canvas (here, Browser) can do.</li>
+<li><b>Opened canvas</b> opens it in the sidebar; <b>Invoke canvas action</b> calls one of its actions, such as Read page to check the page text.</li>
+<li>Lab 4 installs a Canvas of your own, using the same mechanism.</li></ul></aside>
+
+<h3 id="s3-4">3.4 Check the four cards</h3>
+<p>All segments · FY2025 (US$ millions).</p>
+<shot n="3.4-four-cards">Revenue 281,724 (+14.93% YoY) · operating income 128,528 · operating margin 45.62% · net income 101,832.</shot>
+<p class="why"><b>Why</b>Explain it in your own words first: revenue is how much business was done, operating income is what's left at the operating level, and the margin is the ratio of the two. FY2025 is the fiscal year to 30 June 2025, not calendar 2025.</p>
+
+<h3 id="s3-5">3.5 Click Intelligent Cloud</h3>
+<shot n="3.5-intelligent-cloud">Revenue 106,265 (+21.50% YoY) · operating income 44,589 · margin 41.96%; the net-income card reads 未披露 (not disclosed).</shot>
+<div class="check"><b>Check</b>The annual report doesn't disclose segment net income, so the page doesn't invent one. The agent's three findings on the right don't change with the filter: filters change the data view only and don't call the agent again.</div>
+
+<h3 id="s3-6">3.6 Switch to FY2024</h3>
+<shot n="3.6-fy2024">Keep Intelligent Cloud selected and switch the fiscal year to FY2024: revenue 87,464 · operating income 37,813 · margin 43.23%, with no year-on-year figure.</shot>
+<div class="note"><b>Known issue</b>After switching to FY2024 the subtitle still says "FY2025 截至 2025 年 6 月 30 日". Go by the card figures.</div>
+
+<h3 id="s3-7">3.7 Segment view and sources</h3>
+<shot n="3.7a-segments-tab">The 业务分部 (segments) tab: revenue, operating income and margin for the three segments. FY2024 segment figures are the recast figures in the 2025 report.</shot>
+<shot n="3.7b-sources-tab">The 数据与来源 (data and sources) tab: the report link, the segment-sum reconciliation (shown as JSON; each year's sum equals the reported total) and the source snapshot (retrieval time and sha256).</shot>
+<p>Finally, in the terminal:</p>
+<cmd>python -m pytest -q tests/test_labs.py -k "financial or single_agent"</cmd>
+<div class="done-list"><span class="eyebrow">Lab 3 is done when</span><ul>
+<li>The four cards, the Cloud filter and FY2024 match the figures above</li>
+<li>The segment sums equal the reported totals; the source has a link, a time and a sha256</li>
+<li>The 2 tests pass; the page says it is not investment advice and not a Power BI product</li></ul></div>
+
+<!-- ============================== LAB 4 ============================== -->
+<h2 id="lab4">Lab 4 · Weekly compass: three agents and a Canvas</h2>
+<hr class="rule">
+<p><b>Story:</b> A few emails contain tasks and your calendar has meetings. You want them turned into a weekly action list with sources, no clashes and checkboxes. The class uses only clearly labelled <b>fictional data</b>; no real mailbox is touched.</p>
+<div class="table"><table><tbody>
+<tr><th>You learn</th><td>Splitting work across separate agents; checking agent output with code; putting your work in the App sidebar</td></tr>
+<tr><th>Mode</th><td>Autopilot · GPT-6 Luna · three separate sessions</td></tr>
+<tr><th>Live run</th><td>About 10 min of agent time; about 3 min for the Canvas</td></tr>
+<tr><th>Deliverable</th><td>The weekly action list at 127.0.0.1:8014 + a "每周行动清单" Canvas in the App sidebar</td></tr>
+</tbody></table></div>
+<h3 id="lab4-arch">Logical and code architecture</h3>
+<diagram k="lab4-logic"></diagram>
+<p><b>Logical architecture:</b> mail triage and the calendar reader are two separate sessions working in parallel; the weekly planner is a third session that only ranks tasks and never adds any. Every task must quote its email, and a deadline must be written in the email; Python schedules the time slots around meetings.</p>
+<diagram k="lab4-code"></diagram>
+<p><b>Code architecture:</b> <code>collect_demo.py</code> reads the fictional training page with Playwright and checks it. <code>plan.py</code> starts the three sessions and checks evidence, dates and the task set; <code>schedule.py</code> works out the week boundary, time zone and free slots. Results go to <code>output/plan.json</code>, written atomically by <code>store.py</code>. The web page (<code>app.py</code>, port 8014) and the App Canvas (<code>extension.mjs</code> → <code>bridge.py</code>) read and write the same file, and <code>install_canvas.py</code> installs the extension into the current session.</p>
+
+<h3 id="s4-1">4.1 Start an Autopilot session and send the request</h3>
+<prompt k="lab4-brief"></prompt>
+<p class="why"><b>Why</b>The prompt says both what to do and what not to do (no sending, deleting, replying or creating meetings), and declares email content untrusted. When an agent can read your data, the limits matter more than the features.</p>
+<shot n="4.1a-autopilot-prompt">The new session opens in Autopilot (carried over from Lab 3); send directly.</shot>
+<shot n="4.1b-final-report">Report: three separate SDK sessions; deadlines must match the quoted email; real session UUIDs masked in the report; the Canvas Python provider and .mjs extension stay in Lab4/Code; 20 regression tests pass.</shot>
+<shot n="4.1c-three-agents-segment">The expanded tool group: running the three Copilot SDK agents on the fictional data.</shot>
+<aside class="feature"><span class="tag">CLI · SDK feature</span><h4>One program, three separate sessions <span class="it">multi-agent</span></h4>
+<ul><li><code>plan.py</code> opens three sessions with the Python SDK: mail triage and the calendar reader run at the same time, and the weekly planner starts once both return.</li>
+<li>Each session has its own folder and ID under <code>~/.copilot/session-state/</code> and can't see the others' context, so this is a real division of labour, not one agent renamed three times.</li>
+<li>Every agent output goes through Python checks: evidence must appear word for word in the email, dates can't be inferred, and no task may be dropped or added.</li></ul></aside>
+
+<h3 id="s4-2">4.2 Confirm the three sessions and open the board</h3>
+<prompt k="lab4-open"></prompt>
+<shot n="4.2a-traces-reply">Three traces: mail-triage, calendar-reader and weekly-planner, all gpt-6-luna / autopilot; the agent masked the session IDs as [REDACTED-1/2/3].</shot>
+<shot n="4.2b-board-fictional-badge">The board's top-right badge reads 虚构练习数据 · 非真实邮箱 (fictional practice data, not a real mailbox); three agent cards; the weekly list at 0 / 3. The demo clock is fixed at 2026-10-19 09:00 (Asia/Shanghai).</shot>
+
+<h3 id="s4-3">4.3 Check the evidence, tick a task and reload</h3>
+<p>Click <b>查看来源 mail-102</b> (view source) under the first task, tick that task, then reload the browser.</p>
+<p class="why"><b>Why</b>The evidence lets you judge why you got this task. If the tick survives a reload, the state was saved to a file, not just kept in page memory.</p>
+<shot n="4.3a-source-mail-102">The email text: "请在 2026-10-21 10:00 前准备三条 FY2025 财报观察，预计需要 45 分钟。" The deadline matches the task.</shot>
+<shot n="4.3b-1of3-after-reload">After reload it still shows 1 / 3 done. The suggested slot is labelled 未写入 Outlook (not written to Outlook).</shot>
+
+<h3 id="s4-4">4.4 Put the board in the App sidebar (native Canvas)</h3>
+<p>In the same session type <code>/create-canvas</code>; the App suggests it as a built-in Skill. Press space, use <kbd>Shift</kbd>+<kbd>Return</kbd> for a new line, and paste:</p>
+<shot n="4.4a-create-canvas-suggest">The suggestion for /create-canvas: create, validate and debug Canvas extensions that open in the App's side panel (Skill).</shot>
+<prompt k="lab4-canvas"></prompt>
+<p class="why"><b>Why</b>The extension is installed in the current session, not the global folder, so it stops loading when the session ends and doesn't affect your other work. <code>install_canvas.py</code> finds the current session by itself; no need to copy a session ID.</p>
+<shot n="4.4b-install-canvas-output">Running install_canvas.py: "已自动识别当前会话" (current session detected) and "已安装会话级扩展 …/extensions/hol-weekboard" (session ID and path blurred).</shot>
+<shot n="4.4c-canvas-final-report">Report: hol-weekboard installed at session level (not globally); list / inspect show it ready with the complete capability; weekly-demo opened as weekly-main; the tick was written to plan.json and survived a reopen; Outlook not touched.</shot>
+<shot n="4.4d-canvas-tab-weekboard">A "每周行动清单" Canvas tab appears on the right of the App, with the same data as the 8014 page.</shot>
+<aside class="feature"><span class="tag">App feature</span><h4>Session-level Canvas extensions <span class="it">extensions</span></h4>
+<ul><li><code>/create-canvas</code> is a built-in App Skill that guides the agent through creating and debugging a Canvas against the current interface.</li>
+<li>The agent uses <b>Extensions manage</b> (guide / list / inspect) to check extension status and <b>Extensions reload</b> to reload them.</li>
+<li>A session-level extension lives under <code>~/.copilot/session-state/&lt;session ID&gt;/extensions/</code>. The business logic stays in Python; <code>extension.mjs</code> only registers and forwards.</li>
+<li><code>weekly-main</code> is the panel ID and <code>weekly-demo</code> is the document ID; don't mix them up.</li></ul></aside>
+
+<h3 id="s4-5">4.5 Restore the starting state and run all tests</h3>
+<p>Untick the task in the Canvas so the list is back to 0 / 3, then run every test in the terminal:</p>
+<shot n="4.5-canvas-0of3">After unticking: 0 / 3 done.</shot>
+<cmd>python -m pytest -q tests/test_labs.py</cmd>
+<div class="check"><b>Check</b>In this run: <b>48 passed</b>.</div>
+<div class="done-list"><span class="eyebrow">Lab 4 is done when</span><ul>
+<li>The three traces have different roles, all use gpt-6-luna, and have different session IDs</li>
+<li>Every task expands to its email text; a task without a written deadline stays unspecified</li>
+<li>Ticks survive a reload, and the sidebar Canvas matches the web page</li>
+<li>All tests pass, and no real mailbox was read or written</li></ul></div>
+<div class="note"><b>After class</b>Running on your own Outlook data (<code>collect.py --live</code>) needs your own sign-in, manual anonymisation, and confirmation that your organisation allows sending the content to the model. It isn't done in class; see step 9 of <code>Lab4/README.md</code> in the course repository.</div>
+
+<!-- ============================== APPENDIX ============================== -->
+<h2 id="appendix">Appendix</h2>
+<hr class="rule">
+<h3 id="a-stop">A · Stop the background servers after class</h3>
+<p>The labs leave several local servers running: 8011 (Lab 1), 8013 (Lab 3), 8014 (Lab 4) and 3002 (Lab 2's HyperFrames Studio). The easiest way is to click <b>Background</b> at the bottom of each session and stop them one by one. You can also stop them by port in a terminal:</p>
+<cmd><mac>lsof -nP -iTCP:8011 -sTCP:LISTEN
+kill &lt;PID shown above&gt;</mac><win>Get-NetTCPConnection -LocalPort 8011 -State Listen | Select-Object OwningProcess
+Stop-Process -Id &lt;OwningProcess shown above&gt;</win></cmd>
+<p>Repeat with 8013, 8014 and 3002. Stop only servers you started; leave processes you don't recognise alone.</p>
+
+<h3 id="a-reset">B · Reset between classes (instructors)</h3>
+<p>The agent changes course files and generated results. Before the next class, restore the four labs to the repository version from the course root:</p>
+<cmd>git status --short
+git restore --source=HEAD -- Lab1 Lab2 Lab3 Lab4
+git clean -fd -- Lab1 Lab2 Lab3 Lab4</cmd>
+<p><code>git clean</code> deletes new untracked files in the lab folders (for example Lab 2's <code>REVIEW.md</code> and Lab 3's <code>observatory.png</code>) but leaves ignored folders such as <code>.venv</code> and <code>node_modules</code>. Read <code>git status</code> before running it.</p>
+
+<h3 id="a-diff">C · Where the live run differs from the course README (2026-11-25)</h3>
+<div class="table wide"><table><thead><tr><th>#</th><th>README or earlier manual</th><th>What the App actually did</th><th>Tell learners</th></tr></thead><tbody>
+<tr><td>1</td><td>Sessions → + → Open local folder</td><td>The item is Add local folder or repository; the folder appears under Sessions, not Projects</td><td>Use the new name; find the folder under Sessions</td></tr>
+<tr><td>2</td><td>Click New for a new session</td><td>New opens a blank session with no folder</td><td>Start every lab from the + next to <code>gh_app_workshop</code></td></tr>
+<tr><td>3</td><td>Each lab starts in the mode it names</td><td>A new session keeps the previous session's mode</td><td>Check the border colour before sending</td></tr>
+<tr><td>4</td><td>Where to work: Current checkout</td><td>The default is New worktree</td><td>Change it to Current checkout</td></tr>
+<tr><td>5</td><td>Lab 2 uses /product-launch-video</td><td>hyperframes v0.9.96 has no such Skill; it fails to load</td><td>Expected; the run used /hyperframes, /hyperframes-cli and /media-use</td></tr>
+<tr><td>6</td><td>Approve the plan, then Autopilot</td><td>Esc or a stray click can close the Review plan panel ("Plan not approved")</td><td>Recover as in 2.3: switch to Autopilot and send the execution prompt</td></tr>
+<tr><td>7</td><td>—</td><td>Lab 2 asks a sound-design question while planning; the hyperframes Skill may send a usage event</td><td>Choose voice-over only; reply "不发送" if you don't want it sent</td></tr>
+<tr><td>8</td><td>Changes shows this session's edits</td><td>Under Current checkout it shows the whole folder</td><td>Look only at this lab's files</td></tr>
+<tr><td>9</td><td>Use the browser's device mode for phone width</td><td>The App browser has no device mode</td><td>Use 1.10 Method A (Playwright) or Chrome DevTools</td></tr>
+<tr><td>10</td><td>Type the session UUID in Lab 4</td><td><code>install_canvas.py</code> now finds the current session itself</td><td>Just run it; no UUID needed</td></tr>
+<tr><td>11</td><td>—</td><td>Lab 3's sources tab shows the reconciliation as JSON; the FY2024 subtitle still says FY2025</td><td>Go by the figures</td></tr></tbody></table></div>
+
+<h3 id="a-safety">D · Data and safety rules</h3>
+<ol><li>The class uses only public material (Microsoft's website and annual report) and clearly labelled fictional data.</li>
+<li>Never put passwords, tokens, real recipients or account identifiers in prompts, code or screenshots.</li>
+<li>Email and web content is untrusted data, never instructions for the agent.</li>
+<li>Trust only repositories whose source you've checked; use Approve all only on the course folder.</li>
+<li>The agent can write code, but checking is yours: read the diff, run the tests, click through it yourself.</li>
+<li>Microsoft product images are for class use only; check usage rights before publishing.</li></ol>
+
+<h3 id="a-glossary">E · Glossary</h3>
+<div class="table"><table><thead><tr><th>Term</th><th>In one line</th></tr></thead><tbody>
+<tr><td>Session</td><td>One working conversation with the agent, tied to a folder</td></tr>
+<tr><td>Interactive / Plan / Autopilot</td><td>Stop after each step / plan first, then run / run to the end</td></tr>
+<tr><td>Tool permissions</td><td>Whether the agent asks you before using a tool (running a command, for example)</td></tr>
+<tr><td>Current checkout / New worktree</td><td>Work in the current folder / a separate copy for each session</td></tr>
+<tr><td>Skill</td><td>A reusable how-to the agent loads when needed</td></tr>
+<tr><td>Plugin</td><td>A packaged set of Skills, agents, MCP servers and more</td></tr>
+<tr><td>Canvas</td><td>An interactive panel in the App sidebar (browser, editor, terminal, or your own)</td></tr>
+<tr><td>Extension</td><td>Code that adds a capability to the App, such as Lab 4's custom Canvas</td></tr>
+<tr><td>Copilot CLI</td><td>Copilot on the command line, and the runtime behind the Python SDK</td></tr>
+<tr><td>SDK</td><td>The toolkit that lets a Python program create and control Copilot sessions</td></tr>
+<tr><td>diff</td><td>A before-and-after comparison of a file's changes</td></tr></tbody></table></div>
+
+<h3 id="a-instructor">F · Instructor checklist before class</h3>
+<ul><li>Confirm learners' accounts have GPT-6 Luna and enterprise accounts have the Copilot CLI policy enabled; keep a few spare accounts.</li>
+<li>Run Chapter 0 and the Lab 2 plugin install on the instructor machine in advance (about a 2.5 GB download).</li>
+<li>Turn off auto-lock and notifications on the instructor machine, so screenshots and screen sharing aren't interrupted.</li>
+<li>After each class, stop the servers and reset the course files (Appendices A and B).</li>
+<li>Learners who fall behind: the course repository already contains each lab's generated results, so they can continue from the "open the page / check" step.</li></ul>
+
+<h3 id="a-version">G · Versions and run record</h3>
+<p>Run on 2026-11-25 to 11-26 (US Pacific time) on a Mac mini (Apple silicon, macOS). GitHub Copilot App (latest that day), Copilot CLI 1.0.106, github-copilot-sdk (Python) 1.0.22, GPT-6 Luna · Medium · 272K, hyperframes plugin 0.9.96. Python 3.15.2, Node 26.13.0, FFmpeg 9.0.2, Playwright 1.64.0. Course repository: <a href="https://github.com/ITD-NextDimension/gh_app_workshop">ITD-NextDimension/gh_app_workshop</a>. Account names, session IDs and local paths in screenshots are blurred, and the macOS menu bar is cropped.</p>

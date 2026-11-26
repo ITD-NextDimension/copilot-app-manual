@@ -1,0 +1,1 @@
+请列出 Lab4/Code/output/plan.json 中 traces 的三个 role、model、mode 和 session_id；然后确认 Lab4/Code/app.py 在 8014 端口运行（未运行就后台启动），在 App 的集成浏览器中打开 http://127.0.0.1:8014/。不要修改任何文件。
