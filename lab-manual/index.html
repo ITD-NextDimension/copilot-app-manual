@@ -520,9 +520,11 @@ npm ci --prefix Lab2/Code --ignore-scripts --no-audit --no-fund</pre></div>
 <ul><li><b>A · Approve and implement this plan</b>：批准并立即执行（会自动切到 Autopilot）。</li>
 <li><b>B · Exit plan mode and I will prompt myself</b>：退出 Plan，自己再发指令。</li>
 <li><b>C · Suggest changes to the plan…</b>：写修改意见后点 Continue。</li></ul>
-<p>批准前核对四点：总长 120 秒；画面 9:16；旁白 6 段，每段对应一个镜头；没有未经核实的价格、续航或性能数字。然后选 <b>A</b>。</p>
-<figure class="shot missing"><div class="ph">截图待补拍 · 2.3-review-plan</div><figcaption>Review plan 面板（A / B / C）。</figcaption></figure>
-<div class="warn"><b>注意</b>审阅面板出现时，不要按 <kbd>Esc</kbd>，也不要去点麦克风等其他按钮，否则面板会被关掉，对话里显示 “Plan not approved”。万一发生：手动把模式切到 <b>Autopilot</b>，再发送 2.4 的执行提示词，效果相同（本次实跑就是这样恢复的）。</div>
+<p>批准前核对四点：总长 120 秒；画面 9:16；旁白 6 段，每段对应一个镜头；没有未经核实的价格、续航或性能数字。然后选中 <b>A</b>，点右下角绿色的 <b>Continue</b>（<kbd>Return</kbd>）。</p>
+<figure class="shot"><img src="../img/lab-manual/2.3-review-plan-focus.webp" alt="Review plan 面板：A / B / C 三个选项，右下角是 Cancel（Esc）和 Continue（↩）。" loading="lazy"><figcaption>Review plan 面板：A / B / C 三个选项，右下角是 Cancel（Esc）和 Continue（↩）。</figcaption><details class="full"><summary>查看整个窗口</summary><img src="../img/lab-manual/2.3-review-plan-full.webp" alt="" loading="lazy"></details></figure>
+<p class="why"><b>为什么</b>这是 Plan 模式的价值所在：方向错了，在第一次改文件之前改最便宜。看不满意就选 C，写下修改意见再 Continue，让它改计划。</p>
+<div class="note"><b>说明</b>每次规划时 Agent 问的问题可能不同：一次问“声音方案”，另一次先问“故事路线”。选和需求一致的选项即可，拿不准就选它推荐的。</div>
+<div class="warn"><b>注意</b><kbd>Esc</kbd> 是面板上 <b>Cancel</b> 的快捷键。审阅面板出现时不要按 <kbd>Esc</kbd>，也不要去点麦克风等其他按钮，否则面板会被关掉，对话里显示 “Plan not approved”。万一发生：手动把模式切到 <b>Autopilot</b>，再发送 2.4 的执行提示词，效果相同（本次实跑就是这样恢复的）。</div>
 
 <h3 id="zh-s2-4">2.4 执行（仅在没有自动开始时发送）</h3>
 <p>选 A 后通常会直接开始执行。只有没开始、或面板被关掉时，才在同一会话（Autopilot）发送：</p>
@@ -1133,9 +1135,11 @@ npm ci --prefix Lab2/Code --ignore-scripts --no-audit --no-fund</pre></div>
 <ul><li><b>A · Approve and implement this plan</b>：批准並立即執行（會自動切到 Autopilot）。</li>
 <li><b>B · Exit plan mode and I will prompt myself</b>：退出 Plan，自己再發指令。</li>
 <li><b>C · Suggest changes to the plan…</b>：寫修改意見後點 Continue。</li></ul>
-<p>批准前核對四點：總長 120 秒；畫面 9:16；旁白 6 段，每段對應一個鏡頭；沒有未經核實的價格、續航或效能數字。然後選 <b>A</b>。</p>
-<figure class="shot missing"><div class="ph">截圖待補拍 · 2.3-review-plan</div><figcaption>Review plan 面板（A / B / C）。</figcaption></figure>
-<div class="warn"><b>注意</b>審閱面板出現時，不要按 <kbd>Esc</kbd>，也不要去點麥克風等其他按鈕，否則面板會被關掉，對話裡顯示 “Plan not approved”。萬一發生：手動把模式切到 <b>Autopilot</b>，再傳送 2.4 的執行提示詞，效果相同（本次實跑就是這樣恢復的）。</div>
+<p>批准前核對四點：總長 120 秒；畫面 9:16；旁白 6 段，每段對應一個鏡頭；沒有未經核實的價格、續航或效能數字。然後選中 <b>A</b>，點右下角綠色的 <b>Continue</b>（<kbd>Return</kbd>）。</p>
+<figure class="shot"><img src="../img/lab-manual/2.3-review-plan-focus.webp" alt="Review plan 面板：A / B / C 三個選項，右下角是 Cancel（Esc）和 Continue（↩）。" loading="lazy"><figcaption>Review plan 面板：A / B / C 三個選項，右下角是 Cancel（Esc）和 Continue（↩）。</figcaption><details class="full"><summary>檢視整個視窗</summary><img src="../img/lab-manual/2.3-review-plan-full.webp" alt="" loading="lazy"></details></figure>
+<p class="why"><b>為什麼</b>這是 Plan 模式的價值所在：方向錯了，在第一次改檔案之前改最便宜。看不滿意就選 C，寫下修改意見再 Continue，讓它改計劃。</p>
+<div class="note"><b>說明</b>每次規劃時 Agent 問的問題可能不同：一次問“聲音方案”，另一次先問“故事路線”。選和需求一致的選項即可，拿不準就選它推薦的。</div>
+<div class="warn"><b>注意</b><kbd>Esc</kbd> 是面板上 <b>Cancel</b> 的快捷鍵。審閱面板出現時不要按 <kbd>Esc</kbd>，也不要去點麥克風等其他按鈕，否則面板會被關掉，對話裡顯示 “Plan not approved”。萬一發生：手動把模式切到 <b>Autopilot</b>，再傳送 2.4 的執行提示詞，效果相同（本次實跑就是這樣恢復的）。</div>
 
 <h3 id="tw-s2-4">2.4 執行（僅在沒有自動開始時傳送）</h3>
 <p>選 A 後通常會直接開始執行。只有沒開始、或面板被關掉時，才在同一會話（Autopilot）傳送：</p>
@@ -1746,9 +1750,11 @@ npm ci --prefix Lab2/Code --ignore-scripts --no-audit --no-fund</pre></div>
 <ul><li><b>A · Approve and implement this plan</b>: approve and start now (switches to Autopilot automatically).</li>
 <li><b>B · Exit plan mode and I will prompt myself</b>: leave Plan and give your own next instruction.</li>
 <li><b>C · Suggest changes to the plan…</b>: type your feedback and click Continue.</li></ul>
-<p>Before approving, check four things: total length 120 s; 9:16 frame; six narration parts, one per scene; no unverified price, battery or performance figures. Then choose <b>A</b>.</p>
-<figure class="shot missing"><div class="ph">Screenshot to be retaken · 2.3-review-plan</div><figcaption>The Review plan panel (A / B / C).</figcaption></figure>
-<div class="warn"><b>Watch out</b>While the review panel is open, don't press <kbd>Esc</kbd> or click other buttons such as the microphone: the panel closes and the conversation shows "Plan not approved". If that happens, switch the mode to <b>Autopilot</b> yourself and send the execution prompt from 2.4; the result is the same (that's how this run recovered).</div>
+<p>Before approving, check four things: total length 120 s; 9:16 frame; six narration parts, one per scene; no unverified price, battery or performance figures. Then select <b>A</b> and click the green <b>Continue</b> (<kbd>Return</kbd>) at the bottom right.</p>
+<figure class="shot"><img src="../img/lab-manual/2.3-review-plan-focus.webp" alt="The Review plan panel: options A / B / C, with Cancel (Esc) and Continue (↩) at the bottom right." loading="lazy"><figcaption>The Review plan panel: options A / B / C, with Cancel (Esc) and Continue (↩) at the bottom right.</figcaption><details class="full"><summary>Show the full window</summary><img src="../img/lab-manual/2.3-review-plan-full.webp" alt="" loading="lazy"></details></figure>
+<p class="why"><b>Why</b>This is what Plan mode is for: changing direction is cheapest before the first file is touched. If you're not happy, choose C, write what to change and click Continue to get a revised plan.</p>
+<div class="note"><b>Note</b>The question the agent asks while planning can differ between runs: once it asked about the sound design, another time about the story route first. Pick the option that matches the request, or its recommended one if unsure.</div>
+<div class="warn"><b>Watch out</b><kbd>Esc</kbd> is the shortcut for the panel's <b>Cancel</b>. While the review panel is open, don't press <kbd>Esc</kbd> or click other buttons such as the microphone: the panel closes and the conversation shows "Plan not approved". If that happens, switch the mode to <b>Autopilot</b> yourself and send the execution prompt from 2.4; the result is the same (that's how this run recovered).</div>
 
 <h3 id="en-s2-4">2.4 Execute (send this only if it didn't start by itself)</h3>
 <p>Choosing A normally starts execution straight away. Only if it didn't, or the panel was closed, send this in the same session in Autopilot:</p>

@@ -351,9 +351,11 @@ npm ci --prefix Lab2/Code --ignore-scripts --no-audit --no-fund</cmd>
 <ul><li><b>A · Approve and implement this plan</b>: approve and start now (switches to Autopilot automatically).</li>
 <li><b>B · Exit plan mode and I will prompt myself</b>: leave Plan and give your own next instruction.</li>
 <li><b>C · Suggest changes to the plan…</b>: type your feedback and click Continue.</li></ul>
-<p>Before approving, check four things: total length 120 s; 9:16 frame; six narration parts, one per scene; no unverified price, battery or performance figures. Then choose <b>A</b>.</p>
-<shot n="2.3-review-plan">The Review plan panel (A / B / C).</shot>
-<div class="warn"><b>Watch out</b>While the review panel is open, don't press <kbd>Esc</kbd> or click other buttons such as the microphone: the panel closes and the conversation shows "Plan not approved". If that happens, switch the mode to <b>Autopilot</b> yourself and send the execution prompt from 2.4; the result is the same (that's how this run recovered).</div>
+<p>Before approving, check four things: total length 120 s; 9:16 frame; six narration parts, one per scene; no unverified price, battery or performance figures. Then select <b>A</b> and click the green <b>Continue</b> (<kbd>Return</kbd>) at the bottom right.</p>
+<shot n="2.3-review-plan">The Review plan panel: options A / B / C, with Cancel (Esc) and Continue (↩) at the bottom right.</shot>
+<p class="why"><b>Why</b>This is what Plan mode is for: changing direction is cheapest before the first file is touched. If you're not happy, choose C, write what to change and click Continue to get a revised plan.</p>
+<div class="note"><b>Note</b>The question the agent asks while planning can differ between runs: once it asked about the sound design, another time about the story route first. Pick the option that matches the request, or its recommended one if unsure.</div>
+<div class="warn"><b>Watch out</b><kbd>Esc</kbd> is the shortcut for the panel's <b>Cancel</b>. While the review panel is open, don't press <kbd>Esc</kbd> or click other buttons such as the microphone: the panel closes and the conversation shows "Plan not approved". If that happens, switch the mode to <b>Autopilot</b> yourself and send the execution prompt from 2.4; the result is the same (that's how this run recovered).</div>
 
 <h3 id="s2-4">2.4 Execute (send this only if it didn't start by itself)</h3>
 <p>Choosing A normally starts execution straight away. Only if it didn't, or the panel was closed, send this in the same session in Autopilot:</p>

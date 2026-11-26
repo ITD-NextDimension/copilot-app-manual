@@ -351,9 +351,11 @@ npm ci --prefix Lab2/Code --ignore-scripts --no-audit --no-fund</cmd>
 <ul><li><b>A · Approve and implement this plan</b>：批准并立即执行（会自动切到 Autopilot）。</li>
 <li><b>B · Exit plan mode and I will prompt myself</b>：退出 Plan，自己再发指令。</li>
 <li><b>C · Suggest changes to the plan…</b>：写修改意见后点 Continue。</li></ul>
-<p>批准前核对四点：总长 120 秒；画面 9:16；旁白 6 段，每段对应一个镜头；没有未经核实的价格、续航或性能数字。然后选 <b>A</b>。</p>
-<shot n="2.3-review-plan">Review plan 面板（A / B / C）。</shot>
-<div class="warn"><b>注意</b>审阅面板出现时，不要按 <kbd>Esc</kbd>，也不要去点麦克风等其他按钮，否则面板会被关掉，对话里显示 “Plan not approved”。万一发生：手动把模式切到 <b>Autopilot</b>，再发送 2.4 的执行提示词，效果相同（本次实跑就是这样恢复的）。</div>
+<p>批准前核对四点：总长 120 秒；画面 9:16；旁白 6 段，每段对应一个镜头；没有未经核实的价格、续航或性能数字。然后选中 <b>A</b>，点右下角绿色的 <b>Continue</b>（<kbd>Return</kbd>）。</p>
+<shot n="2.3-review-plan">Review plan 面板：A / B / C 三个选项，右下角是 Cancel（Esc）和 Continue（↩）。</shot>
+<p class="why"><b>为什么</b>这是 Plan 模式的价值所在：方向错了，在第一次改文件之前改最便宜。看不满意就选 C，写下修改意见再 Continue，让它改计划。</p>
+<div class="note"><b>说明</b>每次规划时 Agent 问的问题可能不同：一次问“声音方案”，另一次先问“故事路线”。选和需求一致的选项即可，拿不准就选它推荐的。</div>
+<div class="warn"><b>注意</b><kbd>Esc</kbd> 是面板上 <b>Cancel</b> 的快捷键。审阅面板出现时不要按 <kbd>Esc</kbd>，也不要去点麦克风等其他按钮，否则面板会被关掉，对话里显示 “Plan not approved”。万一发生：手动把模式切到 <b>Autopilot</b>，再发送 2.4 的执行提示词，效果相同（本次实跑就是这样恢复的）。</div>
 
 <h3 id="s2-4">2.4 执行（仅在没有自动开始时发送）</h3>
 <p>选 A 后通常会直接开始执行。只有没开始、或面板被关掉时，才在同一会话（Autopilot）发送：</p>
