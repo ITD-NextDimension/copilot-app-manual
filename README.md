@@ -94,4 +94,4 @@ python3 build.py
 
 ITD · Next Dimension
 
-[2026-11-25 最终验收报告](acceptance-2026-11-25.html) · [本轮课程成果分支](https://github.com/tarrywang/hol_ghc_app/tree/codex/labs-acceptance-2026-11-25)
+[2026-11-25 最终验收报告](acceptance-2026-11-25.html) · [本轮课程成果分支](https://github.com/ITD-NextDimension/gh_app_workshop/tree/codex/labs-acceptance-2026-11-25)
